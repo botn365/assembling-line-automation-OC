@@ -1,12 +1,20 @@
 local FindMatch = {}
 
 function makeLoadMap(recipy,n,amount,chest)
-  for i = 1 , recipy do
+  local loadmap ={}
+  local loadmap.length = 0
+  if recipy.n[n].length < 5 then
+    local LS = recipy.n[n].length
+  else
+    local LS = 5
+  end
+  for i = 1 , LS do
+    for k = 1 , (recipy.n[n].length - (i -0.1))/5 do 
     for j = 1 , chest.length do
       if recipy.n[n].label == chest[j].label then
         for k = chest[j].location.length , 1 , -1 do
-          if chest[j].location[k].size < reipy.n[n].ingerient[i][1] then
-            
+          if chest[j].location[k].size < reipy.n[n].ingerient[i][1] * amount then
+            loadmap[loadmap.length+1] = {}
           end  
         end
         break
