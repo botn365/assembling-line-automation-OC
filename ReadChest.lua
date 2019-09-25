@@ -29,9 +29,9 @@ function ReadChest.getFluid(side,addres)
   object.fluid = {}
   object.length = 0
   for k,v in pairs(fluid) do 
-    if v == 4 or v.label == nil then
+    if v == 4 then
       break
-    else 
+    elseif v.label ~= nil then
       object.fluid[length + 1] = fluid.label
       length = length + 1
     end
