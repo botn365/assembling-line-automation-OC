@@ -1,18 +1,20 @@
 local Recipy = {}
 
 function copy(table)
-   local  copy={}
+   local  copy = {}
    copy.size = table[1]
    copy.label = table[2]
   return copy
 end
 
-function Recioy.getLength(ingredientFluid)
+function Recipy.getLength(ingredientFluid)
+  if ingredientFluid ~= nil then
   local length = 0
-  for k , v in pairs(ingredientFluid)
-    length = length + 1
-  end
+    for k , v in pairs(ingredientFluid) do
+      length = length + 1
+    end
   return length
+  end
 end
 
 function Recipy.makeShort(recipy)

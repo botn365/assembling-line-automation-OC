@@ -20,5 +20,5 @@ local chestarr = chest.getInventory(1,itemTransposer)
 local matchnumber = findmatch.findMatch(recipymap,chestarr.simpleinventory)
 print(matchnumber)
 if matchnumber then
-print(findmatch.getMax(recipymap,matchnumber,chestarr.simpleinventory))
+    print(findmatch.getMax(recipymap,matchnumber,chestarr.simpleinventory))
 end

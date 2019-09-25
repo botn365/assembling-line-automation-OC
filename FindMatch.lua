@@ -2,8 +2,6 @@ local FindMatch = {}
 --does tis safe?
 function makeLoadMap(recipy,n,amount,chest)
   for i = 1 , recipy do
-    local recipy.n[n].length
-    
     for j = 1 , chest.length do
       if recipy.n[n].label == chest[j].label then
         for k = chest[j].location.length , 1 , -1 do
@@ -23,7 +21,7 @@ function checkfluid(recipy,fluid)
       if recipy.n[n].fluid.recipy[j] == fluid[i].label then
         break
       end
-      if j = recipy.n[n].fluid.length then
+      if j == recipy.n[n].fluid.length then
         return false
       end
     end
