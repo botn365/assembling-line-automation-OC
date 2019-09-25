@@ -18,7 +18,19 @@ function makeLoadMap(recipy,n,amount,chest)
 end
 
 function checkfluid(recipy,fluid)
-  for 
+  for i = 1 , fluid.length do
+    for j = 1 , recipy.n[n].fluid.length do
+      if recipy.n[n].fluid.recipy[j] == fluid[i].label then
+        break
+      end
+      if j = recipy.n[n].fluid.length then
+        return false
+      end
+    end
+    if recipy.n[n].fluid.length == i then
+      return true
+    end
+  end
 end
 
 function FindMatch.findMatch(recipy,input)
