@@ -44,7 +44,7 @@ function objSimple()
   object.size = 0
   object.label = 0
   object.location = {}
-  object.location["length"] = 0
+  object.location.length = 0
   return object
 end
 
