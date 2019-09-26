@@ -1,26 +1,50 @@
 local FindMatch = {}
 
-function makeLoadMap(recipy,n,amount,chest)
+function FindMatch.makeLoadMap(recipy,n,amount,chest)
   local loadmap ={}
-  local loadmap.length = 0
+  loadmap.length = 0
+  local braek = false
+  local LS = 0
   if recipy.n[n].length < 5 then
-    local LS = recipy.n[n].length
+    LS = recipy.n[n].length
   else
-    local LS = 5
+    LS = 5
   end
   for i = 1 , LS do
-    for k = 1 , (recipy.n[n].length - (i -0.1))/5 do 
-    for j = 1 , chest.length do
-      if recipy.n[n].label == chest[j].label then
-        for k = chest[j].location.length , 1 , -1 do
-          if chest[j].location[k].size < reipy.n[n].ingerient[i][1] * amount then
-            loadmap[loadmap.length+1] = {}
-          end  
+    loadmap[loadmap.length+1] = false
+    loadmap.length = loadmap.length + 1
+    --print(loadmap.length)
+    for l = 1 , math.ceil((recipy.n[n].length - (i -0.1))/5) do 
+      for j = 1 , chest.length do
+        if recipy.n[n].ingredient[i+((l-1)*5)][2] == chest[j].label then
+          local total = recipy.n[n].ingredient[i][1] * amount
+          local exitslot = 1
+          for k = chest[j].location.length , 1 , -1 do
+            if chest[j].location[k].size < total then
+              loadmap[loadmap.length+1] = {l,chest[j].location[k].size,chest[j].location[k].slot,exitslot,chest[j].label}
+              total = total - chest[j].location[k].size
+              loadmap.length = loadmap.length + 1
+              exitslot = exitslot + 1
+              chest[j].location[k] = nil
+              chest[j].location.length = chest[j].location.length - 1
+            else
+              loadmap[loadmap.length+1] = {l,total,chest[j].location[k].slot,exitslot,chest[j].label}
+              --{1,2,3,4}1= load buffer 2=how much 3= from wich chestslot 4= to wich loaderslot
+              chest[j].location[k].size = chest[j].location[k].size - total
+              loadmap.length = loadmap.length + 1
+              if chest[j].location[k].size == 0 then
+                chest[j].location[k] = nil
+                chest[j].location.length = chest[j].location.length - 1
+              end
+              break
+            end
+          end
+          break
         end
-        break
       end
     end
   end
+  return loadmap
 end
 
 function checkfluid(recipy,fluid)
@@ -39,10 +63,10 @@ function checkfluid(recipy,fluid)
   end
 end
 
-function FindMatch.findMatch(recipy,input)
+function FindMatch.findMatch(recipy,input,fluid)
   local istreu = false
   for i = 1 ,recipy.count do
-    if checkFluid then
+    if true then --checkFluid(recipy,fluid) 
     end
     for j = 1 ,recipy.n[i].simplerecipy.length do
       local isfalse = false

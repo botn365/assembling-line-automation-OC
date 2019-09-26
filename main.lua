@@ -18,7 +18,15 @@ local chestarr = chest.getInventory(1,itemTransposer)
 --end
 
 local matchnumber = findmatch.findMatch(recipymap,chestarr.simpleinventory)
-print(matchnumber)
+--print(matchnumber)
 if matchnumber then
-    print(findmatch.getMax(recipymap,matchnumber,chestarr.simpleinventory))
+  local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,
+  findmatch.getMax(recipymap,matchnumber,chestarr.simpleinventory),chestarr.simpleinventory)
+  for i = 1 , loadmap.length do
+    if loadmap[i] then
+        print("loader= "..loadmap[i][1].."  amount="..loadmap[i][2].."  from slot= "..loadmap[i][3].."  to slot= "..loadmap[i][4].."  item name= "..loadmap[i][5])
+    else
+        print("false")
+    end
+  end
 end
