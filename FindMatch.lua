@@ -67,7 +67,7 @@ end
 function FindMatch.findMatch(recipy,input,fluid)
   local istreu = false
   for i = 1 ,recipy.count do
-    if checkFluid(recipy,fluid,i) then --checkFluid(recipy,fluid) 
+    if checkFluid(recipy,fluid,i) then 
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
         for k = 1 , input.length do
@@ -90,8 +90,27 @@ function FindMatch.findMatch(recipy,input,fluid)
   return false
 end
 
-function FindMatch.getMax(recipy,n,input)
+function getFluidMax(recipy,n,fluidin)
   local lowest
+  for i = 1, recipy.n[n].fluid.length do
+    for j = 1 , fluidin.length do
+      if recipy.n[n].fluid.recipy[i][2] == fluidin.fluid[j].label then
+        local temp = math.floor(fluidin.fluid[i].size / recipy.n[n].fluid.recipy[i][1])
+        if lowest == nil then
+          lowest = temp
+        elseif lowest > temp then
+          lowest = temp
+        end
+      end
+    end
+  end
+  print(lowest)
+  return lowest
+end
+
+function FindMatch.getMax(recipy,n,input,fluidin)
+  local lowest
+  getFluidMax(recipy,n,fluidin)
   for i = 1, recipy.n[n].simplerecipy.length do
     for j = 1 , input.length do
       if recipy.n[n].simplerecipy[i].label == input[j].label then

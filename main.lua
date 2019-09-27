@@ -22,7 +22,7 @@ local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,flui
 --print(matchnumber)
 if matchnumber then
   local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,
-  findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory),readchest.simpleinventory)
+  findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory,fluid),readchest.simpleinventory)
   for i = 1 , loadmap.length do
     if loadmap[i] then
         print("loader= "..loadmap[i][1].."  amount="..loadmap[i][2].."  from slot= "..loadmap[i][3].."  to slot= "..loadmap[i][4].."  item name= "..loadmap[i][5])
