@@ -1,6 +1,6 @@
 local FindMatch = {}
 
-function FindMatch.makeLoadMap(recipy,n,amount,chest)
+function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   local loadmap ={}
   loadmap.length = 0
   local braek = false
@@ -13,7 +13,6 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest)
   for i = 1 , LS do
     loadmap[loadmap.length+1] = false
     loadmap.length = loadmap.length + 1
-    --print(loadmap.length)
     for l = 1 , math.ceil((recipy.n[n].length - (i -0.1))/5) do 
       for j = 1 , chest.length do
         if recipy.n[n].ingredient[i+((l-1)*5)][2] == chest[j].label then
@@ -41,6 +40,15 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest)
           end
           break
         end
+      end
+    end
+  end
+  for i = 1 , fluidin.length do
+    for j = 1 , recipy.n[n].fluid.length do
+      if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,0,0,0}
+          loadmap.length = loadmap.length + 1
+        break
       end
     end
   end
@@ -109,8 +117,7 @@ function getFluidMax(recipy,n,fluidin)
 end
 
 function FindMatch.getMax(recipy,n,input,fluidin)
-  local lowest
-  getFluidMax(recipy,n,fluidin)
+  local lowest = getFluidMax(recipy,n,fluidin)
   for i = 1, recipy.n[n].simplerecipy.length do
     for j = 1 , input.length do
       if recipy.n[n].simplerecipy[i].label == input[j].label then
