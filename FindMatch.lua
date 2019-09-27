@@ -47,13 +47,14 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest)
   return loadmap
 end
 
-function checkfluid(recipy,fluid)
+function checkFluid(recipy,fluid,n)
   for i = 1 , fluid.length do
     for j = 1 , recipy.n[n].fluid.length do
-      if recipy.n[n].fluid.recipy[j] == fluid[i].label then
+      if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
       end
       if j == recipy.n[n].fluid.length then
+        print("false")
         return false
       end
     end
@@ -66,23 +67,23 @@ end
 function FindMatch.findMatch(recipy,input,fluid)
   local istreu = false
   for i = 1 ,recipy.count do
-    if true then --checkFluid(recipy,fluid) 
-    end
-    for j = 1 ,recipy.n[i].simplerecipy.length do
-      local isfalse = false
-      for k = 1 , input.length do
-        if recipy.n[i].simplerecipy[j].label == input[k].label then 
-          break
-        end 
-        if k == input.length then 
-          isfalse = true
+    if checkFluid(recipy,fluid,i) then --checkFluid(recipy,fluid) 
+      for j = 1 ,recipy.n[i].simplerecipy.length do
+        local isfalse = false
+        for k = 1 , input.length do
+          if recipy.n[i].simplerecipy[j].label == input[k].label then 
+            break
+          end 
+          if k == input.length then 
+            isfalse = true
+          end
         end
-      end
-      if isfalse then
-        break
-      end
-      if j == recipy.n[i].simplerecipy.length then
-        return i
+        if isfalse then
+          break
+        end
+        if j == recipy.n[i].simplerecipy.length then
+          return i
+        end
       end
     end
   end
