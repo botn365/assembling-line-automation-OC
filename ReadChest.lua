@@ -23,7 +23,7 @@ function ReadChest.makeShort(inventory,size)
   return simpleinventory
 end
 
-function ReadChest.getFluid(side,addres)
+function ReadChest.getFluid(side,addres) -- usles
   local temp = addres.getFluidInTank(side)
   local object = {}
   object.fluid = {}

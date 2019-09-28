@@ -3,7 +3,6 @@ local FindMatch = {}
 function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   local loadmap ={}
   loadmap.length = 0
-  local braek = false
   local LS = 0
   if recipy.n[n].length < 5 then
     LS = recipy.n[n].length
@@ -43,6 +42,8 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
       end
     end
   end
+  loadmap[loadmap.length + 1] = false
+  loadmap.length = loadmap.length + 1
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
