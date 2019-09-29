@@ -9,7 +9,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   else
     LS = 5
   end
-  for i = 1 , LS do
+  for i = 1 , LS do -- items
     loadmap[loadmap.length+1] = false
     loadmap.length = loadmap.length + 1
     for l = 1 , math.ceil((recipy.n[n].length - (i -0.1))/5) do 
@@ -42,12 +42,12 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
       end
     end
   end
-  loadmap[loadmap.length + 1] = false
+  loadmap[loadmap.length + 1] = false -- fluids
   loadmap.length = loadmap.length + 1
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
-          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,0,0,0}
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0}
           loadmap.length = loadmap.length + 1
         break
       end
@@ -57,17 +57,16 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
 end
 
 function checkFluid(recipy,fluid,n)
-  for i = 1 , fluid.length do
-    for j = 1 , recipy.n[n].fluid.length do
+  for j = 1 , recipy.n[n].fluid.length do 
+    for i = 1 , fluid.length do
       if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
       end
-      if j == recipy.n[n].fluid.length then
-        print("false")
+      if i == fluid.length then
         return false
       end
     end
-    if recipy.n[n].fluid.length == i then
+    if recipy.n[n].fluid.length == j then
       return true
     end
   end
@@ -103,17 +102,18 @@ function getFluidMax(recipy,n,fluidin)
   local lowest
   for i = 1, recipy.n[n].fluid.length do
     for j = 1 , fluidin.length do
-      if recipy.n[n].fluid.recipy[i][2] == fluidin.fluid[j].label then
-        local temp = math.floor(fluidin.fluid[i].size / recipy.n[n].fluid.recipy[i][1])
-        if lowest == nil then
-          lowest = temp
-        elseif lowest > temp then
-          lowest = temp
+      if fluidin.fluid[j] ~= nil then
+        if recipy.n[n].fluid.recipy[i][2] == fluidin.fluid[j].label then
+          local temp = math.floor(fluidin.fluid[j].size / recipy.n[n].fluid.recipy[i][1])
+          if lowest == nil then
+            lowest = temp
+          elseif lowest > temp then
+            lowest = temp
+          end
         end
       end
     end
   end
-  print(lowest)
   return lowest
 end
 
@@ -134,6 +134,7 @@ function FindMatch.getMax(recipy,n,input,fluidin)
       end
     end
   end
+    print(lowest)
    return lowest
 end
 return FindMatch

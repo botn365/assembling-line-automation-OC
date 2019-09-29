@@ -8,7 +8,8 @@ local ReadChest = require("ReadChest")
 local component = require("component")
 local LoadAssline = require("LoadAssline")
 local itemTransposer = component.proxy("af607168-70c3-4528-b702-77b3cbbc0a83")
-local fluidTransposer = component.proxy("42cb088c-ece2-49e6-9efe-efc9cc6c508b")
+local fluidTransposer1 = component.proxy("42cb088c-ece2-49e6-9efe-efc9cc6c508b")
+local fluidTransposer2 = component.proxy("ac7764f5-0050-4252-88fb-08290ced5ae9")
 local redstoneassline = component.proxy("4f453e3e-b4bf-4176-9919-01cc43d4fb18")
 local redstoneloader = component.proxy("60cb8d12-191c-4724-a0a0-a3c012bb20c5")
 local readchest = ReadChest.getInventory(1,itemTransposer)
@@ -21,7 +22,7 @@ local readchest = ReadChest.getInventory(1,itemTransposer)
 --for i = 1, chestarr.simpleinventory.length do
 --  print(chestarr.simpleinventory[i].size..chestarr.simpleinventory[i].label)
 --end
-local fluid = ReadChest.getFluid(4,fluidTransposer)
+local fluid = ReadChest.loadFluids(fluidTransposer2)
 local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid)
 --print(matchnumber)
 if matchnumber then
@@ -34,6 +35,5 @@ if matchnumber then
         print("false")
     end
   end
-  print(loadmap.length)
-  LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer)
+  LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2)
 end

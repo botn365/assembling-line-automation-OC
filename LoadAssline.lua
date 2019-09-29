@@ -1,9 +1,10 @@
 local LoadAssline =  {}
+
 local bundl = {{0,0,0,0,0,0,0,0,0,0,255,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,255,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,255,0,0}
 ,{0,0,0,0,0,0,0,0,0,0,0,0,0,255,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,255}}
 local liquidbundl = {{0,0,0,0,0,0,255,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,255,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,255,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,255,0,0,0,0,0}}
-function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid)
+function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid1,addressFluid2,amount)
     local slot = 1 
     addressRedstoneLoader.setOutput(0,15)
     for j = 1 , loadmap.length do --k ,v in pairs(loadmap)
@@ -39,8 +40,8 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             if loadmap[j] then
                 print("transfer")
                 addressRedstoneAssline.setBundledOutput(3,liquidbundl[loadmap[j][1]])
-                if addressFluid.transferFluid(4,5,loadmap[j][2]) == 0 then
-                    print("item faild trasfer")
+                if transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 then
+                    print("fluid faild trasfer")
                     os.sleep(0.2)
                 else
                     os.sleep(0.25)
@@ -65,6 +66,14 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             slot = slot + 1
         end
     end
+    addressRedstoneLoader.setOutput(0,0)
+end
+
+function transferFluid(addressFluid1,addressFluid2,loadmap,j)
+    local position = {1,3,4,0}
+    print(loadmap[j])
+    addressFluid2.transferFluid(position[loadmap[j][3]],5,loadmap[j][2])
+    return addressFluid1.transferFluid(4,5,loadmap[j][2])
 end
 
 function translateLoader(loader)
