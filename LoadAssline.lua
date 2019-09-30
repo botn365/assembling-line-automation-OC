@@ -15,19 +15,6 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                     print("item faild trasfer")
                     os.sleep(0.2)
                 else
-                    os.sleep(0.25)
-                    print(addressRedstoneLoader.getInput(3))
-                    local timeoutcount = 0
-                    while(addressRedstoneLoader.getInput(3)~=0) do
-                        timeoutcount = timeoutcount + 1
-                        if timeoutcount > 80 then
-                            print("item/fluid stuck in loader")
-                            addressRedstoneLoader.setOutput(0,0)
-                            local crash = nil
-                            print(crash..crash)
-                        end
-                        os.sleep(0.05)
-                    end
                     break
                 end
                 if i == 10 then
@@ -61,12 +48,31 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             end
         else
             if slot < 6 then
+                os.sleep(0.25)
+                print(addressRedstoneLoader.getInput(3))
+                local timeoutcount = 0
+                while(addressRedstoneLoader.getInput(3)~=0) do
+                    timeoutcount = timeoutcount + 1
+                    if timeoutcount > 80 then
+                        print("item/fluid stuck in loader")
+                        addressRedstoneLoader.setOutput(0,0)
+                        local crash = nil
+                        print(crash..crash)
+                    end                        os.sleep(0.05)
+                end
                 addressRedstoneAssline.setBundledOutput(3,bundl[slot])
             end
             slot = slot + 1
         end
     end
     addressRedstoneLoader.setOutput(0,0)
+    while amount > 1 do 
+        if addressRedstoneAssline.getBunledInput(3,4) > 0 then
+            amount = amount - 1
+            os.sleep(1)
+        end
+        esle os.sleep(0.1)
+    end
 end
 
 function transferFluid(addressFluid1,addressFluid2,loadmap,j)
