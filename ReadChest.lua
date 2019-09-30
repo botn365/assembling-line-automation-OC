@@ -73,10 +73,11 @@ function objSimpleArr()
 end
     
 
-function ReadChest.getInventory(side,addres)
+function ReadChest.getInventory(side,addres,subs,addresTop)
   local object = {}
   local inventory = addres.getAllStacks(side).getAll()
   local size = addres.getAllStacks(side).count()
+  getInbetween(subs,addresTop,side,size,inventory)
   object.simpleinventory = ReadChest.makeShort(inventory,size)
   return object
 end
@@ -160,8 +161,48 @@ function ReadChest.loadFluids(address)
   return fluid
 end
 
-function ReadChest.getInbetween()
-
+function getInbetween(subs,addresTop,side,size,inventory)
+  local arrIn = {}
+  arrIn.count = 0
+  local arrOut = {}
+  arrOut.count = 0
+  for i = 0 , size do
+    local found = true
+    if inventory[i].name == "dustStone" then
+      for j = 1 subs.length do
+        if inventory[i].label == subs[j][2] then
+          arrOut[arrOut.count + 1].label = subs[j][2]
+          arrOut[arrOut.count+ 1].size = inventory[i].size
+          arrOut[arrOut.count+ 1].j = j
+          arrOut[arrOut.count+ 1].slot = i + 1
+          arrOut.length = arrOut.length + 1
+          found = false 
+          break
+        end
+      end
+      if found then 
+        for j = 1 subs.length do
+          if inventory[i].label == subs[j][1] then
+            arrIn[arrIn.count+ 1].label = subs[j][1]
+            arrIn[arrIn.count+ 1].size = inventory[i].size
+            arrIn[arrIn.count+ 1].j = j
+            arrIn[arrIn.count+ 1].slot = i + 1
+            arrIn.length = arrIn.length + 1 
+            break
+          end
+        end
+      end
+    end
+  end
+  for i = 1 , arrIn.length do
+    for j = 1 , arrOut.length do
+      if arrIn[i].j == arrOut[j].j then
+        addresTop.transferItem(0,3,arrIn[i].size,arrIn[i],1)
+        addresTop.transferItem(0,3,arrIn[i].size,arrOut[j],1)
+        break
+      end
+    end
+  end
 end
 
 return ReadChest
