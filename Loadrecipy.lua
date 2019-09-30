@@ -1,6 +1,6 @@
 package.loaded.Recipy = nil
 local R = require("Recipy")
-local r = R.RecipyArray({{"LuV_Piston_In","LuV_Piston_Out"}})
+local r = R.RecipyArray({{"SolderMixIn","SolderMixOut"}})
 
 r.addRecipy("Electric Motor (LuV)",{{1,"Magnetic Samarium Rod"},{2,"Long HSS-S Rod"},{64,"Fine Ruridit Wire"}
 ,{64,"Fine Ruridit Wire"},{2,"1x Yttrium Barium Cuprate Cable"}},

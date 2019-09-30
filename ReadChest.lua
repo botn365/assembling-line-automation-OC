@@ -166,39 +166,42 @@ function getInbetween(subs,addresTop,side,size,inventory)
   arrIn.count = 0
   local arrOut = {}
   arrOut.count = 0
-  for i = 0 , size do
+  for i = 0 , size - 1 do
     local found = true
-    if inventory[i].name == "dustStone" then
-      for j = 1 subs.length do
+    if inventory[i].name == "minecraft:stick" then
+      for j = 1 , subs.length do
         if inventory[i].label == subs[j][2] then
+          arrOut[arrOut.count + 1] = {}
           arrOut[arrOut.count + 1].label = subs[j][2]
           arrOut[arrOut.count+ 1].size = inventory[i].size
           arrOut[arrOut.count+ 1].j = j
           arrOut[arrOut.count+ 1].slot = i + 1
-          arrOut.length = arrOut.length + 1
+          arrOut.count = arrOut.count + 1
           found = false 
           break
         end
       end
       if found then 
-        for j = 1 subs.length do
+        for j = 1 , subs.length do
           if inventory[i].label == subs[j][1] then
+            arrIn[arrIn.count+ 1] = {}
             arrIn[arrIn.count+ 1].label = subs[j][1]
             arrIn[arrIn.count+ 1].size = inventory[i].size
             arrIn[arrIn.count+ 1].j = j
             arrIn[arrIn.count+ 1].slot = i + 1
-            arrIn.length = arrIn.length + 1 
+            arrIn.count = arrIn.count + 1 
             break
           end
         end
       end
     end
   end
-  for i = 1 , arrIn.length do
-    for j = 1 , arrOut.length do
+  for i = 1 , arrIn.count do
+    for j = 1 , arrOut.count do
       if arrIn[i].j == arrOut[j].j then
-        addresTop.transferItem(0,3,arrIn[i].size,arrIn[i],1)
-        addresTop.transferItem(0,3,arrIn[i].size,arrOut[j],1)
+        print("transport")
+        addresTop.transferItem(0,3,arrIn[i].size,arrIn[i].slot,1)
+        addresTop.transferItem(0,3,arrIn[i].size,arrOut[j].slot,1)
         break
       end
     end
