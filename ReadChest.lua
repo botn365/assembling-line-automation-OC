@@ -125,14 +125,20 @@ function ReadChest.loadFluids(address)
     end
     local pass = true
     local temp  = address.getFluidInTank(0)[1]
+    print("read new fluid")
     for i = 1 , 3 do
       if fluid.fluid[i] ~=  nil then
+        print("compare  "..fluid.fluid[i].label.."    "..temp.label.."   i="..i)
         if fluid.fluid[i].label == temp.label then
           pass = false
           local maxsize = 256000 - fluid.fluid[i].size
+          print("maxzixe = "..maxsize)
           if temp.amount < maxsize then
+            print(" <max   to tank "..position[fluid.fluid[i].tank].."amount"..temp.amount.."name"..temp.label)
             local  temp1 = address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
+            break
           else
+            print("to tank "..position[fluid.fluid[i].tank].."amount"..maxsize.."name"..temp.label)
             local  temp1 = address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
             break
           end
@@ -140,8 +146,10 @@ function ReadChest.loadFluids(address)
       end
     end
     if pass then
+      local breakf = false
       for j = 1 , 3 do
         if fluid.length == 0 then
+          print("transfer 0 fluid"..temp.name..temp.amount)
           address.transferFluid(0,position[j],temp.amount)
           break
         end
@@ -150,8 +158,14 @@ function ReadChest.loadFluids(address)
             break
           end
           if k == fluid.length then
-             address.transferFluid(0,position[j],temp.amount)
+            print("transfer >0 fluid"..temp.name..temp.amount)
+            address.transferFluid(0,position[j],temp.amount)
+           breakf = true
+           break
           end
+        end
+        if breakf then
+          break
         end
       end
     end

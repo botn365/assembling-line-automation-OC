@@ -15,7 +15,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
     for l = 1 , math.ceil((recipy.n[n].length - (i -0.1))/5) do 
       for j = 1 , chest.length do
         if recipy.n[n].ingredient[i+((l-1)*5)][2] == chest[j].label then
-          local total = recipy.n[n].ingredient[i][1] * amount
+          local total = recipy.n[n].ingredient[i+((l-1)*5)][1] * amount
           local exitslot = 1
           for k = chest[j].location.length , 1 , -1 do
             if chest[j].location[k].size < total then
@@ -58,6 +58,9 @@ end
 
 function checkFluid(recipy,fluid,n)
   for j = 1 , recipy.n[n].fluid.length do 
+    if fluid.length == 0 then
+      break
+    end
     for i = 1 , fluid.length do
       if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
@@ -75,11 +78,19 @@ end
 function FindMatch.findMatch(recipy,input,fluid)
   local istreu = false
   for i = 1 ,recipy.count do
+    --print(i)
+    --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
+      --print("Afluid")
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
         for k = 1 , input.length do
+          if i == 3 then
+            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+          end       
           if recipy.n[i].simplerecipy[j].label == input[k].label then 
+            --print("found")
+            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
             break
           end 
           if k == input.length then 

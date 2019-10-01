@@ -8,13 +8,13 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     local slot = 1 
     addressRedstoneLoader.setOutput(0,15)
     for j = 1 , loadmap.length do --k ,v in pairs(loadmap)
-        print("slot"..slot.."  "..j)
         if loadmap[j] and slot < 7 then
             for  i = 1 , 10 do
                 if addressItem.transferItem(1,translateLoader(loadmap[j][1]),loadmap[j][2],loadmap[j][3],loadmap[j][4]) == 0 then
                     print("item faild trasfer")
                     os.sleep(0.2)
                 else
+                    print("transfer")
                     break
                 end
                 if i == 10 then
@@ -26,7 +26,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         elseif slot > 6 then
             if loadmap[j] then
                 print("transfer")
-                addressRedstoneAssline.setBundledOutput(3,liquidbundl[loadmap[j][1]])
+                addressRedstoneAssline.setBundledOutput(1,liquidbundl[loadmap[j][1]])
                 if transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 then
                     print("fluid faild trasfer")
                     os.sleep(0.2)
@@ -60,18 +60,20 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                         print(crash..crash)
                     end                        os.sleep(0.05)
                 end
-                addressRedstoneAssline.setBundledOutput(3,bundl[slot])
+                addressRedstoneAssline.setBundledOutput(1,bundl[slot])
             end
             slot = slot + 1
         end
     end
     addressRedstoneLoader.setOutput(0,0)
+    addressRedstoneAssline.setBundledOutput(1,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
     while amount > 1 do 
-        if addressRedstoneAssline.getBunledInput(3,4) > 0 then
+        if addressRedstoneAssline.getBundledInput(1,4) > 0 then
             amount = amount - 1
             os.sleep(1)
+            print("recipy read")
         else 
-            os.sleep(0.1)
+            os.sleep(0.05)
         end
     end
 end
