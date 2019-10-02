@@ -9,7 +9,7 @@ if you use AE p2p tunnels I = gt buffer with a machine controller cover, item de
 and a conveyor belt on export(conditinal) 
 Fo = gt tank with a a machine controller cover, fluid detector cover and a pump on export(conditinal) 
 
-the loader part
+# THE LOADER PART
 
 
 T = transposer, I = buffer/ender chest, Fo = tankA/ender tank, Fi = tankB, P = (gt)pipe, R = OC redstone component
@@ -32,10 +32,53 @@ C = chest, M = me inteface, Mf = me fluid interface  () =  block behind it  E = 
   machine controller cover 
   
   
-  the assembling line part
+  # THE ASSEMBLING LINE PART
   
   evry input bus needs a shutter cover or a conveyor belt on import(conditinal) if your using ender chests on the bottem of
   on the bottem of the bus on the side facing away from the imput hatches there needs to be a machine contoller cover
+  the same needs to be done with the fluid covers
+  
+   O = output bus I = input bus I1 p2p from I1 of the loader or ender chest with the same code as I1 the same for I2 and I3
+   
+   E = empt space
+  
+   O I | I | I | I | I | I | I | I | I | I | I | I | I | I | I
+  
+   E I3 I3 I3 I3 I3 I2 I2 I2 I2 I2 I1 I1 I1 I1 I1
+   
+   E BLA | R | G | BR | BLU (reepeted 3 times)
+   
+   # how to add a new recipy
+   
+   in LoadRecipy.lua
+   
+   r.addRecipy("output", {{amount,name input 1 },{amount,input 2}} , {{amount,fluid}} exemple:
+   
+   r.addRecipy("Electric Motor (LuV)",{{1,"Magnetic Samarium Rod"},{2,"Long HSS-S Rod"},{64,"Fine Ruridit Wire"}
+,{64,"Fine Ruridit Wire"},{2,"1x Yttrium Barium Cuprate Cable"}},
+{{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
+  
+  
+  # HOW TO ADD RECIPY TO AE WITH MORE THEN 9 INGREDIENTS
+  
+  in LoadRecipy.lua  in the line local r = R.RecipyArray() you can add a between item 
+  ({{itemIn,ItemOut},{itemIn,itemOut}})
+  
+  to use this in AE autocrafting  
+  
+  item/fluid + item/fluid  + itemIn = itemOut
+  
+  item + item + item + item + itemOut = end result
+  
+  the itemIn and itemOut have to be sticks for OC to know the diftrents you have to rename them so 
+  itemIn needs to have the exect name to how you renamed the stick 
+  you can easly rename the sticks with a tool forge
+  
+  # TO INSTAL ON COMPUTER
+  
+  download files from github and un zip
+  go to you safe file and in the opencomputer folder and place it in the folder
+  of the drive that is in that computer
   
   
   
