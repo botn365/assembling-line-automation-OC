@@ -48,7 +48,7 @@ C = chest, M = me inteface, Mf = me fluid interface  () =  block behind it  E = 
    
    E BLA | R | G | BR | BLU (reepeted 3 times)
    
-   the input hatches need to be conectdet with the collers grey,light grey,syan and magenta from firts  to last input hatch
+   the input hatches need to be conectet with the collers grey,light grey,cyan and magenta from firts  to last input hatch
    
    when a item gets made you need to send a signal trough the yellow wire  
    
