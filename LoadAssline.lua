@@ -1,5 +1,5 @@
 local LoadAssline =  {}
-package.loaded.Config=nil
+package.loaded.config=nil
 local event = require("event")
 local config = require("config")
 
@@ -10,10 +10,9 @@ local liquidbundl = {{0,0,0,0,0,0,255,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,255,0,0,0,
 function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid1,addressFluid2,amount,dir)
     local slot = 1 
     addressRedstoneLoader.setOutput(0,15)
-    for j = 1 , loadmap.length do --k ,v in pairs(loadmap)
+    for j = 1 , loadmap.length do 
         if loadmap[j] and slot < 7 then
             for  i = 1 , 10 do
-                
                 if addressItem.transferItem(1,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]) == 0 then
                     print("item faild trasfer")
                     os.sleep(0.2)
@@ -37,9 +36,15 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                         breakcount = breakcount + 1
                         if breakcount == 80 then
                             addressRedstoneLoader.setOutput(0,0)
-                            addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                            if config.use_enderchest then 
+                                addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
+                              else
+                                addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                              end
                             print("fluid faild trasfer")
                             print("reseting AE wil trie again in 30 seconds")
+                            local crash = nil
+                            print(crash..crash)
                             os.sleep(30)
                             addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,liquidbundl[loadmap[j][1]])
                             addressRedstoneLoader.setOutput(0,15)
@@ -48,7 +53,6 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                     end
                 else
                     os.sleep(0.25)
-                    print(addressRedstoneLoader.getInput(config.directionloader.directionredstoneloader))
                     local timeoutcount = 0
                     while(addressRedstoneLoader.getInput(config.directionloader.directionredstoneloader)~=0) do
                         timeoutcount = timeoutcount + 1
@@ -65,16 +69,21 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         else
             if slot < 6 then
                 os.sleep(0.25)
-                print(addressRedstoneLoader.getInput(config.directionloader.directionredstoneloader))
                 local timeoutcount = 0
                 while(addressRedstoneLoader.getInput(config.directionloader.directionredstoneloader)~=0) do
                     timeoutcount = timeoutcount + 1
                     if timeoutcount > 80 then
                         timeoutcount = 0
                         addressRedstoneLoader.setOutput(0,0)
-                        addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                        if config.use_enderchest then 
+                            addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
+                        else
+                            addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                        end
                         print("item faild trasfer")
                         print("reseting AE wil trie again in 30 seconds")
+                        local crash = nil
+                        print(crash..crash)
                         os.sleep(30)
                         addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,bundl[slot-1])
                         addressRedstoneLoader.setOutput(0,15)
@@ -87,7 +96,11 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         end
     end
     addressRedstoneLoader.setOutput(0,0)
-    addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+    if config.use_enderchest then 
+        addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
+    else
+        addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+    end
     while amount > 0 do 
         local ch=event.pull(1)
         if ch == 'key_down' then
@@ -95,7 +108,6 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         end
         if addressRedstoneAssline.getBundledInput(config.directionredstoneassline.directionredstoneassline,4) > 0 then
             amount = amount - 1
-            print("recipy read")
             if amount == 0 then
                 print("leave loop")
             else
@@ -106,9 +118,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         end
     end
 end
-config.directionredstoneloader.directionfluid2
+
 function transferFluid(addressFluid1,addressFluid2,loadmap,j)
-    local position = config.directionredstoneloader.directionfluid2
+    local position = config.directionloader.directionfluid2
     if loadmap[j][3] ~= 4 then
     addressFluid2.transferFluid(position[loadmap[j][3]],5,loadmap[j][2])
     return addressFluid1.transferFluid(4,position[5],loadmap[j][2])
