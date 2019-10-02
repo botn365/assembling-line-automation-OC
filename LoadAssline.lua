@@ -102,10 +102,6 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
     end
     while amount > 0 do 
-        local ch=event.pull(1)
-        if ch == 'key_down' then
-            break
-        end
         if addressRedstoneAssline.getBundledInput(config.directionredstoneassline.directionredstoneassline,4) > 0 then
             amount = amount - 1
             if amount == 0 then
