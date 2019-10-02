@@ -18,7 +18,7 @@ redstoneassline.setBundledOutput(1,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,
 
 while true do
   local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
-  local fluid = ReadChest.loadFluids(fluidTransposer2)-- gets and sorts fluids
+  local fluid = ReadChest.loadFluids(fluidTransposer2,fluidTransposer1)-- gets and sorts fluids
   local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid) -- looks for valid recipy
   if matchnumber then
     local amount = findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory,fluid) --check how many recipys it can make

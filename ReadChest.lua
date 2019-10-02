@@ -101,23 +101,30 @@ function objFluidArr()
   return object
 end
 
-function readFluid(Ntanks,address,position)
+function readFluid(Ntanks,address,addres2,position)
   local fluid = objFluidArr()
   for i = 1 , Ntanks do --reads the fluid of tanks and stores it
-    local temp = address.getFluidInTank(position[i])
-    if temp[1].label ~= nil then
+    local temp
+    if i < 4 then
+      temp = address.getFluidInTank(position[i])
+    else
+      temp = addres2.getFluidInTank(1)
+    end
+    if temp[1].label ~= nil and i ~= 4 then
+      fluid.newFluid(temp[1].label,temp[1].amount,i)
+    elseif i == 4 and temp[1].label ~= nil then
       fluid.newFluid(temp[1].label,temp[1].amount,i)
     end
   end
   return fluid
 end
 
-function ReadChest.loadFluids(address)
+function ReadChest.loadFluids(address,addres2)
   local position = {1,3,4,0}
   local capacity = 256000
   local whilecount = 0
   while address.getFluidInTank(0)[1].label ~= nil do
-    fluid = readFluid(3,address,position)
+    fluid = readFluid(4,address,addres2,position)
     whilecount = whilecount + 1
     if whilecount > 30 then
       local crash = nil
@@ -135,11 +142,21 @@ function ReadChest.loadFluids(address)
           print("maxzixe = "..maxsize)
           if temp.amount < maxsize then
             print(" <max   to tank "..position[fluid.fluid[i].tank].."amount"..temp.amount.."name"..temp.label)
-            local  temp1 = address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
+            if fluid.fluid[i].tank ~= 4 then
+              address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
+            else
+              address.transferFluid(0,5,temp.amount)
+              addres2.transferFluid(4,1,temp.amount)
+            end
             break
           else
             print("to tank "..position[fluid.fluid[i].tank].."amount"..maxsize.."name"..temp.label)
-            local  temp1 = address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
+            if fluid.fluid[i].tank ~= 4 then
+              address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
+            else
+              address.transferFluid(0,5,maxsize)
+              addres2.transferFluid(4,1,maxsize)
+            end
             break
           end
         end
@@ -147,7 +164,7 @@ function ReadChest.loadFluids(address)
     end
     if pass then
       local breakf = false
-      for j = 1 , 3 do
+      for j = 1 , 4 do
         if fluid.length == 0 then
           print("transfer 0 fluid"..temp.name..temp.amount)
           address.transferFluid(0,position[j],temp.amount)
@@ -159,7 +176,14 @@ function ReadChest.loadFluids(address)
           end
           if k == fluid.length then
             print("transfer >0 fluid"..temp.name..temp.amount)
-            address.transferFluid(0,position[j],temp.amount)
+            print(fluid)
+
+            if j ~= 4 then
+              address.transferFluid(0,position[j],temp.amount)
+            else
+              address.transferFluid(0,5,temp.amount)
+              addres2.transferFluid(4,1,temp.amount)
+            end
            breakf = true
            break
           end
@@ -171,7 +195,7 @@ function ReadChest.loadFluids(address)
     end
     os.sleep(0.2)
   end
-  fluid = readFluid(4,address,position)
+  fluid = readFluid(4,address,addres2,position)
   return fluid
 end
 

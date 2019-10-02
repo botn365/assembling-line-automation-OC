@@ -1,4 +1,5 @@
 local LoadAssline =  {}
+local event = require("event")
 
 local bundl = {{0,0,0,0,0,0,0,0,0,0,255,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,255,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,255,0,0}
 ,{0,0,0,0,0,0,0,0,0,0,0,0,0,255,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,255}}
@@ -28,8 +29,20 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                 print("transfer")
                 addressRedstoneAssline.setBundledOutput(1,liquidbundl[loadmap[j][1]])
                 if transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 then
-                    print("fluid faild trasfer")
-                    os.sleep(0.2)
+                    local breakcount = 0
+                    while transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 do
+                        breakcount = breakcount + 1
+                        if breakcount == 80 then
+                            addressRedstoneLoader.setOutput(0,0)
+                            addressRedstoneAssline.setBundledOutput(1,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                            print("fluid faild trasfer")
+                            print("reseting AE wil trie again in 30 seconds")
+                            os.sleep(30)
+                            addressRedstoneAssline.setBundledOutput(1,liquidbundl[loadmap[j][1]])
+                            addressRedstoneLoader.setOutput(0,15)
+                        end 
+                        os.sleep(0.2)
+                    end
                 else
                     os.sleep(0.25)
                     print(addressRedstoneLoader.getInput(3))
@@ -54,11 +67,16 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                 while(addressRedstoneLoader.getInput(3)~=0) do
                     timeoutcount = timeoutcount + 1
                     if timeoutcount > 80 then
-                        print("item/fluid stuck in loader")
+                        timeoutcount = 0
                         addressRedstoneLoader.setOutput(0,0)
-                        local crash = nil
-                        print(crash..crash)
-                    end                        os.sleep(0.05)
+                        addressRedstoneAssline.setBundledOutput(1,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
+                        print("item faild trasfer")
+                        print("reseting AE wil trie again in 30 seconds")
+                        os.sleep(30)
+                        addressRedstoneAssline.setBundledOutput(1,bundl[slot-1])
+                        addressRedstoneLoader.setOutput(0,15)
+                    end                        
+                    os.sleep(0.05)
                 end
                 addressRedstoneAssline.setBundledOutput(1,bundl[slot])
             end
@@ -67,13 +85,21 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     end
     addressRedstoneLoader.setOutput(0,0)
     addressRedstoneAssline.setBundledOutput(1,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
-    while amount > 1 do 
+    while amount > 0 do 
+        local ch=event.pull(1)
+        if ch == 'key_down' then
+            break
+        end
         if addressRedstoneAssline.getBundledInput(1,4) > 0 then
             amount = amount - 1
-            os.sleep(1)
             print("recipy read")
+            if amount == 0 then
+                print("leavloop")
+            else
+                os.sleep(1)
+            end
         else 
-            os.sleep(0.05)
+            os.sleep(0.03)
         end
     end
 end

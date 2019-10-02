@@ -25,7 +25,7 @@ r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8
 r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridite Plate"},{1,"Quantum Star"},{4,"Nanoprocessor Mainframe"}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
-r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"},{4,"HSS-S Ring"},{32,"HSS-S Round"}{2,"1x Yttrium Barium Cuprate Cable"}}
+r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"},{4,"HSS-S Ring"},{32,"HSS-S Round"},{2,"1x Yttrium Barium Cuprate Cable"}}
 ,{{144,"Molten Soldering Alloy"},{250,"Lubricant"},{1440,"Molten Styrene-Butadiene Rubber"}}
 )
 r.addRecipy("Electric Pump (LuV)",{{1,"Electric Motor (LuV)"},{2,"Small Niobium-Titanium Fluid Pipe"},{2,"HSS-S Plate"},{8,"HSS-S Screw"}
@@ -34,7 +34,7 @@ r.addRecipy("Electric Pump (LuV)",{{1,"Electric Motor (LuV)"},{2,"Small Niobium-
 )
 r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
 ,{2,"Ludicrous Voltage Coil"},{1,"180K He Coolant Cell"},{1,"180K He Coolant Cell"},{1,"Electric Pump (LuV)"}}
-,{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}
+,{{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}}
 )
 
 
