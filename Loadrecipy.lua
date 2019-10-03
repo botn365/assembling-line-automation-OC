@@ -33,7 +33,7 @@ r.addRecipy("Electric Pump (LuV)",{{1,"Electric Motor (LuV)"},{2,"Small Niobium-
 ,{{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
 r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
-,{2,"Ludicrous Voltage Coil"},{1,"180K He Coolant Cell"},{1,"180K He Coolant Cell"},{1,"Electric Pump (LuV)"}}
+,{2,"Ludicrous Voltage Coil"},{1,"180k He Coolant Cell"},{1,"180k He Coolant Cell"},{1,"Electric Pump (LuV)"}}
 ,{{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}}
 )
 
