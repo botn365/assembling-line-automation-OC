@@ -8,7 +8,7 @@ function ReadChest.makeShort(inventory,size)
   simpleinventory.new(inventory[0])
   simpleinventory.newlocation(1,inventory,0)
   for i = 1,size-1 do
-    if inventory[i].label ~= nil then 
+    if inventory[i].label ~= nil and inventory[i].name ~= "minecraft:stick" then 
       for j = 1 ,simpleinventory.length do 
         if simpleinventory[j].label == inventory[i].label then
           simpleinventory[j].size = simpleinventory[j].size + inventory[i].size
@@ -181,8 +181,8 @@ function ReadChest.loadFluids(address,addres2)
       end
     end
     os.sleep(0.2)
+    fluid = readFluid(4,address,addres2,position)
   end
-  fluid = readFluid(4,address,addres2,position)
   return fluid
 end
 
