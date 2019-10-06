@@ -1,6 +1,6 @@
 package.loaded.Recipy = nil
 local R = require("Recipy")
-local r = R.RecipyArray({})
+local r = R.RecipyArray({{"SolderMixIn","SolderMixOut"},{"LuVArmIn","LuVArmOut"},{"ESMIn","ESMOut"},{"FRWIn","FRWOut"},{"EHLIn","EHLOut"}})
 
 r.addRecipy("Electric Motor (LuV)",{{1,"Magnetic Samarium Rod"},{2,"Long HSS-S Rod"},{64,"Fine Ruridit Wire"}
 ,{64,"Fine Ruridit Wire"},{2,"1x Yttrium Barium Cuprate Cable"}},
@@ -33,8 +33,12 @@ r.addRecipy("Electric Pump (LuV)",{{1,"Electric Motor (LuV)"},{2,"Small Niobium-
 ,{{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
 r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
-,{2,"Ludicrous Voltage Coil"},{1,"180K He Coolant Cell"},{1,"180K He Coolant Cell"},{1,"Electric Pump (LuV)"}}
+,{2,"Ludicrous Voltage Coil"},{1,"180k He Coolant Cell"},{1,"180k He Coolant Cell"},{1,"Electric Pump (LuV)"}}
 ,{{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}}
+)
+r.addRecipy("Circuit Assembly Line",{{1,"Advanced Circuit Assembling Machine V"},{4,"Robot Arm (LuV)"},{4,"Electric Motor (LuV)"}
+,{1,"Field Generator (Tier VI)"},{1,"Emitter (LuV)"},{1,"Sensor (LuV)"},{8,"Chrome Plate"}}
+,{{1440,"Molten Soldering Alloy"}}
 )
 
 

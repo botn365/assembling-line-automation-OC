@@ -124,14 +124,8 @@ end
 function ReadChest.loadFluids(address,addres2)
   local position = config.directionloader.directionfluid2
   local capacity = 256000
-  local whilecount = 0
-  while address.getFluidInTank(0)[1].label ~= nil do
+  while address.getFluidInTank(0)[1].label ~= nil and fluid.length < 4 do
     fluid = readFluid(4,address,addres2,position)
-    whilecount = whilecount + 1
-    if whilecount > 30 then
-      local crash = nil
-      print(crash..crash)
-    end
     local pass = true
     local temp  = address.getFluidInTank(0)[1]
     for i = 1 , 3 do

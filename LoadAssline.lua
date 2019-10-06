@@ -67,7 +67,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                 end
             end
         else
-            if slot < 6 then
+            if slot < 7 then
                 os.sleep(0.25)
                 local timeoutcount = 0
                 while(addressRedstoneLoader.getInput(config.directionloader.directionredstoneloader)~=0) do
@@ -90,7 +90,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                     end                        
                     os.sleep(0.05)
                 end
+                if slot < 6 then
                 addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,bundl[slot])
+                end
             end
             slot = slot + 1
         end
@@ -101,15 +103,10 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     else
         addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
     end
-    while amount > 0 do 
-        local ch=event.pull(1)
-        if ch == 'key_down' then
-            break
-        end
+    while amount > 0 do
         if addressRedstoneAssline.getBundledInput(config.directionredstoneassline.directionredstoneassline,4) > 0 then
             amount = amount - 1
             if amount == 0 then
-                print("leave loop")
             else
                 os.sleep(1)
             end
@@ -117,7 +114,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             os.sleep(0.03)
         end
     end
+    print("done")
 end
+
 
 function transferFluid(addressFluid1,addressFluid2,loadmap,j)
     local position = config.directionloader.directionfluid2

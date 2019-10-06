@@ -85,8 +85,9 @@ function FindMatch.findMatch(recipy,input,fluid)
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
         for k = 1 , input.length do
-          if i == 3 then
-            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+          if i == 9 then
+            --print(i)
+           -- print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
           end       
           if recipy.n[i].simplerecipy[j].label == input[k].label then 
             --print("found")
