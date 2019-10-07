@@ -29,7 +29,7 @@ r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"
 ,{{144,"Molten Soldering Alloy"},{250,"Lubricant"},{1440,"Molten Styrene-Butadiene Rubber"}}
 )
 r.addRecipy("Electric Pump (LuV)",{{1,"Electric Motor (LuV)"},{2,"Small Niobium-Titanium Fluid Pipe"},{2,"HSS-S Plate"},{8,"HSS-S Screw"}
-,{4,"Molten Styrene-Butadiene Rubber Ring"},{2,"Hss-S Rotor"},{2,"1x Yttrium Barium Cuprate Cable"}}
+,{4,"Styrene-Butadiene Rubber Ring"},{2,"HSS-S Rotor"},{2,"1x Yttrium Barium Cuprate Cable"}}
 ,{{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
 r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
