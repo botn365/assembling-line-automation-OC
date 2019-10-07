@@ -12,17 +12,17 @@ r.addRecipy("Electric Piston (LuV)",{{1,"Electric Motor (LuV)"},{6,"HSS-S Plate"
 {{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
 r.addRecipy("Robot Arm (LuV)",{{4,"Long HSS-S Rod"},{1,"HSS-S Gear"},{3,"Small HSS-S Gear"},{2,"Electric Motor (LuV)"}
-,{1,"Electric Piston (LuV)"},{2,"Nanoprocessor Mainframe"},{4,"Elite Nanocomputer"},{8,"Nanoprocessor Assembly"},{6,"1x Yttrium Barium Cuprate Cable"}}
+,{1,"Electric Piston (LuV)"},{2,6,1},{4,5,1},{8,4,1},{6,"1x Yttrium Barium Cuprate Cable"}}
 ,{{576,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
 r.addRecipy("Field Generator (Tier VI)",{{1,"HSS-S Frame Box"},{6,"HSS-S Plate"},{2,"Quantum Star"},{4,"Emitter (LuV)"}
 ,{4,"Quantumprocessor Mainframe"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"}
 ,{8,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
-r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Rod"},{1,"Quantum Star"},{4,"Nanoprocessor Mainframe"}
+r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Rod"},{1,"Quantum Star"},{4,6,1}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
-r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,"Nanoprocessor Mainframe"}
+r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,1,6}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
 r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"},{4,"HSS-S Ring"},{32,"HSS-S Round"},{2,"1x Yttrium Barium Cuprate Cable"}}

@@ -25,16 +25,20 @@ function Recipy.makeShort(recipy)
 
   for i = 2 , recipy.length do 
     for j = 1 , simplerecipy.length do
-      if simplerecipy[j].label == recipy.ingredient[i][2] then 
-          simplerecipy[j].size = simplerecipy[j].size + recipy.ingredient[i][1]
-          if recipy.ingredient[i][2] == 1 then 
-            simplerecipy[j].C = recipy.ingredient[i][3]
-          end
-          isequal = 1
+      if recipy.ingredient[i][2] ~= 1 then
+        if simplerecipy[j].label == recipy.ingredient[i][2] then 
+            simplerecipy[j].size = simplerecipy[j].size + recipy.ingredient[i][1]
+            isequal = 1
+        end
+      else
+        
       end
     end
     if isequal == 0 then
-      simplerecipy[simplerecipy.length + 1] = copy(recipy.ingredient[i])     
+      simplerecipy[simplerecipy.length + 1] = copy(recipy.ingredient[i])
+      if recipy.ingredient[i][3] == 1 then
+        simplerecipy[simplerecipy.length + 1].C = 1
+      end
       simplerecipy.length = simplerecipy.length + 1
     end
     isequal = 0

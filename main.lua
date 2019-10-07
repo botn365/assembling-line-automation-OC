@@ -32,13 +32,13 @@ while true do
     end
     if amount > 0 then
       local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,amount,readchest.simpleinventory,fluid)-- makes the load map of the recipy
-      --for i = 1 , loadmap.length do
-        --if loadmap[i] then
-          --print("loader= "..loadmap[i][1].."  amount="..loadmap[i][2].."  from slot= "..loadmap[i][3].."  to slot= "..loadmap[i][4].."  item name= "..loadmap[i][5])
-        --else
-          --print("false")
-        --end
-      --end
+      for i = 1 , loadmap.length do
+        if loadmap[i] then
+          print("loader= "..loadmap[i][1].."  amount="..loadmap[i][2].."  from slot= "..loadmap[i][3].."  to slot= "..loadmap[i][4].."  item name= "..loadmap[i][5])
+        else
+          print("false")
+        end
+      end
       LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2,amount)--loads the assline with items and fluid
     end
   end

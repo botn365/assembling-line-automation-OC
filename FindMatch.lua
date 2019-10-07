@@ -16,7 +16,8 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
     loadmap.length = loadmap.length + 1
     for l = 1 , math.ceil((recipy.n[n].length - (i -0.1))/5) do 
       for j = 1 , chest.length do
-        if recipy.n[n].ingredient[i+((l-1)*5)][2] == chest[j].label then
+        --if recipy.n[n].ingredient[i+((l-1)*5)][2] == chest[j].label then
+        if oredict.check(recipy.n[n].ingredient[i+((l-1)*5)],chest[j].label) then
           local total = recipy.n[n].ingredient[i+((l-1)*5)][1] * amount
           local exitslot = 1
           for k = chest[j].location.length , 1 , -1 do
@@ -86,8 +87,9 @@ function FindMatch.findMatch(recipy,input,fluid)
       --print("Afluid")
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
-        if recipy.n[i].simplerecipy[j].label == 1 then
-          if oredict.get(recipy.n[i].simplerecipy[j].C,input) then
+        if recipy.n[i].simplerecipy[j].C == 1 then
+          
+          if oredict.get(recipy.n[i].simplerecipy[j].label,input) then
             break
           end
         else
