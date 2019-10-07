@@ -1,3 +1,5 @@
+package.loaded.CircuitOreDict=nil
+oredict = require("CircuitOreDict")
 local FindMatch = {}
 
 function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
@@ -84,25 +86,31 @@ function FindMatch.findMatch(recipy,input,fluid)
       --print("Afluid")
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
-        for k = 1 , input.length do
-          if i == 9 then
-            --print(i)
-           -- print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
-          end       
-          if recipy.n[i].simplerecipy[j].label == input[k].label then 
-            --print("found")
-            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+        if recipy.n[i].simplerecipy[j].label == 1 then
+          if oredict.get(recipy.n[i].simplerecipy[j].C,input) then
             break
-          end 
-          if k == input.length then 
-            isfalse = true
           end
-        end
-        if isfalse then
-          break
-        end
-        if j == recipy.n[i].simplerecipy.length then
-          return i
+        else
+          for k = 1 , input.length do
+            if i == 9 then
+            --print(i)
+            -- print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+            end
+            if recipy.n[i].simplerecipy[j].label == input[k].label then 
+              --print("found")
+              --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              break
+            end 
+            if k == input.length then 
+              isfalse = true
+            end
+          end
+          if isfalse then
+            break
+          end
+          if j == recipy.n[i].simplerecipy.length then
+            return i
+          end
         end
       end
     end

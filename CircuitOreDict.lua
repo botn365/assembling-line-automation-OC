@@ -15,25 +15,17 @@ local dictlist = {
     OreDict[10 - minT].length = 2
     {"Bio Mainframe"} -- UEV
     OreDict[11 - minT].length = 1
-
-
-
-
-
 }
-
-
-
 
 fuction OreDict.get(tier,list)
     for i = 1 , dictlist[tier + 1 - minT].length do
-        for j = 1 , list.simpleinventory.length do
-            if dictlist[tier + 1][i] == list.simpleinventory[j].label then
-                return true
+        for j = 1 , list.length do
+            if dictlist[tier + 1][i] == list[j].label then
+                return false
             end
         end
     end
-    return false
+    return true
 end
 
 return OreDict

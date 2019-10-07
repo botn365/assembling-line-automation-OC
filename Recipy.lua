@@ -27,6 +27,9 @@ function Recipy.makeShort(recipy)
     for j = 1 , simplerecipy.length do
       if simplerecipy[j].label == recipy.ingredient[i][2] then 
           simplerecipy[j].size = simplerecipy[j].size + recipy.ingredient[i][1]
+          if recipy.ingredient[i][2] == 1 then 
+            simplerecipy[j].C = recipy.ingredient[i][3]
+          end
           isequal = 1
       end
     end
