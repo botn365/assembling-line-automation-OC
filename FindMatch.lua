@@ -50,7 +50,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
-          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0}
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0,fluidin.fluid[i].size}
           loadmap.length = loadmap.length + 1
         break
       end
