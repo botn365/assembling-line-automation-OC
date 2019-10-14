@@ -17,7 +17,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                     print("item faild trasfer")
                     os.sleep(0.2)
                 else
-                    print("transfer")
+                    print("transfer"..loadmap[j][5])
                     break
                 end
                 if i == 10 then
@@ -28,7 +28,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             end
         elseif slot > 6 then
             if loadmap[j] then
-                print("transfer")
+                print("transfer"..loadmap[j][5)
                 addressRedstoneAssline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,liquidbundl[loadmap[j][1]])
                 if transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 then
                     local breakcount = 0
