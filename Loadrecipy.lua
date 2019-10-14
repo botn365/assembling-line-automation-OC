@@ -30,7 +30,7 @@ r.addRecipy("Robot Arm (ZPM)",{{4,"Long Naquadah Alloy Rod"},{1,"Naquadah Alloy 
 ,{{1152,"Molten Soldering Alloy"},{750,"Lubricant"}}
 )
 r.addRecipy("Field Generator (Tier VI)",{{1,"HSS-S Frame Box"},{6,"HSS-S Plate"},{2,"Quantum Star"},{4,"Emitter (LuV)"}
-,{4,"Quantumprocessor Mainframe"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"}
+,{4,7,1},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"},{64,"Fine Ruridit Wire"}
 ,{8,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
 r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Rod"},{1,"Quantum Star"},{4,6,1}
@@ -54,11 +54,11 @@ r.addRecipy("Electric Pump (ZPM)",{{1,"Electric Motor (ZPM)"},{2,"Enderium Fluid
 ,{8,"Styrene-Butadiene Rubber Ring"},{2,"Naquadah Alloy Rotor"},{2,"4x Vanadium-Gallium Cable"}}
 ,{{288,"Molten Soldering Alloy"},{750,"Lubricant"}}
 )
-r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
+r.addRecipy("LuV Energy Hatch",{{1,"LuV Machine Hull"},{2,"1x Superconductor LuV Wire"},{2,"Ultra High Power IC"},{2,6,1}
 ,{2,"Ludicrous Voltage Coil"},{1,"180k He Coolant Cell"},{1,"180k He Coolant Cell"},{1,"Electric Pump (LuV)"}}
 ,{{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}}
 )
-r.addRecipy("LuV Dynamo Hatch",{{1,"LuV Machine Hull"},{2,"Superconductor Base LuV Spring"},{2,"Ultra High Power IC"},{2,"Nanoprocessor Mainframe"}
+r.addRecipy("LuV Dynamo Hatch",{{1,"LuV Machine Hull"},{2,"Superconductor Base LuV Spring"},{2,"Ultra High Power IC"},{2,6,1}
 ,{2,"Ludicrous Voltage Coil"},{1,"180k He Coolant Cell"},{1,"180k He Coolant Cell"},{1,"Electric Pump (LuV)"}}
 ,{{2000,"IC2 Coolant"},{720,"Molten Soldering Alloy"}}
 )
