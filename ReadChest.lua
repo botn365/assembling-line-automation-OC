@@ -2,7 +2,7 @@ local ReadChest = {}
 package.loaded.config=nil
 local config = require("config")
 
-function ReadChest.makeShort(inventory,size)
+function ReadChest.makeShort(inventory,size) -- makes  a compact version of the chest
   local simpleinventory = objSimpleArr()
   local isequal = 0
   simpleinventory.new(inventory[0])
@@ -24,24 +24,6 @@ function ReadChest.makeShort(inventory,size)
   end  
   return simpleinventory
 end
-
-function ReadChest.getFluid(side,addres) -- fluid needs to be reworked
-  local temp = addres.getFluidInTank(side)
-  local object = {}
-  object.fluid = {}
-  object.length = 0
-  for k,v in pairs(temp) do 
-    if v == 1 then
-      break
-    elseif v.label ~= nil then
-      object.fluid[object.length + 1] = {}
-      object.fluid[object.length + 1].label = v.label
-      object.fluid[object.length + 1].size = v.amount
-      object.length = object.length + 1
-    end
-  end
-  return object
-end  
 
 function objSimple()
   local object = {}
@@ -121,13 +103,32 @@ function readFluid(Ntanks,address,addres2,position)
   return fluid
 end
 
+function spacefor(fluidpipe,fluidstored,maxcap)
+  for i = 1 , fluidstored.length do
+    if fluidpipe.label == fluidstored.fluid[i].label then
+      if fluidpipe.amount > maxcap then
+        return true
+      else 
+        return false
+      end
+    end
+  end
+  if fluidstored.length < 4 then
+    return false
+  end
+  return true
+end
+
 function ReadChest.loadFluids(address,addres2)
   local position = config.directionloader.directionfluid2
   local capacity = 256000
-  while address.getFluidInTank(0)[1].label ~= nil and fluid.length < 4 do
+  while address.getFluidInTank(0)[1].label ~= nil do
     fluid = readFluid(4,address,addres2,position)
-    local pass = true
     local temp  = address.getFluidInTank(0)[1]
+    if spacefor(temp,fluid,capacity) then
+      break
+    end
+    local pass = true
     for i = 1 , 3 do
       if fluid.fluid[i] ~=  nil then
         if fluid.fluid[i].label == temp.label then
@@ -224,7 +225,15 @@ function getInbetween(subs,addresTop,side,size,inventory)
   for i = 1 , arrIn.count do
     for j = 1 , arrOut.count do
       if arrIn[i].j == arrOut[j].j then
-        print("transport")
+        print("transport Inbetween")
+        if arrIn[i].size > arrOut[j].size then
+          arrIn[i].size = arrOut[j].size
+          arrOut[j].size = 0
+          arrIn[i].size = arrIn[i].size - arrOut[j].size
+        else
+          arrIn[i].size = 0
+          arrOut[j].size = arrOut[j].size - arrIn[i].size
+        end
         addresTop.transferItem(0,config.directionloader.directionfluid2[2],arrIn[i].size,arrIn[i].slot,1)
         addresTop.transferItem(0,config.directionloader.directionfluid2[2],arrIn[i].size,arrOut[j].slot,1)
         break
