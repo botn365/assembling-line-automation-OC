@@ -138,16 +138,16 @@ function ReadChest.loadFluids(address,addres2)
             if fluid.fluid[i].tank ~= 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
             else
-              address.transferFluid(0,posistion[5],temp.amount)
-              addres2.transferFluid(posistion[3],1,temp.amount)
+              address.transferFluid(0,position[5],temp.amount)
+              addres2.transferFluid(position[3],1,temp.amount)
             end
             break
           else
             if fluid.fluid[i].tank ~= 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
             else
-              address.transferFluid(0,posistion[5],maxsize)
-              addres2.transferFluid(posistion[3],1,maxsize)
+              address.transferFluid(0,position[5],maxsize)
+              addres2.transferFluid(position[3],1,maxsize)
             end
             break
           end
@@ -169,8 +169,8 @@ function ReadChest.loadFluids(address,addres2)
             if j ~= 4 then
               address.transferFluid(0,position[j],temp.amount)
             else
-              address.transferFluid(0,posistion[5],temp.amount)
-              addres2.transferFluid(posistion[3],1,temp.amount)
+              address.transferFluid(0,position[5],temp.amount)
+              addres2.transferFluid(position[3],1,temp.amount)
             end
            breakf = true
            break
@@ -222,20 +222,22 @@ function getInbetween(subs,addresTop,side,size,inventory)
       end
     end
   end
+  local amount = 0
   for i = 1 , arrIn.count do
     for j = 1 , arrOut.count do
       if arrIn[i].j == arrOut[j].j then
-        print("transport Inbetween")
         if arrIn[i].size > arrOut[j].size then
-          arrIn[i].size = arrOut[j].size
-          arrOut[j].size = 0
+          amount = arrOut[j].size
           arrIn[i].size = arrIn[i].size - arrOut[j].size
+          arrOut[j].size = 0
         else
-          arrIn[i].size = 0
+          amount = arrIn[i].size
           arrOut[j].size = arrOut[j].size - arrIn[i].size
+          arrIn[i].size = 0
         end
-        addresTop.transferItem(0,config.directionloader.directionfluid2[2],arrIn[i].size,arrIn[i].slot,1)
-        addresTop.transferItem(0,config.directionloader.directionfluid2[2],arrIn[i].size,arrOut[j].slot,1)
+        print("transport Inbetween"..amount)
+        addresTop.transferItem(0,config.directionloader.directionfluid2[2],amount,arrIn[i].slot,1)
+        addresTop.transferItem(0,config.directionloader.directionfluid2[2],amount,arrOut[j].slot,1)
         break
       end
     end
