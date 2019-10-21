@@ -81,6 +81,9 @@ function Recipy.RecipyArray(substitude)
   return object
 end
 
+function Recipy.DaddRecipy() -- void object to easly disable recipys
+end
+
 
 if false then
 local test = Recipy.RecipyArray()
