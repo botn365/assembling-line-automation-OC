@@ -85,9 +85,9 @@ function objFluidArr()
   return object
 end
 
-function readFluid(Ntanks,address,addres2,position)
+function readFluid(Ntanks,address,addres2,position) --reads the fluid of tanks and stores it
   local fluid = objFluidArr()
-  for i = 1 , Ntanks do --reads the fluid of tanks and stores it
+  for i = 1 , Ntanks do 
     local temp
     if i < 4 then
       temp = address.getFluidInTank(position[i])
@@ -103,7 +103,7 @@ function readFluid(Ntanks,address,addres2,position)
   return fluid
 end
 
-function spacefor(fluidpipe,fluidstored,maxcap)
+function spacefor(fluidpipe,fluidstored,maxcap) --- check if there is space to store the fluid
   for i = 1 , fluidstored.length do
     if fluidpipe.label == fluidstored.fluid[i].label then
       if fluidpipe.amount > maxcap then
@@ -119,7 +119,7 @@ function spacefor(fluidpipe,fluidstored,maxcap)
   return true
 end
 
-function ReadChest.loadFluids(address,addres2)
+function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with stored fluids
   local position = config.directionloader.directionfluid2
   local capacity = config.max_fluid_stored
   local fluid = readFluid(4,address,addres2,position)
