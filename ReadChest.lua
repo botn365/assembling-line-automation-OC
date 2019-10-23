@@ -25,7 +25,7 @@ function ReadChest.makeShort(inventory,size) -- makes  a compact version of the 
   return simpleinventory
 end
 
-function objSimple()
+function objSimple() 
   local object = {}
   object.size = 0
   object.label = 0
@@ -34,7 +34,7 @@ function objSimple()
   return object
 end
 
-function objSimpleArr()
+function objSimpleArr() 
   local object = {}
   object.length = 0
   function object.new(a)
@@ -57,7 +57,7 @@ function objSimpleArr()
 end
     
 
-function ReadChest.getInventory(side,addres,subs,addresTop)
+function ReadChest.getInventory(side,addres,subs,addresTop) -- get a ordert kist of inventort
   local object = {}
   local inventory = addres.getAllStacks(side).getAll()
   local size = addres.getAllStacks(side).count()
@@ -121,9 +121,9 @@ end
 
 function ReadChest.loadFluids(address,addres2)
   local position = config.directionloader.directionfluid2
-  local capacity = 256000
+  local capacity = config.max_fluid_stored
+  local fluid = readFluid(4,address,addres2,position)
   while address.getFluidInTank(0)[1].label ~= nil do
-    fluid = readFluid(4,address,addres2,position)
     local temp  = address.getFluidInTank(0)[1]
     if spacefor(temp,fluid,capacity) then
       break
@@ -133,7 +133,7 @@ function ReadChest.loadFluids(address,addres2)
       if fluid.fluid[i] ~=  nil then
         if fluid.fluid[i].label == temp.label then
           pass = false
-          local maxsize = 256000 - fluid.fluid[i].size
+          local maxsize = capacity - fluid.fluid[i].size
           if temp.amount < maxsize then
             if fluid.fluid[i].tank ~= 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)

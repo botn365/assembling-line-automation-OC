@@ -27,8 +27,8 @@ while true do
   local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid) -- looks for valid recipy
   if matchnumber then
     local amount = findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory,fluid) --check how many recipys it can make
-    if amount > 14 then 
-      amount = 14
+    if amount > config.Assline_max_item then 
+      amount = config.Assline_max_item
     end
     if amount > 0 then
       local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,amount,readchest.simpleinventory,fluid)-- makes the load map of the recipy

@@ -76,6 +76,11 @@ r.addRecipy("ZPM Dynamo Hatch",{{1,"ZPM Machine Hull"},{4,"Superconductor Base Z
 ,{2,"ZPM Voltage Coil"},{1,"360k He Coolant Cell"},{1,"360k He Coolant Cell"},{1,"Electric Pump (ZPM)"}}
 ,{{4000,"IC2 Coolant"},{1440,"Molten Soldering Alloy"}}
 )
+r.addRecipy("Lapotronic Energy Orb Cluster",{{1,"Multilayer Fiber-Reinforced Circuit Board"},{32,"Europium Foil"},{4,6,1}
+,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{32,"SMD Diode"},{32,"SMD Capacitor"},{32,"SMD Resistor"}
+,{32,"SMD Transistor"},{64,"Fine Platinum Wire"}}
+,{{720,"Molten Soldering Alloy"}}
+)
 
 
 

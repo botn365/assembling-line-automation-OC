@@ -1,8 +1,10 @@
 package.loaded.CircuitOreDict=nil
+package.loaded.config=nil
 oredict = require("CircuitOreDict")
+local config = require("config")
 local FindMatch = {}
 
-function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
+function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin) -- make sthe load map 
   local loadmap ={}
   loadmap.length = 0
   local LS = 0
@@ -50,7 +52,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
-          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0,fluidin.fluid[i].size}
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0,fluidin.fluid[i].label}
           loadmap.length = loadmap.length + 1
         break
       end
@@ -59,7 +61,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin)
   return loadmap
 end
 
-function checkFluid(recipy,fluid,n)
+function checkFluid(recipy,fluid,n) -- check if the right fluid is availeble
   for j = 1 , recipy.n[n].fluid.length do 
     if fluid.length == 0 then
       break
@@ -78,13 +80,12 @@ function checkFluid(recipy,fluid,n)
   end
 end
 
-function FindMatch.findMatch(recipy,input,fluid)
+function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
   local istreu = false
   for i = 1 ,recipy.count do
     --print(i)
     --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
-      --print("Afluid")
       for j = 1 ,recipy.n[i].simplerecipy.length do
         local isfalse = false
         if recipy.n[i].simplerecipy[j].C == 1 then
@@ -120,13 +121,16 @@ function FindMatch.findMatch(recipy,input,fluid)
   return false
 end
 
-function getFluidMax(recipy,n,fluidin)
+function getFluidMax(recipy,n,fluidin) -- how amny of the item it can make besed on fluid
   local lowest
   for i = 1, recipy.n[n].fluid.length do
     for j = 1 , fluidin.length do
       if fluidin.fluid[j] ~= nil then
         if recipy.n[n].fluid.recipy[i][2] == fluidin.fluid[j].label then
           local temp = math.floor(fluidin.fluid[j].size / recipy.n[n].fluid.recipy[i][1])
+          if temp * recipy.n[n].fluid.recipy[i][1] > config.Assline_max_fluid then
+            temp = math.floor(config.Assline_max_fluid / recipy.n[n].fluid.recipy[i][1])
+          end
           if lowest == nil then
             lowest = temp
           elseif lowest > temp then
@@ -139,24 +143,23 @@ function getFluidMax(recipy,n,fluidin)
   return lowest
 end
 
-function FindMatch.getMax(recipy,n,input,fluidin)
+function FindMatch.getMax(recipy,n,input,fluidin) -- checks how much items it can make
   local lowest = getFluidMax(recipy,n,fluidin)
   for i = 1, recipy.n[n].simplerecipy.length do
     for j = 1 , input.length do
       if recipy.n[n].simplerecipy[i].label == input[j].label then
-          local temp = math.floor(input[j].size / recipy.n[n].simplerecipy[i].size)
-          if lowest == nil then
+        local temp = math.floor(input[j].size / recipy.n[n].simplerecipy[i].size)
+        if lowest == nil then
             lowest = temp
-          else
-            if lowest > temp then
-              lowest = temp
-            end
+        else
+          if lowest > temp then
+            lowest = temp
           end
-          break
+        end
+        break
       end
     end
   end
-    print(lowest)
    return lowest
 end
 return FindMatch
