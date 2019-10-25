@@ -128,13 +128,6 @@ function transferFluid(addressFluid1,addressFluid2,loadmap,j)
     end
 end
 
-function LoadAssline.getAvailble()
-    for k , v in pairs(config.addressRedstoneAssline) do
-        if v.getBundledInput(config.directionredstoneassline.directionredstoneassline,4) == 0 then
-            return v
-        end
-    end
-    return false
-end
+
 
 return LoadAssline
