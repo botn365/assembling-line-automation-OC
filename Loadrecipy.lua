@@ -38,7 +38,7 @@ r.addRecipy("Field Generator (Tier VI)",{{1,"HSS-S Frame Box"},{6,"HSS-S Plate"}
 r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Rod"},{1,"Quantum Star"},{4,6,1}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
-r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,1,6}
+r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,6,1}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
 r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"},{4,"HSS-S Ring"},{32,"HSS-S Round"},{2,"1x Yttrium Barium Cuprate Cable"}}
@@ -68,19 +68,19 @@ r.addRecipy("Circuit Assembly Line",{{1,"Advanced Circuit Assembling Machine V"}
 ,{1,"Field Generator (Tier VI)"},{1,"Emitter (LuV)"},{1,"Sensor (LuV)"},{8,"Chrome Plate"}}
 ,{{1440,"Molten Soldering Alloy"}}
 )
-r.addRecipy("ZPM Energy Hatch",{{1,"ZPM Machine Hull"},{2,"2x Superconductor ZPM Wire"},{2,"Nano Power IC"},{2,7,1}
-,{2,"ZPM Voltage Coil"},{1,"360k He Coolant Cell"},{1,"360k He Coolant Cell"},{1,"Electric Pump (ZPM)"}}
-,{{4000,"IC2 Coolant"},{1440,"Molten Soldering Alloy"}}
-)
-r.addRecipy("ZPM Dynamo Hatch",{{1,"ZPM Machine Hull"},{4,"Superconductor Base ZPM Spring"},{2,"Nano Power IC"},{2,7,1}
-,{2,"ZPM Voltage Coil"},{1,"360k He Coolant Cell"},{1,"360k He Coolant Cell"},{1,"Electric Pump (ZPM)"}}
-,{{4000,"IC2 Coolant"},{1440,"Molten Soldering Alloy"}}
-)
-r.addRecipy("Lapotronic Energy Orb Cluster",{{1,"Multilayer Fiber-Reinforced Circuit Board"},{32,"Europium Foil"},{4,6,1}
-,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{32,"SMD Diode"},{32,"SMD Capacitor"},{32,"SMD Resistor"}
-,{32,"SMD Transistor"},{64,"Fine Platinum Wire"}}
-,{{720,"Molten Soldering Alloy"}}
-)
+--r.addRecipy("ZPM Energy Hatch",{{1,"ZPM Machine Hull"},{2,"2x Superconductor ZPM Wire"},{2,"Nano Power IC"},{2,7,1}
+--,{2,"ZPM Voltage Coil"},{1,"360k He Coolant Cell"},{1,"360k He Coolant Cell"},{1,"Electric Pump (ZPM)"}}
+--,{{4000,"IC2 Coolant"},{1440,"Molten Soldering Alloy"}}
+--)
+--r.addRecipy("ZPM Dynamo Hatch",{{1,"ZPM Machine Hull"},{4,"Superconductor Base ZPM Spring"},{2,"Nano Power IC"},{2,7,1}
+--,{2,"ZPM Voltage Coil"},{1,"360k He Coolant Cell"},{1,"360k He Coolant Cell"},{1,"Electric Pump (ZPM)"}}
+--,{{4000,"IC2 Coolant"},{1440,"Molten Soldering Alloy"}}
+--)
+--r.addRecipy("Lapotronic Energy Orb Cluster",{{1,"Multilayer Fiber-Reinforced Circuit Board"},{32,"Europium Foil"},{4,6,1}
+--,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{32,"SMD Diode"},{32,"SMD Capacitor"},{32,"SMD Resistor"}
+--,{32,"SMD Transistor"},{64,"Fine Platinum Wire"}}
+--,{{720,"Molten Soldering Alloy"}}
+--)
 
 
 

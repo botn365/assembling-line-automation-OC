@@ -61,7 +61,7 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin) -- make sthe load 
   return loadmap
 end
 
-function checkFluid(recipy,fluid,n) -- check if the right fluid is availeble
+function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
   for j = 1 , recipy.n[n].fluid.length do 
     if fluid.length == 0 then
       break
@@ -82,7 +82,7 @@ end
 
 function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
   local istreu = false
-  for i = 1 ,recipy.count do
+  for i = 1 , recipy.count do --recipy.count
     --print(i)
     --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
@@ -97,7 +97,7 @@ function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
           for k = 1 , input.length do
             if i == 9 then
             --print(i)
-            -- print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+             --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
             end
             if recipy.n[i].simplerecipy[j].label == input[k].label then 
               --print("found")
@@ -162,4 +162,20 @@ function FindMatch.getMax(recipy,n,input,fluidin) -- checks how much items it ca
   end
    return lowest
 end
+
+function FindMatch.getAvailble()
+  local avialble = {}
+  avialble.count = 0
+  for k , v in pairs(config.addressRedstoneAssline) do
+      if v.getBundledInput(config.directionredstoneassline.directionredstoneassline,3) == 0 then
+          avialble[avialble.count+1] = v
+      end
+  end
+  return false
+end
+
+function matchAsslineRecipys()
+
+end
+
 return FindMatch
