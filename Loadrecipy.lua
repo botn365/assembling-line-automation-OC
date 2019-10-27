@@ -38,7 +38,7 @@ r.addRecipy("Field Generator (Tier VI)",{{1,"HSS-S Frame Box"},{6,"HSS-S Plate"}
 r.addRecipy("Emittor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Rod"},{1,"Quantum Star"},{4,6,1}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
-r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,1,6}
+r.addRecipy("Sensor (LuV)",{{1,"HSS-S Frame Box"},{1,"Electric Motor (LuV)"},{8,"Ruridit Plate"},{1,"Quantum Star"},{4,6,1}
 ,{64,"Gallium Foil"},{64,"Gallium Foil"},{64,"Gallium Foil"},{7,"1x Yttrium Barium Cuprate Cable"}},{{576,"Molten Soldering Alloy"}}
 )
 r.addRecipy("Conveyor Module (LuV)",{{2,"Electric Motor (LuV)"},{2,"HSS-S Plate"},{4,"HSS-S Ring"},{32,"HSS-S Round"},{2,"1x Yttrium Barium Cuprate Cable"}}
