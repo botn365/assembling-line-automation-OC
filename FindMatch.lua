@@ -163,19 +163,39 @@ function FindMatch.getMax(recipy,n,input,fluidin) -- checks how much items it ca
    return lowest
 end
 
-function FindMatch.getAvailble()
+function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavailble)
   local avialble = {}
   avialble.count = 0
-  for k , v in pairs(config.addressRedstoneAssline) do
-      if v.getBundledInput(config.directionredstoneassline.directionredstoneassline,3) == 0 then
+  for k , v in pairs(addrredstoneassline) do
+      if v.getBundledInput(directioredstoneassline[k],3) == 0 then
           avialble[avialble.count+1] = v
       end
   end
-  return false
+  if avialble.count > 0 then
+    Pavailble.A = avialble
+    return true
+  else
+    return false
+  end
 end
 
-function matchAsslineRecipys()
-
+function matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
+  for i = 1 , avialble.count do
+    for k ,v in pairs(avialble) do
+      local data = addresassline[v].getAllStacks(config.directionredstoneassline.directionredstoneassline)
+      local count = data.count()
+      data = data.getAll()
+      for i = 0 , count do 
+        if data[i].label ~= nil then
+          if data[i].label == recipyname then
+            Pdata.A = v
+            return true
+          end
+        end
+      end
+    end
+  end
+  return false
 end
 
 return FindMatch
