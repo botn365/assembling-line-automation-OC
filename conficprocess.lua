@@ -36,12 +36,16 @@ function process.setSide(direction)
     return dir
 end
 
-function process.setProxy(addr)
+function process.setProxyA(addr)
     local proxys
     for k , v in pairs(addr) direction
         proxys[k] = component.proxy(addr[k])
     end
     return proxys
+end
+
+function process.setProxy(addr)
+    return component.proxy(addr)
 end
 
 return process

@@ -10,11 +10,11 @@ local ReadChest = require("ReadChest")
 local component = require("component")
 local LoadAssline = require("LoadAssline")
 local event = require("event")
-local itemTransposer = component.proxy(config.addrestransposeritem)
-local fluidTransposer1 = component.proxy(config.addrestransposerfluid1)
-local fluidTransposer2 = component.proxy(config.addrestransposerfluid2)
-local redstoneassline = component.proxy(config.addresredstoneassline)
-local redstoneloader = component.proxy(config.addresredstoneloader)
+local itemTransposer = config.addrestransposeritem
+local fluidTransposer1 = config.addrestransposerfluid1
+local fluidTransposer2 = config.addrestransposerfluid2
+local redstoneassline = config.addresredstoneassline
+local redstoneloader = config.addresredstoneloader
 print("hold\"any key\" to shut down program")
 if config.use_enderchest then 
   redstoneassline.setBundledOutput(config.directionredstoneassline.directionredstoneassline,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
