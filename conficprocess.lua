@@ -48,4 +48,12 @@ function process.setProxy(addr)
     return component.proxy(addr)
 end
 
+fuction process.setSideA(dir)
+local directiotable = {}
+    for k , v in pairs(dir) do
+        directiotable[k] = setSide(dir[k])
+    end
+    return directiotable
+end
+
 return process
