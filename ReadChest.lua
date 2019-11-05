@@ -129,7 +129,7 @@ function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with s
       break
     end
     local pass = true
-    for i = 1 , 3 do
+    for i = 1 , 4 do
       if fluid.fluid[i] ~=  nil then
         if fluid.fluid[i].label == temp.label then
           pass = false
