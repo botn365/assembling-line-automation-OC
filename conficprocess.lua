@@ -37,8 +37,8 @@ function process.setSide(direction)
 end
 
 function process.setProxyA(addr)
-    local proxys
-    for k , v in pairs(addr) direction
+    local proxys = {}
+    for k , v in pairs(addr) do
         proxys[k] = component.proxy(addr[k])
     end
     return proxys
@@ -48,10 +48,10 @@ function process.setProxy(addr)
     return component.proxy(addr)
 end
 
-fuction process.setSideA(dir)
+function process.setSideA(dir)
 local directiotable = {}
     for k , v in pairs(dir) do
-        directiotable[k] = setSide(dir[k])
+        directiotable[k] = process.setSide(dir[k]).directionredstoneassline
     end
     return directiotable
 end

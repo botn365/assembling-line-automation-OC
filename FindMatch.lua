@@ -169,6 +169,7 @@ function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavai
   for k , v in pairs(addrredstoneassline) do
       if v.getBundledInput(directioredstoneassline[k],3) == 0 then
           avialble[avialble.count+1] = v
+          avialble.count = avialble.count + 1
       end
   end
   if avialble.count > 0 then
