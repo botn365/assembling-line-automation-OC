@@ -52,7 +52,7 @@ while true do
     print("leaf matchnumber")
     if matchnumber then
       local nassline = {}
-      if findmatch.matchAsslineRecipys(asslinetransposser,availble,recipymap.n[matchnumber],nassline) then
+      if findmatch.matchAsslineRecipys(asslinetransposser,availble,recipymap.n[matchnumber].output,nassline) then
         nassline = nassline.A
         print("foun match")
         print(nassline)
