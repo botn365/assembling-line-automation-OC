@@ -179,7 +179,7 @@ function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavai
   end
 end
 
-function matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
+function FindMatch.matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
   for i = 1 , avialble.count do
     for k ,v in pairs(avialble) do
       local data = addresassline[v].getAllStacks(config.directionredstoneassline.directionredstoneassline)
