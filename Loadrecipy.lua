@@ -1,7 +1,6 @@
 package.loaded.Recipy = nil
 local R = require("Recipy")
-local r = R.RecipyArray({{"SolderMixIn","SolderMixOut"},{"LuVArmIn","LuVArmOut"},{"ESMIn","ESMOut"},{"FRWIn","FRWOut"},{"EHLIn","EHLOut"}
-,{"SDM2In","SDM2Out"},{"ASM2In","ASM2Out"}})
+local r = R.RecipyArray()
 
 -- use "DaddRecipy" to disable recipy
 
