@@ -15,7 +15,7 @@ Config.addresredstoneassline = translate.setProxyA(
 )
 -- {"addr assline 1","addr assline 2","addr assline 3" }
 Config.addrestransposerassline = translate.setProxyA(
-    {""} -- transposer to read name of data sticks
+    {"3520fee2-4996-4293-800b-5df03d40fea2"} -- transposer to read name of data sticks
 )
 -- {"addr assline 1","addr assline 2","addr assline 3" }
 Config.addresredstoneloader = translate.setProxyA(

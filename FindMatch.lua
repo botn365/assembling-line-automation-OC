@@ -182,7 +182,7 @@ end
 function FindMatch.matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
   for i = 1 , avialble.count do
     for k ,v in pairs(avialble) do
-      local data = addresassline[v].getAllStacks(config.directionredstoneassline.directionredstoneassline)
+      local data = addresassline[v].getAllStacks(0)
       local count = data.count()
       data = data.getAll()
       for i = 0 , count do 
