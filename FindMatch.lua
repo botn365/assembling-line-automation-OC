@@ -182,16 +182,14 @@ end
 
 function FindMatch.matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
   for i = 1 , avialble.count do
-    for k ,v in pairs(avialble) do
-      local data = addresassline[v].getAllStacks(0)
-      local count = data.count()
-      data = data.getAll()
-      for i = 0 , count do 
-        if data[i].label ~= nil then
-          if data[i].label == recipyname then
-            Pdata.A = v
-            return true
-          end
+    local data = addresassline[i].getAllStacks(0)
+    local count = data.count()
+    data = data.getAll()
+    for k = 0 , count - 1 do 
+      if data[k].label ~= nil then
+        if data[k].label == recipyname then
+          Pdata.A = i
+          return true
         end
       end
     end
