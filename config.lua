@@ -18,8 +18,8 @@ Config.addrestransposerassline = translate.setProxyA(
     {"3520fee2-4996-4293-800b-5df03d40fea2"} -- transposer to read name of data sticks
 )
 -- {"addr assline 1","addr assline 2","addr assline 3" }
-Config.addresredstoneloader = translate.setProxyA(
-    {"60cb8d12-191c-4724-a0a0-a3c012bb20c5"} -- addres of the redstone IO part of the loader
+Config.addresredstoneloader = translate.setProxy(
+    "60cb8d12-191c-4724-a0a0-a3c012bb20c5" -- addres of the redstone IO part of the loader
 )
 Config.addrestransposeritem = translate.setProxy(
     "af607168-70c3-4528-b702-77b3cbbc0a83" -- addres of the transposer on the bottem of the loader
