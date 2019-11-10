@@ -5,30 +5,30 @@ local translate = require("conficprocess")
 
 
 Config.directionloader = translate.setSide(
-    "N" --N,E,S,W
+    "" --N,E,S,W
 )
 Config.directionredstoneassline = translate.setSideA(
-    {"U"}  --N,E,S,W,D,U on wich side the bunled cable is conected
+    {""}  --N,E,S,W,D,U on wich side the bunled cable is conected
 )
 Config.addresredstoneassline = translate.setProxyA(
-    {"4fd53861-f81f-423d-b886-d84dea515ff2"} -- addres of the redstone IO part of the asslien
+    {""} -- addres of the redstone IO part of the asslien
 )
 -- {"addr assline 1","addr assline 2","addr assline 3" }
 Config.addrestransposerassline = translate.setProxyA(
-    {"3520fee2-4996-4293-800b-5df03d40fea2"} -- transposer to read name of data sticks
+    {""} -- transposer to read name of data sticks
 )
 -- {"addr assline 1","addr assline 2","addr assline 3" }
 Config.addresredstoneloader = translate.setProxy(
-    "60cb8d12-191c-4724-a0a0-a3c012bb20c5" -- addres of the redstone IO part of the loader
+    "" -- addres of the redstone IO part of the loader
 )
 Config.addrestransposeritem = translate.setProxy(
-    "af607168-70c3-4528-b702-77b3cbbc0a83" -- addres of the transposer on the bottem of the loader
+    "" -- addres of the transposer on the bottem of the loader
 )
 Config.addrestransposerfluid1 = translate.setProxy(
-    "42cb088c-ece2-49e6-9efe-efc9cc6c508b" -- addres of the transposer on the top conectet to the chest
+    "" -- addres of the transposer on the top conectet to the chest
 )
 Config.addrestransposerfluid2 = translate.setProxy(
-    "ac7764f5-0050-4252-88fb-08290ced5ae9" -- addres of the transposer on the top conectet to the tanks
+    "" -- addres of the transposer on the top conectet to the tanks
 )
 Config.use_enderchest = false -- if you are using ae p2p tunnels set false if using enderchest set true
 Config.Assline_max_item = 16 -- the amount of slots the input bus has
