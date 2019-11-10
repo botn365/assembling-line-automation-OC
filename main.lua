@@ -15,10 +15,13 @@ local fluidTransposer1 = config.addrestransposerfluid1
 local fluidTransposer2 = config.addrestransposerfluid2
 local redstoneassline = config.addresredstoneassline
 local redstoneloader = config.addresredstoneloader
-local asslinetransposser = config.addrestransposerassline
+local --asslinetransposser = config.addrestransposerassline
+
+if package.path ~= "/lib/?.lua;/usr/lib/?.lua;/home/lib/?.lua;./?.lua;/lib/?/init.lua;/usr/lib/?/init.lua;/home/lib/?/init.lua;./?/init.lua;/assline/?.lua" then
+  package.path == package.path..";/assline/?.lua"
+end
 
 function key(time)
-  print("pass pull")
   local ch=event.pull(time)
   if ch == 'key_down' then
     return true
@@ -37,31 +40,21 @@ else
     redstoneassline[k].setBundledOutput(v,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
   end
 end
+redstoneloader.setOutput(0,0)
 while true do
+  local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
   local availble = {}
   if findmatch.getAvailble(redstoneassline,config.directionredstoneassline,availble) then
     availble = availble.A
-    print("is availble")
-    for k, v in pairs(availble) do print(k,v) end
-    print("read chest")
-    local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
-    print("read fluid")
     local fluid = ReadChest.loadFluids(fluidTransposer2,fluidTransposer1)-- gets and sorts fluids
-    print("read matchnumber")
     local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid) -- looks for valid recipy
-    print("leaf matchnumber")
     if matchnumber then
-      local nassline = {}
-      if findmatch.matchAsslineRecipys(asslinetransposser,availble,recipymap.n[matchnumber].output,nassline) then
-        nassline = nassline.A
-        print("foun match")
-        print(nassline)
+      if true then 
         local amount = findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory,fluid) --check how many recipys it can make
         if amount > config.Assline_max_item then 
           amount = config.Assline_max_item
         end
         if amount > 0 then
-          print("loadmap")
           local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,amount,readchest.simpleinventory,fluid)-- makes the load map of the recipy
           -- for i = 1 , loadmap.length do
             -- if loadmap[i] then
@@ -70,9 +63,7 @@ while true do
               -- print("false")
             -- end
           -- end
-          print("loading")
-          LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2,amount,nassline)--loads the assline with items and fluid
-          print("done")
+          LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2,amount,availble[1])--loads the assline with items and fluid
         end
       end
     end
