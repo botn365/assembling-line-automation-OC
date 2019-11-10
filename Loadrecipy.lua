@@ -1,7 +1,6 @@
 package.loaded.Recipy = nil
 local R = require("Recipy")
-local r = R.RecipyArray({{"SolderMixIn","SolderMixOut"},{"LuVArmIn","LuVArmOut"},{"ESMIn","ESMOut"},{"FRWIn","FRWOut"},{"EHLIn","EHLOut"}
-,{"SDM2In","SDM2Out"},{"ASM2In","ASM2Out"}})
+local r = R.RecipyArray({{"",""}})
 
 -- use "DaddRecipy" to disable recipy
 
@@ -9,7 +8,7 @@ r.addRecipy("Electric Motor (LuV)",{{1,"Magnetic Samarium Rod"},{2,"Long HSS-S R
 ,{64,"Fine Ruridit Wire"},{2,"1x Yttrium Barium Cuprate Cable"}},
 {{144,"Molten Soldering Alloy"},{250,"Lubricant"}}
 )
-r.addRecipy("Electic Motor (ZPM)",{{2,"Magnetic Samarium Rod"},{4,"Long Naquadah Alloy Rod"},{4,"Naquadah Alloy Ring"}
+r.addRecipy("Electric Motor (ZPM)",{{2,"Magnetic Samarium Rod"},{4,"Long Naquadah Alloy Rod"},{4,"Naquadah Alloy Ring"}
 ,{16,"Naquadah Alloy Round"},{64,"Fine Europium Wire"},{64,"Fine Europium Wire"},{64,"Fine Europium Wire"},{2,"4x Vanadium-Gallium Cable"}}
 ,{{288,"Molten Soldering Alloy"},{750,"Lubricant"}}
 )
@@ -80,6 +79,9 @@ r.addRecipy("Lapotronic Energy Orb Cluster",{{1,"Multilayer Fiber-Reinforced Cir
 ,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{32,"SMD Diode"},{32,"SMD Capacitor"},{32,"SMD Resistor"}
 ,{32,"SMD Transistor"},{64,"Fine Platinum Wire"}}
 ,{{720,"Molten Soldering Alloy"}}
+)
+r.addRecipy("Data Bank",{{1,"Network Switch With QoS"},{2,6,1},{1,"Data Orb"},{1,"Computer Monitor Cover"}},{{2000,"IC2 Coolant"}
+,{1000,"Hydrogen Gas"}}
 )
 
 
