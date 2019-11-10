@@ -67,6 +67,7 @@ function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
       break
     end
     for i = 1 , fluid.length do
+	  --print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
       if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
       end
@@ -87,17 +88,16 @@ function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
     --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
       for j = 1 ,recipy.n[i].simplerecipy.length do
+	  --print(i)
         local isfalse = false
         if recipy.n[i].simplerecipy[j].C == 1 then
-          
           if oredict.get(recipy.n[i].simplerecipy[j].label,input) then
             break
           end
         else
           for k = 1 , input.length do
-            if i == 9 then
-            --print(i)
-             --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+            if i == 20 then
+            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
             end
             if recipy.n[i].simplerecipy[j].label == input[k].label then 
               --print("found")
@@ -167,34 +167,18 @@ function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavai
   local avialble = {}
   avialble.count = 0
   for k , v in pairs(addrredstoneassline) do
-      if v.getBundledInput(directioredstoneassline[k],3) == 0 then
-          avialble[avialble.count+1] = v
+      if v.getBundledInput(directioredstoneassline[k],1) > 0 then
+          avialble[avialble.count+1] = k
           avialble.count = avialble.count + 1
       end
   end
   if avialble.count > 0 then
+	--print(avialble[1])
     Pavailble.A = avialble
     return true
   else
     return false
   end
-end
-
-function FindMatch.matchAsslineRecipys(addresassline,avialble,recipyname,Pdata)
-  for i = 1 , avialble.count do
-    local data = addresassline[i].getAllStacks(0)
-    local count = data.count()
-    data = data.getAll()
-    for k = 0 , count - 1 do 
-      if data[k].label ~= nil then
-        if data[k].label == recipyname then
-          Pdata.A = i
-          return true
-        end
-      end
-    end
-  end
-  return false
 end
 
 return FindMatch
