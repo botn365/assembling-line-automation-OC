@@ -245,11 +245,3 @@ function getInbetween(subs,addresTop,side,size,inventory)
 end
 
 return ReadChest
---local test = getInventory()
---local inv = test.simpleinventory
---for i =1,test.simpleinventory.length do
-  --print(inv[i].size..inv[i].label) 
-  --for j =1,inv[i].location.length do
-    --print("amount= "..inv[i].location[j].size.." slot=  "..inv[i].location[j].slot)
-  --end
---end 
