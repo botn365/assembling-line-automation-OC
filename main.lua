@@ -17,9 +17,9 @@ local redstoneassline = config.addresredstoneassline
 local redstoneloader = config.addresredstoneloader
 local --asslinetransposser = config.addrestransposerassline
 
-if package.path ~= "/lib/?.lua;/usr/lib/?.lua;/home/lib/?.lua;./?.lua;/lib/?/init.lua;/usr/lib/?/init.lua;/home/lib/?/init.lua;./?/init.lua;/assline/?.lua" then
-  package.path == package.path..";/assline/?.lua"
-end
+--if package.path == "/lib/?.lua;/usr/lib/?.lua;/home/lib/?.lua;./?.lua;/lib/?/init.lua;/usr/lib/?/init.lua;/home/lib/?/init.lua;./?/init.lua;/asslines/?.lua" then
+  --package.path == package.path..";/asslines/?.lua"
+--end
 
 function key(time)
   local ch=event.pull(time)
@@ -42,10 +42,10 @@ else
 end
 redstoneloader.setOutput(0,0)
 while true do
-  local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
   local availble = {}
   if findmatch.getAvailble(redstoneassline,config.directionredstoneassline,availble) then
     availble = availble.A
+    local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
     local fluid = ReadChest.loadFluids(fluidTransposer2,fluidTransposer1)-- gets and sorts fluids
     local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid) -- looks for valid recipy
     if matchnumber then
