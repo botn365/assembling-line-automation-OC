@@ -66,7 +66,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                         breakcount = breakcount + 1
                         if breakcount == 80 then
 							breakcount = 0
-                            resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bundl)
+                            resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,loadmap[j][1]+1,liquidbundl)
                         end 
                         os.sleep(0.2)
                     end
@@ -97,7 +97,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             addressRedstoneAssline[k].setBundledOutput(v,{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
         end
       end
-    os.sleep(2)
+    addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],1,255)
+    os.sleep(0.1)
+    addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],1,0)
     print("done")
 end
 
