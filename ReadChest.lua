@@ -85,7 +85,7 @@ function objFluidArr()
   return object
 end
 
-function readFluid(Ntanks,address,addres2,position) --reads the fluid of tanks and stores it
+function ReadChest.readFluid(Ntanks,address,addres2,position) --reads the fluid of tanks and stores it
   local fluid = objFluidArr()
   for i = 1 , Ntanks do 
     local temp
@@ -122,7 +122,7 @@ end
 function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with stored fluids
   local position = config.directionloader.directionfluid2
   local capacity = config.max_fluid_stored
-  local fluid = readFluid(4,address,addres2,position)
+  local fluid = ReadChest.readFluid(4,address,addres2,position)
   while address.getFluidInTank(0)[1].label ~= nil do
     local temp  = address.getFluidInTank(0)[1]
     if spacefor(temp,fluid,capacity) then
@@ -182,7 +182,7 @@ function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with s
       end
     end
     os.sleep(0.2)
-    fluid = readFluid(4,address,addres2,position)
+    fluid = ReadChest.readFluid(4,address,addres2,position)
   end
   return fluid
 end
