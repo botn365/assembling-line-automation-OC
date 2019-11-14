@@ -47,12 +47,16 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin) -- make sthe load 
       end
     end
   end
+  for i = 1 , 5 - LS do
+    loadmap[loadmap.length+1] = false
+    loadmap.length = loadmap.length + 1
+  end
   loadmap[loadmap.length + 1] = false -- fluids
   loadmap.length = loadmap.length + 1
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
-          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0,fluidin.fluid[i].label}
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,fluidin.fluid[i].label}
           loadmap.length = loadmap.length + 1
         break
       end
@@ -96,14 +100,19 @@ function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
           end
         else
           for k = 1 , input.length do
-            if i == 20 then
-            --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
-            end
             if recipy.n[i].simplerecipy[j].label == input[k].label then 
-              --print("found")
-              --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              if config.debug and i == config.recipynumber then
+              print("match found")
+              print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              end
               break
+            else
+              if config.debug and i == config.recipynumber then
+                print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              end
             end 
+              end
+            end
             if k == input.length then 
               isfalse = true
             end
@@ -167,7 +176,7 @@ function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavai
   local avialble = {}
   avialble.count = 0
   for k , v in pairs(addrredstoneassline) do
-      if v.getBundledInput(directioredstoneassline[k],1) > 0 then
+      if v.getBundledInput(directioredstoneassline[k],1) < 200 then
           avialble[avialble.count+1] = k
           avialble.count = avialble.count + 1
       end
