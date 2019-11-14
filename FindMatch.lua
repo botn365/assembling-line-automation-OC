@@ -110,8 +110,6 @@ function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
               if config.debug and i == config.recipynumber then
                 print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
               end
-            end 
-              end
             end
             if k == input.length then 
               isfalse = true
