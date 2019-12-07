@@ -41,4 +41,8 @@ function OreDict.check(R_list,C_list)
     end
 end
 
+function OreDict.getlist()
+    return dictlist
+end
+
 return OreDict

@@ -1,5 +1,5 @@
-package.loaded.CircuitOreDict=nil
 package.loaded.config=nil
+package.loaded.CircuitOreDict=nil
 oredict = require("CircuitOreDict")
 local config = require("config")
 local FindMatch = {}
@@ -72,15 +72,24 @@ function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
     end
     for i = 1 , fluid.length do
 	  --print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+	  if config.debug and n == config.recipynumber then
+		print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+	  end
       if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
       end
       if i == fluid.length then
+		if config.debug and n == config.recipynumber then
+			print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+		end
         return false
       end
     end
     if recipy.n[n].fluid.length == j then
-      return true
+		if config.debug and n == config.recipynumber then
+			print("true")
+		end
+		return true
     end
   end
 end
@@ -103,12 +112,12 @@ function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
             if recipy.n[i].simplerecipy[j].label == input[k].label then 
               if config.debug and i == config.recipynumber then
               print("match found")
-              print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              print(recipy.n[i].simplerecipy[j].label,input[k].label)
               end
               break
             else
               if config.debug and i == config.recipynumber then
-                print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+                print(recipy.n[i].simplerecipy[j].label,input[k].label)
               end
             end
             if k == input.length then 

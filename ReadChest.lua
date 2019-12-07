@@ -181,7 +181,7 @@ function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with s
         end
       end
     end
-    os.sleep(0.2)
+    os.sleep(0.05)
     fluid = ReadChest.readFluid(4,address,addres2,position)
   end
   return fluid

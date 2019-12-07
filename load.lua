@@ -22,7 +22,7 @@ local fluidstack = {}
 
 for i = 1 , 15 do
     local tempitemstack = itemTransposer.getStackInSlot(1,i)
-    if tempitemstack == nil then
+    if tempitemstack == nil or tempitemstack.name == "minecraft:stick"  then
         break
     else
         itemstack[i] = {tempitemstack.size,tempitemstack.label}

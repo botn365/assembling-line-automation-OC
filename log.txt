@@ -1,0 +1,65 @@
+false
+loader= 1  amount=4  from slot= 26  to slot= 1  item name= Long Naquadah Alloy Rod
+loader= 2  amount=2  from slot= 44  to slot= 1  item name= Ultimate Crystalcomputer
+false
+loader= 1  amount=1  from slot= 27  to slot= 1  item name= Naquadah Alloy Gear
+loader= 2  amount=4  from slot= 42  to slot= 1  item name= Crystalprocessor Assembly
+false
+loader= 1  amount=3  from slot= 24  to slot= 1  item name= Small Naquadah Alloy Gear
+loader= 2  amount=8  from slot= 45  to slot= 1  item name= Crystalprocessor
+false
+loader= 1  amount=2  from slot= 20  to slot= 1  item name= Electric Motor (ZPM)
+loader= 2  amount=6  from slot= 1  to slot= 1  item name= 4x Vanadium-Gallium Cable
+false
+loader= 1  amount=1  from slot= 23  to slot= 1  item name= Electric Piston (ZPM)
+false
+loader= 2  amount=750  from slot= 1  to slot= 0  item name= Lubricant
+loader= 1  amount=1152  from slot= 2  to slot= 0  item name= Molten Soldering Alloy
+checkinv   transcount  1  j  0
+there is no item
+setting transcount  j= 1 transcount= 1 slot= 2
+checkinv   transcount  2  j  3
+checking i2itema stackLong Naquadah Alloy Rod
+ther is item
+checkinv   transcount  2  j  3
+checking i2itema stackLong Naquadah Alloy Rod
+ther is item
+checkinv   transcount  2  j  3
+there is no item
+setting transcount  j= 4 transcount= 2 slot= 3
+checkinv   transcount  5  j  6
+checking i5itema stackNaquadah Alloy Gear
+ther is item
+checkinv   transcount  5  j  6
+checking i5itema stackNaquadah Alloy Gear
+ther is item
+checkinv   transcount  5  j  6
+there is no item
+setting transcount  j= 7 transcount= 5 slot= 4
+checkinv   transcount  8  j  9
+checking i8itema stackSmall Naquadah Alloy Gear
+ther is item
+checkinv   transcount  8  j  9
+checking i8itema stackSmall Naquadah Alloy Gear
+ther is item
+checkinv   transcount  8  j  9
+there is no item
+setting transcount  j= 10 transcount= 8 slot= 5
+checkinv   transcount  11  j  12
+checking i11itema stackElectric Motor (ZPM)
+ther is item
+checkinv   transcount  11  j  12
+checking i11itema stackElectric Motor (ZPM)
+ther is item
+checkinv   transcount  11  j  12
+there is no item
+setting transcount  j= 13 transcount= 11 slot= 6
+checkinv   transcount  14  j  14
+checking i14itema stackElectric Piston (ZPM)
+ther is item
+checkinv   transcount  14  j  14
+checking i14itema stackElectric Piston (ZPM)
+ther is item
+checkinv   transcount  14  j  14
+there is no item
+setting transcount  j= 15 transcount= 14 slot= 7
