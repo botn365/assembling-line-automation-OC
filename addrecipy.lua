@@ -37,7 +37,7 @@ if ch == 110 then
 end
 
 
-file = filesystem.open("/asslines/Loadrecipy.lua")
+file = filesystem.open("/assline/Loadrecipy.lua")
 file:seek("end",0)
 data = {}
 while ifavailbel(file,goback,data) do
@@ -109,7 +109,7 @@ print(recipy)
 event.pull(0)
 _,_,ch = event.pull()
 if ch == 13 then
-    file = io.open("/asslines/Loadrecipy.lua","a")
+    file = io.open("/assline/Loadrecipy.lua","a")
     file:seek("end",location)
     file:write(recipy.."\n\n\nreturn r")
     file:close()

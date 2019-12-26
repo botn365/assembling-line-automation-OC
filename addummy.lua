@@ -2,7 +2,7 @@ config = require("config")
 package.loaded.config=nil
 filesystem = require("filesystem")
 itemTransposer = config.addrestransposeritem
-file = filesystem.open("/asslines/dummyfile.lua","r")
+file = filesystem.open("/assline/dummyfile.lua","r")
 toreturn = -20
 file:seek("end",toreturn)
 text = file:read(-toreturn)
@@ -15,7 +15,7 @@ file:seek("end",pos)
 text = file:read(-pos)
 print(text)
 file:close()
-file = io.open("/asslines/dummyfile.lua","a")
+file = io.open("/assline/dummyfile.lua","a")
 file:seek("end",pos)
 item1 = itemTransposer.getStackInSlot(1,1).label
 item2 = itemTransposer.getStackInSlot(1,2).label
