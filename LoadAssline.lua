@@ -121,8 +121,8 @@ end
 function transferFluid(addressFluid1,addressFluid2,loadmap,j)
     local position = config.directionloader.directionfluid2
     if loadmap[j][3] ~= 4 then
-    addressFluid2.transferFluid(position[loadmap[j][3]],5,loadmap[j][2])
-    return addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+    addressFluid2.transferFluid(position[loadmap[j][3]],position[5],loadmap[j][2])
+    return addressFluid1.transferFluid(position[3],position[5],loadmap[j][2])
     else
         return addressFluid1.transferFluid(1,position[5],loadmap[j][2])
     end
