@@ -10,9 +10,9 @@ function process.setSide(direction)
         dir.directionredstoneassline = 2
         dir.directionredstoneloader = 3
     elseif direction == "E" then
-        dir.directionitem = {2,3,0}
-        dir.directionfluid1 = {0,1,4,5,3,2}
-        dir.directionfluid2 = {1,5,3,0,2}
+        dir.directionitem = {3,2,0}
+        dir.directionfluid1 = {0,1,5,4,2,3}
+        dir.directionfluid2 = {1,4,2,0,3}
         dir.directionredstoneassline = 5
         dir.directionredstoneloader = 4
     elseif direction == "S" then
@@ -22,9 +22,9 @@ function process.setSide(direction)
         dir.directionredstoneassline = 3
         dir.directionredstoneloader = 2
     elseif direction == "W" then
-        dir.directionitem = {3,2,0}
-        dir.directionfluid1 = {0,1,5,4,2,3}
-        dir.directionfluid2 = {1,4,2,0,3}
+        dir.directionitem = {2,3,0}
+        dir.directionfluid1 = {0,1,4,5,3,2}
+        dir.directionfluid2 = {1,5,4,0,2}
         dir.directionredstoneassline = 4
         dir.directionredstoneloader = 5
     end
