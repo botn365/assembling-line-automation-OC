@@ -2,6 +2,8 @@ local LoadAssline =  {}
 package.loaded.config=nil
 local event = require("event")
 local config = require("config")
+local localpos = {1,config.directionloader.directionfluid2[2]}
+hasloged = false
 file = 0
 function key(time)
     event.pull(0)
@@ -19,24 +21,19 @@ function resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bun
     else
         addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
     end
-	os.sleep(0.1)
 	addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],bundl[slot-1])
 	addressRedstoneLoader.setOutput(0,15)
 end
 
 function checkinv(transfercount,address,loadmap,j)
-    file:write("checkinv   transcount  "..transfercount.."  j  "..j.."\n")
     for i = transfercount , j do
         local itemstack = address.getStackInSlot(config.directionloader.directionitem[loadmap[i][1]],loadmap[i][4])
         if itemstack ~= nil then
-        file:write("checking i"..i.."itema stack"..itemstack.label.."\n")
         end
         if itemstack ~= nil then
-            file:write("ther is item\n")
             return true
         end
     end
-    file:write("there is no item\n")
     return false
 end
 
@@ -86,8 +83,12 @@ local bundl = {{0,0,0,0,0,0,0,0,0,0,255,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,255,0,0,
 ,{0,0,0,0,0,0,0,0,0,0,0,0,0,255,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,255}}
 local liquidbundl = {{0,0,0,0,0,0,255,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,255,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,255,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,255,0,0,0,0,0}}
-function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid1,addressFluid2,amount,nassline)
-    file = io.open("/asslines/log.txt","a")
+function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid1,addressFluid2,addressFluid3,amount,nassline,logger)
+    --if not hasloged then
+        --hasloged = true
+        --logger.addLogger("printitem",{"has transferd","direction","amount","from slot","to slot"})
+        --logger.addLogger("fluidtransfer",{"tank","has transferd1","has transferd2","posistion from","position to","amount"})
+    --end
     for k , v in pairs(config.directionredstoneassline) do
         addressRedstoneAssline[k].setBundledOutput(v,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
     end
@@ -98,7 +99,10 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         if loadmap[j] and slot < 7 then
             for  i = 1 , 10 do
                 print(loadmap[j][1],loadmap[j][4])
-                if addressItem.transferItem(1,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]) == 0 then
+				resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bundl)
+                local hastransferd = addressItem.transferItem(1,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]) == 0
+                --logger.log("printitem",{hastransferd,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]})
+                if hastransferd then
                     print("item faild trasfer")
                     os.sleep(0.2)
                 else
@@ -117,9 +121,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                 print("transfer"..loadmap[j][5])
 				print(loadmap[j][1])
                 addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],liquidbundl[loadmap[j][1]])
-                if transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 then
+                if transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j) == 0 then
                     local breakcount = 0
-                    while transferFluid(addressFluid1,addressFluid2,loadmap,j) == 0 do
+                    while transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j) == 0 do
                         breakcount = breakcount + 1
                         if breakcount == 80 then
 							breakcount = 0
@@ -147,7 +151,6 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
                 end
             end
             slot = slot + 1
-            file:write("setting transcount  j= "..j.." transcount= "..transfercount.." slot= "..slot.."\n")
             transfercount = j + 1
         end
     end
@@ -165,17 +168,27 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     os.sleep(0.1)
     addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],1,0)
     print("done")
-    file:close()
 end
 
 
-function transferFluid(addressFluid1,addressFluid2,loadmap,j)
+function transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j)
+    local temp1 
+    local temp2
     local position = config.directionloader.directionfluid2
-    if loadmap[j][3] ~= 4 then
-    addressFluid2.transferFluid(position[loadmap[j][3]],5,loadmap[j][2])
-    return addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+    if loadmap[j][3] < 4 then
+        temp1 = addressFluid2.transferFluid(position[loadmap[j][3]],position[5],loadmap[j][2])
+        temp2 = addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+        --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,position[loadmap[j][3]],position[5],loadmap[j][2]})
+        return temp2
+    elseif loadmap[j][3] == 4 then
+        temp1 = addressFluid1.transferFluid(1,position[5],loadmap[j][2])
+        --logger.log("fluidtransfer",{loadmap[j][3],temp1,nil,nil,position[5],loadmap[j][2]})
+        return temp1
     else
-        return addressFluid1.transferFluid(1,position[5],loadmap[j][2])
+        temp1 = addressFluid3.transferFluid(localpos[loadmap[j][3]-4],0,loadmap[j][2])
+        temp2 =  addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+        --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,localpos[loadmap[j][3]-4],position[5],loadmap[j][2]})
+        return temp2
     end
 end
 

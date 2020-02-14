@@ -80,7 +80,7 @@ for i = 1 , 15 do
         end
     end 
 end
-local tempfluidstack = readchest.readFluid(4,fluidTransposer2,fluidTransposer1,config.directionloader.directionfluid2)
+local tempfluidstack = readchest.readFluid(4,fluidTransposer2,fluidTransposer1,nil,config.directionloader.directionfluid2)
 fluidstack.count = 0
 for i = 1 , tempfluidstack.length do
     fluidstack.count = fluidstack.count + 1

@@ -34,7 +34,7 @@ function objSimple()
   return object
 end
 
-function objSimpleArr() 
+function objSimpleArr()
   local object = {}
   object.length = 0
   function object.new(a)
@@ -85,14 +85,16 @@ function objFluidArr()
   return object
 end
 
-function ReadChest.readFluid(Ntanks,address,addres2,position) --reads the fluid of tanks and stores it
+function ReadChest.readFluid(Ntanks,address,addres2,addres3,position,localpos) --reads the fluid of tanks and stores it
   local fluid = objFluidArr()
   for i = 1 , Ntanks do 
     local temp
     if i < 4 then
       temp = address.getFluidInTank(position[i])
-    else
+    elseif i == 4 then
       temp = addres2.getFluidInTank(1)
+    else
+      temp = addres3.getFluidInTank(localpos[i-4])
     end
     if temp[1].label ~= nil and i ~= 4 then
       fluid.newFluid(temp[1].label,temp[1].amount,i)
@@ -103,7 +105,7 @@ function ReadChest.readFluid(Ntanks,address,addres2,position) --reads the fluid 
   return fluid
 end
 
-function spacefor(fluidpipe,fluidstored,maxcap) --- check if there is space to store the fluid
+function spacefor(fluidpipe,fluidstored,maxcap,tankstostore) --- check if there is space to store the fluid
   for i = 1 , fluidstored.length do
     if fluidpipe.label == fluidstored.fluid[i].label then
       if fluidpipe.amount > maxcap then
@@ -113,41 +115,49 @@ function spacefor(fluidpipe,fluidstored,maxcap) --- check if there is space to s
       end
     end
   end
-  if fluidstored.length < 4 then
+  if fluidstored.length < tankstostore then
     return false
   end
   return true
 end
 
-function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with stored fluids
+function ReadChest.loadFluids(address,addres2,addres3)  -- returns a fluid object with stored fluids
+  local tankstostore = 6
   local position = config.directionloader.directionfluid2
+  local localpos = {1,position[2]}
   local capacity = config.max_fluid_stored
-  local fluid = ReadChest.readFluid(4,address,addres2,position)
+  local fluid = ReadChest.readFluid(tankstostore,address,addres2,addres3,position,localpos)
   while address.getFluidInTank(0)[1].label ~= nil do
     local temp  = address.getFluidInTank(0)[1]
-    if spacefor(temp,fluid,capacity) then
+    if spacefor(temp,fluid,capacity,tankstostore) then
       break
     end
     local pass = true
-    for i = 1 , 4 do
+    for i = 1 , tankstostore do
       if fluid.fluid[i] ~=  nil then
         if fluid.fluid[i].label == temp.label then
           pass = false
           local maxsize = capacity - fluid.fluid[i].size
           if temp.amount < maxsize then
-            if fluid.fluid[i].tank ~= 4 then
+            if fluid.fluid[i].tank < 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
-            else
+            elseif fluid.fluid[i].tank == 4 then
               address.transferFluid(0,position[5],temp.amount)
               addres2.transferFluid(position[3],1,temp.amount)
+            else
+              address.transferFluid(0,position[5],temp.amount)
+              addres3.transferFluid(0,localpos[fluid.fluid[i].tank-4],temp.amount)
             end
             break
           else
-            if fluid.fluid[i].tank ~= 4 then
+            if fluid.fluid[i].tank < 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
-            else
+            elseif fluid.fluid[i].tank == 4 then
               address.transferFluid(0,position[5],maxsize)
               addres2.transferFluid(position[3],1,maxsize)
+            else
+              address.transferFluid(0,position[5],maxsize)
+              addres3.transferFluid(0,localpos[fluid.fluid[i].tank-4],maxsize)
             end
             break
           end
@@ -156,21 +166,30 @@ function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with s
     end
     if pass then
       local breakf = false
-      for j = 1 , 4 do
+      for j = 1 , tankstostore do --go trough all the tanks wher efluid can be stored
         if fluid.length == 0 then
           address.transferFluid(0,position[j],temp.amount)
           break
         end
-        for k = 1 , fluid.length do
-          if fluid.fluid[k].tank == j then
+        for k = 1 , fluid.length do  -- go trough all fluids that are stored 
+          if fluid.fluid[k].tank == j then -- check if there is a fluid in the tank
             break
           end
-          if k == fluid.length then
-            if j ~= 4 then
+          if k == fluid.length then -- if it has found a free tank store it transfer the fluid there
+            if j < 4 then
               address.transferFluid(0,position[j],temp.amount)
-            else
+            elseif j == 4 then
               address.transferFluid(0,position[5],temp.amount)
               addres2.transferFluid(position[3],1,temp.amount)
+            else
+              address.transferFluid(0,position[5],temp.amount)
+              local p = addres3.transferFluid(0,localpos[j-4],temp.amount)
+              if not p then
+                print("failer to transfer fluid to tank ",j)
+                print("direction to where the fluid should have transfered",localpos[j-4])
+                local crash
+                print(crash..crash)
+              end
             end
            breakf = true
            break
@@ -182,7 +201,7 @@ function ReadChest.loadFluids(address,addres2)  -- returns a fluid object with s
       end
     end
     os.sleep(0.05)
-    fluid = ReadChest.readFluid(4,address,addres2,position)
+    fluid = ReadChest.readFluid(tankstostore,address,addres2,addres3,position,localpos) -- re read all the fluid that are stored
   end
   return fluid
 end

@@ -1,0 +1,494 @@
+61        
+has transferd = false;direction = 5;amount = 8;from slot = 9
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 288                                
+tank = 3;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 750                                
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 23                                            
+amount = 1                                                  
+loadmap = {false,{1,1,2,1,ZPM Machine Hull},{2,1,13,1,      
+360k He Coolant Cell},false,{1,4,8,1,                       
+Superconductor Base ZPM Spring},{2,1,12,1,                  
+360k He Coolant Cell},false,{1,2,11,1,Nano Power IC},{2,1,7,
+1,Electric Pump (ZPM)},false,{1,2,9,1,                      
+Quantumprocessor Mainframe},false,{1,2,10,1,                
+ZPM Voltage Coil},false,{2,1440,1,0,Molten Soldering Alloy},{a1,4000,4,0,IC2 Coolant},length = 16}test                   
+has transferd = false;direction = 5;amount = 1;from slot = 2
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 8
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1;from slot = 7
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 9
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2              
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 1440                               
+tank = 4;has transferd1 = true;has transferd2 = nil         
+position to = 5;amount = 4000                               
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+program start                                               
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+to slot = 1                                                 
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 2                                             
+amount = 1                                                  
+loadmap = {false,{1,2,5,1,Magnetic Samarium Rod},{2,64,11,1,
+Fine Europium Wire},false,{1,4,12,1,Long Naquadah Alloy Rod},{o2,64,10,1,Fine Europium Wire},false,{1,4,8,1,             
+Naquadah Alloy Ring},{2,2,2,1,4x Vanadium-Gallium Cable},   
+false,{1,16,6,1,Naquadah Alloy Round},false,{1,64,9,1,      
+Fine Europium Wire},false,{1,288,1,0,Molten Soldering Alloy},{o2,750,3,0,Lubricant},length = 16}test                     
+has transferd = false;direction = 5;amount = 2;from slot = 5
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 8
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2;from slot = 2
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 16             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 64             
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 288                                
+tank = 3;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 750                                
+availble = {2,count = 1};get inventory = nil                
+matchnumber = 2                                             
+amount = 1                                                  
+loadmap = {false,{1,2,5,1,Magnetic Samarium Rod},{2,64,15,1,
+Fine Europium Wire},false,{1,4,12,1,Long Naquadah Alloy Rod},{a2,64,14,1,Fine Europium Wire},false,{1,4,8,1,             
+Naquadah Alloy Ring},{2,2,2,1,4x Vanadium-Gallium Cable},   
+false,{1,16,6,1,Naquadah Alloy Round},false,{1,64,13,1,     
+Fine Europium Wire},false,{1,288,1,0,Molten Soldering Alloy},{a2,750,3,0,Lubricant},length = 16}test                     
+has transferd = false;direction = 5;amount = 2;from slot = 5
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 8
+matchnumber =                                               
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 18                                            
+amount = 1                                                  
+loadmap = {false,{1,1,15,1,Electric Motor (ZPM)},{2,2,16,1, 
+Naquadah Alloy Rotor},false,{1,2,3,1,Enderium Fluid Pipe},{ 
+2,2,2,1,4x Vanadium-Gallium Cable},false,{1,2,9,1,          
+Naquadah Alloy Plate},false,{1,8,10,1,Naquadah Alloy Screw},
+false,{1,8,11,1,Styrene-Butadiene Rubber Ring},false,{1,288,
+1,0,Molten Soldering Alloy},{2,750,3,0,Lubricant},          
+length = 15}test                                            
+has transferd = false;direction = 5;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 3
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2;from slot = 2
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 9
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 8              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 8              
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 288                                
+tank = 3;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 750                                
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 23                                            
+amount = 1                                                  
+loadmap = {false,{1,1,3,1,ZPM Machine Hull},{2,1,14,1,      
+360k He Coolant Cell},false,{1,4,8,1,                       
+Superconductor Base ZPM Spring},{2,1,12,1,                  
+360k He Coolant Cell},false,{1,2,11,1,Nano Power IC},{2,1,7,
+1,Electric Pump (ZPM)},false,{1,2,9,1,                      
+Quantumprocessor Mainframe},false,{1,2,10,1,                
+ZPM Voltage Coil},false,{2,1440,1,0,Molten Soldering Alloy},{a1,4000,4,0,IC2 Coolant},length = 16}test                   
+has transferd = false;direction = 5;amount = 1;from slot = 3
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 8
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 1;from slot = 7
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 9
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2              
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 1440                               
+tank = 4;has transferd1 = true;has transferd2 = nil         
+position to = 5;amount = 4000                               
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 2                                             
+amount = 1                                                  
+loadmap = {false,{1,2,8,1,Magnetic Samarium Rod},{2,64,13,1,
+Fine Europium Wire},false,{1,4,9,1,Long Naquadah Alloy Rod},{m2,64,10,1,Fine Europium Wire},false,{1,4,7,1,              
+Naquadah Alloy Ring},{2,2,2,1,4x Vanadium-Gallium Cable},   
+false,{1,16,6,1,Naquadah Alloy Round},false,{1,64,3,1,      
+Fine Europium Wire},false,{1,288,1,0,Molten Soldering Alloy},{a2,750,3,0,Lubricant},length = 16}test                     
+has transferd = false;direction = 5;amount = 2;from slot = 8
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 9
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 64             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 4;from slot = 7
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2;from slot = 2
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 16             
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 64             
+to slot = 1                                                 
+tank = 1;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 288                                
+tank = 3;has transferd1 = true;has transferd2 = true        
+position to = 5;amount = 750                                
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {2,count = 1};get inventory = nil                
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = false                                         
+availble = {1,2,count = 2};get inventory = nil              
+matchnumber = 18                                            
+amount = 1                                                  
+loadmap = {false,{1,1,10,1,Electric Motor (ZPM)},{2,2,11,1, 
+Naquadah Alloy Rotor},false,{1,2,3,1,Enderium Fluid Pipe},{ 
+2,2,2,1,4x Vanadium-Gallium Cable},false,{1,2,7,1,          
+Naquadah Alloy Plate},false,{1,8,8,1,Naquadah Alloy Screw}, 
+false,{1,8,9,1,Styrene-Butadiene Rubber Ring},false,{1,288, 
+1,0,Molten Soldering Alloy},{2,750,3,0,Lubricant},          
+length = 15}test                                            
+has transferd = false;direction = 5;amount = 1              
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2              
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 3
+to slot = 1                                                 
+has transferd = false;direction = 4;amount = 2;from slot = 2
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 2;from slot = 7
+to slot = 1                                                 
+has transferd = false;direction = 5;amount = 8;from slot = 8
+to slot = 1                                                 
+{{{program start{

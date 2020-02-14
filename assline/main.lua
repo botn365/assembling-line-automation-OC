@@ -3,23 +3,31 @@ package.loaded.ReadChest=nil
 package.loaded.FindMatch=nil
 package.loaded.LoadAssline=nil
 package.loaded.config=nil
-local config = require("config")
-local recipymap = require("Loadrecipy")
-local findmatch = require("FindMatch")
-local ReadChest = require("ReadChest")
-local component = require("component")
-local LoadAssline = require("LoadAssline")
-local event = require("event")
-local itemTransposer = config.addrestransposeritem
-local fluidTransposer1 = config.addrestransposerfluid1
-local fluidTransposer2 = config.addrestransposerfluid2
-local redstoneassline = config.addresredstoneassline
-local redstoneloader = config.addresredstoneloader
-local --asslinetransposser = config.addrestransposerassline
+config = require("config")
+recipymap = require("Loadrecipy")
+findmatch = require("FindMatch")
+ReadChest = require("ReadChest")
+component = require("component")
+LoadAssline = require("LoadAssline")
+event = require("event")
+--logger = require("logger")
+itemTransposer = config.addrestransposeritem
+fluidTransposer1 = config.addrestransposerfluid1
+fluidTransposer2 = config.addrestransposerfluid2
+fluidTransposer3 = config.addrestransposerfluid3
+redstoneassline = config.addresredstoneassline
+redstoneloader = config.addresredstoneloader
+ --asslinetransposser = config.addrestransposerassline
 
 --if package.path == "/lib/?.lua;/usr/lib/?.lua;/home/lib/?.lua;./?.lua;/lib/?/init.lua;/usr/lib/?/init.lua;/home/lib/?/init.lua;./?/init.lua;/asslines/?.lua" then
   --package.path == package.path..";/asslines/?.lua"
 --end
+
+--logger.init()
+logger = 0
+--logger.addLogger("chest_data",{"availble","get inventory","loadfluids","matchnumber"})
+--logger.addLogger("amount",{"amount"})
+--logger.addLogger("loadmap",{"loadmap"})
 
 function key(time)
   local ch=event.pull(time)
@@ -29,7 +37,7 @@ function key(time)
   return false
 end
 
-
+--logger.logRaw("program start")
 print("hold\"any key\" to shut down program")
 if config.use_enderchest then -- configurs the redstone of the assline to deafault
   for k , v in pairs(config.directionredstoneassline) do
@@ -46,26 +54,21 @@ while true do
   if findmatch.getAvailble(redstoneassline,config.directionredstoneassline,availble) then
     availble = availble.A
     local readchest = ReadChest.getInventory(1,itemTransposer,recipymap.substitude,fluidTransposer1)--getconten of chest
-    local fluid = ReadChest.loadFluids(fluidTransposer2,fluidTransposer1)-- gets and sorts fluids
+    local fluid = ReadChest.loadFluids(fluidTransposer2,fluidTransposer1,fluidTransposer3)-- gets and sorts fluids
     local matchnumber = findmatch.findMatch(recipymap,readchest.simpleinventory,fluid) -- looks for valid recipy
+    --logger.log("chest_data",{availble,"nil","nil",matchnumber})
     if matchnumber then
       if true then 
         local amount = findmatch.getMax(recipymap,matchnumber,readchest.simpleinventory,fluid) --check how many recipys it can make
         if amount > config.Assline_max_item then 
           amount = config.Assline_max_item
         end
+        --logger.log("amount",{amount})
         if amount > 0 then
           local loadmap = findmatch.makeLoadMap(recipymap,matchnumber,amount,readchest.simpleinventory,fluid)-- makes the load map of the recipy
-          file = io.open("/asslines/log.txt","w")
-          for i = 1 , loadmap.length do
-            if loadmap[i] then
-              file:write("loader= "..loadmap[i][1].."  amount="..loadmap[i][2].."  from slot= "..loadmap[i][3].."  to slot= "..loadmap[i][4].."  item name= "..loadmap[i][5].."\n")
-            else
-              file:write("false\n")
-            end
-          end
-          file:close()
-          LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2,amount,availble[1])--loads the assline with items and fluid
+          --logger.log("loadmap",{loadmap})
+          LoadAssline.load(loadmap,itemTransposer,redstoneassline,redstoneloader,fluidTransposer1,fluidTransposer2,fluidTransposer3,amount,availble[1],logger)--loads the assline with items and fluid
+          --print("a"..nil)
         end
       end
     end

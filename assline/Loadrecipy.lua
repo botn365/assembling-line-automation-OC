@@ -149,6 +149,9 @@ r.addRecipy("37",{{1,"Heavy Duty Plate Tier 7"},{7,"Compressed Black Plutonium P
 r.addRecipy("38",{{1,"Neutronium Frame Box"},{6,"Neutronium Plate"},{2,"Gravi Star"},{4,"Emitter (UV)"},{4,9,1},{64,"Fine Americium Wire"},{64,"Fine Americium Wire"},{64,"Fine Americium Wire"},{64,"Fine Americium Wire"},{64,"Fine Americium Wire"},{64,"Fine Americium Wire"},{8,"4x Naquadah Alloy Cable"}}
 ,{{1296,"Molten Naquadria"},{2304,"Molten Soldering Alloy"}}
 )
+r.addRecipy("39",{{1,"Neutronium Frame Box"},{1,"Electric Motor (UV)"},{8,"Neutronium Plate"},{4,"Gravi Star"},{4,8,1},{64,"Naquadria Foil"},{64,"Naquadria Foil"},{64,"Naquadria Foil"},{7,"4x Naquadah Alloy Cable"}}
+,{{1296,"Molten Naquadria"},{2304,"Molten Soldering Alloy"}}
+)
 
 
 return r
