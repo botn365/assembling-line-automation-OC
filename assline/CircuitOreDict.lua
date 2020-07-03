@@ -53,9 +53,8 @@ end
 function OreDict.isCircuit(itemLabel)
     for tier,circuitList in pairs(circuitlist) do
         for g,circuitName in pairs(circuitList) do
-            if itemLabel.label == circuitName then
-                    return tier + minT-1;
-                break
+            if itemLabel == circuitName then
+                return tier + minT-1
             end
         end
     end

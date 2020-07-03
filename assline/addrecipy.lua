@@ -8,7 +8,7 @@ readchest = require("ReadChest")
 filesystem = require("filesystem")
 config = require("config")
 local event = require("event")
-goback = -400
+goback = -800
 pos = 0
 itemstack = {}
 fluidstack = {}
@@ -58,18 +58,19 @@ while ifavailbel(file,goback,data) do
 end
 file:seek("end",pos)
 lastadd = file:read(-pos)
-print(lastadd)
-location = string.find(lastadd,")\n")  
+--print(lastadd)
+location = string.find(lastadd,")\n")
 if location == nil then
     location = string.find(lastadd,")\r\n")  
 end
 location = location + 1 + pos
-print(location)
+--print(location)
 file:close()
 itemstack.count = 0
-local stick = itemTransposer.getStackInSlot(1,0)
-if stick.label ~= "gt.metaitem.o1.32708.name" then
+local stick = itemTransposer.getStackInSlot(1,1)
+if stick == nil or  stick.label ~= "gt.metaitem.01.32708.name" then
     print("not a datastick")
+    return nil
 end
 if stick.eu == nil then
     print("not a valid stick")
@@ -100,6 +101,9 @@ end
 --     end 
 -- end
 for  pos,item in pairs(stick.inputItems)do
+    if pos == "n" then
+        break
+    end
     if iscircuitordict then
         local tier = oredict.isCircuit(item[1])
         if tier > 0 then
