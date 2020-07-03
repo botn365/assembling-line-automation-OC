@@ -35,6 +35,18 @@ _,_,ch = event.pull()
 if ch == 110 then
     iscircuitordict = false
 end
+os.sleep(1)
+print("endet name of output press enter to confirm")
+local name = ""
+event.pull(0)
+repeat
+    a,_,ch = event.pull()
+    if ch ~= 13 and a == "key_down" then
+        name = name..string.char(ch)
+    end
+until ch == 13
+print(name)
+
 
 
 file = filesystem.open("/assline/Loadrecipy.lua")
@@ -55,39 +67,69 @@ location = location + 1 + pos
 print(location)
 file:close()
 itemstack.count = 0
-for i = 1 , 15 do
-    local tempitemstack = itemTransposer.getStackInSlot(1,i)
-    if tempitemstack == nil or tempitemstack.name == "minecraft:stick"  then
-        break
-    else
-        local skip = false
-        if iscircuitordict then
-            for k,v in pairs(circuitlist) do
-                for g,h in pairs(v) do
-                    if tempitemstack.label == h then
-                        skip = true
-                        itemstack.count = itemstack.count + 1
-                        itemstack[i] = "{"..tempitemstack.size..","..3+k..",1}"
-                        break
-                    end
-                    if skip then break end
-                end
-            end
-        end
-        if skip == false then
+local stick = itemTransposer.getStackInSlot(1,0)
+if stick.label ~= "gt.metaitem.o1.32708.name" then
+    print("not a datastick")
+end
+if stick.eu == nil then
+    print("not a valid stick")
+end
+-- for i = 1 , 15 do
+--     local tempitemstack = itemTransposer.getStackInSlot(1,i)
+--     if tempitemstack == nil or tempitemstack.name == "minecraft:stick"  then
+--         break
+--     else
+--         local skip = false
+--         if iscircuitordict then
+--             for k,v in pairs(circuitlist) do
+--                 for g,h in pairs(v) do
+--                     if tempitemstack.label == h then
+--                         skip = true
+--                         itemstack.count = itemstack.count + 1
+--                         itemstack[i] = "{"..tempitemstack.size..","..3+k..",1}"
+--                         break
+--                     end
+--                     if skip then break end
+--                 end
+--             end
+--         end
+--         if skip == false then
+--             itemstack.count = itemstack.count + 1
+--             itemstack[i] = "{"..tempitemstack.size..",\""..tempitemstack.label.."\"}"
+--         end
+--     end 
+-- end
+for  pos,item in pairs(stick.inputItems)do
+    if iscircuitordict then
+        local tier = oredict.isCircuit(item[1])
+        if tier > 0 then
             itemstack.count = itemstack.count + 1
-            itemstack[i] = "{"..tempitemstack.size..",\""..tempitemstack.label.."\"}"
+            itemstack[pos] = "{"..item[2]..","..tier..",1}"
+        else
+            itemstack.count = itemstack.count + 1
+            itemstack[pos] = "{"..item[2]..",\""..item[1].."\"}"
         end
-    end 
+    else
+        itemstack.count = itemstack.count + 1
+        itemstack[pos] = "{"..item[2]..",\""..item[1].."\"}"
+    end
 end
-local tempfluidstack = readchest.readFluid(4,fluidTransposer2,fluidTransposer1,nil,config.directionloader.directionfluid2)
+
+--local tempfluidstack = readchest.readFluid(4,fluidTransposer2,fluidTransposer1,nil,config.directionloader.directionfluid2)
+
+
+tempfluidstack = stick.inputFluids
 fluidstack.count = 0
-for i = 1 , tempfluidstack.length do
+for i = 1 , #tempfluidstack do
     fluidstack.count = fluidstack.count + 1
-    fluidstack[i] = {tempfluidstack.fluid[i].size,tempfluidstack.fluid[i].label}
+    fluidstack[i] = {tempfluidstack[i][2],tempfluidstack[i][1]}
 end
-n = recipymap.count 
-recipy = "r.addRecipy(\""..n.."\",{"
+if name == "" then
+    name = stick.output
+end
+
+
+recipy = "r.addRecipy(\""..name.."\",{"
 for i = 1 , itemstack.count do
     if i > 1 then
         recipy = recipy..","..itemstack[i]
