@@ -5,9 +5,16 @@ local config = require("config")
 function ReadChest.makeShort(inventory,size) -- makes  a compact version of the chest
   local simpleinventory = objSimpleArr()
   local isequal = 0
-  simpleinventory.new(inventory[0])
-  simpleinventory.newlocation(1,inventory,0)
-  for i = 1,size-1 do
+  local start = 0
+  for i = 0, size-1 do
+    if inventory[i].label ~= nil then
+      simpleinventory.new(inventory[i])
+      simpleinventory.newlocation(1,inventory,i)
+      start = i+1
+      break
+    end
+  end
+  for i = start,size-1 do
     if inventory[i].label ~= nil and inventory[i].name ~= "minecraft:stick" then 
       for j = 1 ,simpleinventory.length do 
         if simpleinventory[j].label == inventory[i].label then
@@ -16,13 +23,17 @@ function ReadChest.makeShort(inventory,size) -- makes  a compact version of the 
           isequal = 1
         end
       end
-    if isequal == 0 then 
-      simpleinventory.new(inventory[i])
-      simpleinventory.newlocation(simpleinventory.length,inventory,i)
-    else isequal = 0 end
+      if isequal == 0 then 
+        simpleinventory.new(inventory[i])
+        simpleinventory.newlocation(simpleinventory.length,inventory,i)
+      else isequal = 0 end
     end
   end  
-  return simpleinventory
+  if simpleinventory.length == 0 then
+    return nil
+  else
+    return simpleinventory
+  end
 end
 
 function objSimple() 
@@ -96,6 +107,8 @@ function ReadChest.readFluid(Ntanks,address,addres2,addres3,position,localpos) -
     else
       temp = addres3.getFluidInTank(localpos[i-4])
     end
+    --print(i)
+    --print(position[i])
     if temp[1].label ~= nil and i ~= 4 then
       fluid.newFluid(temp[1].label,temp[1].amount,i)
     elseif i == 4 and temp[1].label ~= nil then

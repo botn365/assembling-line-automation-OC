@@ -2,6 +2,8 @@ local LoadAssline =  {}
 package.loaded.config=nil
 local event = require("event")
 local config = require("config")
+local os = require("os")
+local computer = require("computer")
 local localpos = {1,config.directionloader.directionfluid2[2]}
 hasloged = false
 file = 0
@@ -15,14 +17,14 @@ function key(time)
   end
 
 function resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bundl)
-	addressRedstoneLoader.setOutput(0,0)
+	--addressRedstoneLoader.setOutput(0,0)
     if config.use_enderchest then 
         addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
     else
         addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],{0,0,0,0,0,0,255,255,255,255,255,255,255,255,255})
     end
 	addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],bundl[slot-1])
-	addressRedstoneLoader.setOutput(0,15)
+	--addressRedstoneLoader.setOutput(0,15)
 end
 
 function checkinv(transfercount,address,loadmap,j)
@@ -84,6 +86,7 @@ local bundl = {{0,0,0,0,0,0,0,0,0,0,255,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,255,0,0,
 local liquidbundl = {{0,0,0,0,0,0,255,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,255,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,255,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,255,0,0,0,0,0}}
 function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressRedstoneLoader,addressFluid1,addressFluid2,addressFluid3,amount,nassline,logger)
+    local startTime = computer.uptime()
     --if not hasloged then
         --hasloged = true
         --logger.addLogger("printitem",{"has transferd","direction","amount","from slot","to slot"})
@@ -94,19 +97,21 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     end
     local slot = 1 
     local transfercount = 1
-    addressRedstoneLoader.setOutput(0,15)
+    --addressRedstoneLoader.setOutput(0,15)
     for j = 1 , loadmap.length do 
         if loadmap[j] and slot < 7 then
             for  i = 1 , 10 do
-                print(loadmap[j][1],loadmap[j][4])
+                --print(loadmap[j][1],loadmap[j][4])
+                if config.use_enderchest == false then
 				resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bundl)
+                end
                 local hastransferd = addressItem.transferItem(1,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]) == 0
                 --logger.log("printitem",{hastransferd,config.directionloader.directionitem[loadmap[j][1]],loadmap[j][2],loadmap[j][3],loadmap[j][4]})
                 if hastransferd then
                     print("item faild trasfer")
                     os.sleep(0.2)
                 else
-                    print("transfer"..loadmap[j][5])
+                    --print("transfer"..loadmap[j][5])
                     break
                 end
                 if i == 10 then
@@ -118,8 +123,8 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
 
         elseif slot > 6 then
             if loadmap[j] then
-                print("transfer"..loadmap[j][5])
-				print(loadmap[j][1])
+                --print("transfer"..loadmap[j][5])
+				--print(loadmap[j][1])
                 addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],liquidbundl[loadmap[j][1]])
                 if transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j) == 0 then
                     local breakcount = 0
@@ -129,7 +134,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
 							breakcount = 0
                             resetout(addressRedstoneLoader,addressRedstoneAssline,nassline,loadmap[j][1]+1,liquidbundl)
                             local crash
-                            print(loadmap[j][1],slot)
+                            --print(loadmap[j][1],slot)
 					        print("total falure")
 					        print(crash..crash)
                         end 
@@ -144,7 +149,9 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
         else
             if slot < 7 then
                 os.sleep(0.30)
+                if config.use_enderchest == false then
 				reset(addressRedstoneLoader,addressRedstoneAssline,nassline,slot,bundl,false,transfercount,addressItem,loadmap,j)
+                end
                 if slot < 6 then
 				--print(nassline)
                 addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],bundl[slot])
@@ -154,7 +161,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
             transfercount = j + 1
         end
     end
-    addressRedstoneLoader.setOutput(0,0)
+    --addressRedstoneLoader.setOutput(0,0)
     if config.use_enderchest then -- configurs the redstone of the assline to deafault
         for k , v in pairs(config.directionredstoneassline) do
             addressRedstoneAssline[k].setBundledOutput(v,{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
@@ -167,6 +174,7 @@ function LoadAssline.load(loadmap,addressItem,addressRedstoneAssline,addressReds
     addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],1,255)
     os.sleep(0.1)
     addressRedstoneAssline[nassline].setBundledOutput(config.directionredstoneassline[nassline],1,0)
+    print("time to load = ",computer.uptime()-startTime)
     print("done")
 end
 
@@ -176,8 +184,9 @@ function transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j)
     local temp2
     local position = config.directionloader.directionfluid2
     if loadmap[j][3] < 4 then
+        --print(position[4],"pos4")
         temp1 = addressFluid2.transferFluid(position[loadmap[j][3]],position[5],loadmap[j][2])
-        temp2 = addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+        temp2 = addressFluid1.transferFluid(position[3],position[5],loadmap[j][2])
         --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,position[loadmap[j][3]],position[5],loadmap[j][2]})
         return temp2
     elseif loadmap[j][3] == 4 then
@@ -186,7 +195,7 @@ function transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j)
         return temp1
     else
         temp1 = addressFluid3.transferFluid(localpos[loadmap[j][3]-4],0,loadmap[j][2])
-        temp2 =  addressFluid1.transferFluid(4,position[5],loadmap[j][2])
+        temp2 =  addressFluid1.transferFluid(position[3],position[5],loadmap[j][2])
         --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,localpos[loadmap[j][3]-4],position[5],loadmap[j][2]})
         return temp2
     end

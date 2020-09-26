@@ -8,6 +8,8 @@ readchest = require("ReadChest")
 filesystem = require("filesystem")
 config = require("config")
 local event = require("event")
+component = require("component")
+gpu = component.gpu
 goback = -800
 pos = 0
 itemstack = {}
@@ -29,22 +31,43 @@ function ifavailbel(file,tobyte,Pdata)
 end
 iscircuitordict = true
 
+local stick = itemTransposer.getStackInSlot(1,1)
+if stick == nil or  stick.name ~= "gregtech:gt.metaitem.01" and stick.damage == 32708 then
+    print("not a datastick")
+    return nil
+end
+if stick.eu == nil then
+    print("not a valid stick")
+end
+
+
 print("include circuir oredict? press N to not include it ")
 event.pull(0)
 _,_,ch = event.pull()
 if ch == 110 then
     iscircuitordict = false
 end
-os.sleep(1)
-print("endet name of output press enter to confirm")
+local w, h = gpu.getResolution()
+gpu.fill(1, 1, w, h, " ")
+if iscircuitordict then
+    gpu.set(1,1,"circuit ore dict is include")
+else
+    gpu.set(1,1,"circuit ore dict is not included")
+end
+gpu.set(1,2,"enter the name of output press enter to confirm")
 local name = ""
+os.sleep(0.1)
 event.pull(0)
 repeat
     a,_,ch = event.pull()
-    if ch ~= 13 and a == "key_down" then
+    if a == "key_down" and ch ~= 13 and ch > 31 then
         name = name..string.char(ch)
+        gpu.set(1,3,name)
+    elseif a == "key_down" and ch == 8 then
+        name = string.sub(name, 0, #name - 1)
+        gpu.set(#name+1,3," ")
     end
-until ch == 13
+until ch == 13 and a == "key_up"
 print(name)
 
 
@@ -67,14 +90,6 @@ location = location + 1 + pos
 --print(location)
 file:close()
 itemstack.count = 0
-local stick = itemTransposer.getStackInSlot(1,1)
-if stick == nil or  stick.label ~= "gt.metaitem.01.32708.name" then
-    print("not a datastick")
-    return nil
-end
-if stick.eu == nil then
-    print("not a valid stick")
-end
 -- for i = 1 , 15 do
 --     local tempitemstack = itemTransposer.getStackInSlot(1,i)
 --     if tempitemstack == nil or tempitemstack.name == "minecraft:stick"  then
@@ -100,6 +115,7 @@ end
 --         end
 --     end 
 -- end
+
 for  pos,item in pairs(stick.inputItems)do
     if pos == "n" then
         break
@@ -153,10 +169,22 @@ recipy =  recipy.."}\n)"
 print("press enter to make item or any other key to reject")
 print(recipy)
 event.pull(0)
-_,_,ch = event.pull()
-if ch == 13 then
-    file = io.open("/assline/Loadrecipy.lua","a")
-    file:seek("end",location)
-    file:write(recipy.."\n\n\nreturn r")
-    file:close()
+while true do
+    mode,_,ch = event.pull()
+    if mode == "key_up" then
+        if ch == 13 then
+            print("added recipe")
+            file = io.open("/assline/Loadrecipy.lua","a")
+            file:seek("end",location)
+            file:write(recipy.."\n\n\nreturn r")
+            file:close()
+            break
+        else
+            print("not ading reecipe")
+            break
+        end
+    end
+    if mode == "interrupted" then
+        break
+    end
 end

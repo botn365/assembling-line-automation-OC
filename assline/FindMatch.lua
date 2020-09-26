@@ -62,6 +62,8 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin) -- make sthe load 
       end
     end
   end
+  local name = recipy.n[n].output
+  print("making",name)
   return loadmap
 end
 
@@ -94,9 +96,12 @@ function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
   end
 end
 
-function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
+function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can make a item
+  if input == nil then
+    return false
+  end
   local istreu = false
-  for i = 1 , recipy.count do --recipy.count
+  for i = startIndex , recipy.count do --recipy.count
     --print(i)
     --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
@@ -196,5 +201,6 @@ function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavai
     return false
   end
 end
+
 
 return FindMatch
