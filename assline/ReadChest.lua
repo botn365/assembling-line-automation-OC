@@ -5,9 +5,16 @@ local config = require("config")
 function ReadChest.makeShort(inventory,size) -- makes  a compact version of the chest
   local simpleinventory = objSimpleArr()
   local isequal = 0
-  simpleinventory.new(inventory[0])
-  simpleinventory.newlocation(1,inventory,0)
-  for i = 1,size-1 do
+  local start = 0
+  for i = 0, size-1 do
+    if inventory[i].label ~= nil then
+      simpleinventory.new(inventory[i])
+      simpleinventory.newlocation(1,inventory,i)
+      start = i+1
+      break
+    end
+  end
+  for i = start,size-1 do
     if inventory[i].label ~= nil and inventory[i].name ~= "minecraft:stick" then 
       for j = 1 ,simpleinventory.length do 
         if simpleinventory[j].label == inventory[i].label then
@@ -16,13 +23,17 @@ function ReadChest.makeShort(inventory,size) -- makes  a compact version of the 
           isequal = 1
         end
       end
-    if isequal == 0 then 
-      simpleinventory.new(inventory[i])
-      simpleinventory.newlocation(simpleinventory.length,inventory,i)
-    else isequal = 0 end
+      if isequal == 0 then 
+        simpleinventory.new(inventory[i])
+        simpleinventory.newlocation(simpleinventory.length,inventory,i)
+      else isequal = 0 end
     end
   end  
-  return simpleinventory
+  if simpleinventory.length == 0 then
+    return nil
+  else
+    return simpleinventory
+  end
 end
 
 function objSimple() 
@@ -34,7 +45,7 @@ function objSimple()
   return object
 end
 
-function objSimpleArr() 
+function objSimpleArr()
   local object = {}
   object.length = 0
   function object.new(a)
@@ -85,15 +96,19 @@ function objFluidArr()
   return object
 end
 
-function readFluid(Ntanks,address,addres2,position)
+function ReadChest.readFluid(Ntanks,address,addres2,addres3,position,localpos) --reads the fluid of tanks and stores it
   local fluid = objFluidArr()
-  for i = 1 , Ntanks do --reads the fluid of tanks and stores it
+  for i = 1 , Ntanks do 
     local temp
     if i < 4 then
       temp = address.getFluidInTank(position[i])
-    else
+    elseif i == 4 then
       temp = addres2.getFluidInTank(1)
+    else
+      temp = addres3.getFluidInTank(localpos[i-4])
     end
+    --print(i)
+    --print(position[i])
     if temp[1].label ~= nil and i ~= 4 then
       fluid.newFluid(temp[1].label,temp[1].amount,i)
     elseif i == 4 and temp[1].label ~= nil then
@@ -103,7 +118,7 @@ function readFluid(Ntanks,address,addres2,position)
   return fluid
 end
 
-function spacefor(fluidpipe,fluidstored,maxcap)
+function spacefor(fluidpipe,fluidstored,maxcap,tankstostore) --- check if there is space to store the fluid
   for i = 1 , fluidstored.length do
     if fluidpipe.label == fluidstored.fluid[i].label then
       if fluidpipe.amount > maxcap then
@@ -113,41 +128,49 @@ function spacefor(fluidpipe,fluidstored,maxcap)
       end
     end
   end
-  if fluidstored.length < 4 then
+  if fluidstored.length < tankstostore then
     return false
   end
   return true
 end
 
-function ReadChest.loadFluids(address,addres2)
+function ReadChest.loadFluids(address,addres2,addres3)  -- returns a fluid object with stored fluids
+  local tankstostore = 6
   local position = config.directionloader.directionfluid2
+  local localpos = {1,position[2]}
   local capacity = config.max_fluid_stored
-  local fluid = readFluid(4,address,addres2,position)
+  local fluid = ReadChest.readFluid(tankstostore,address,addres2,addres3,position,localpos)
   while address.getFluidInTank(0)[1].label ~= nil do
     local temp  = address.getFluidInTank(0)[1]
-    if spacefor(temp,fluid,capacity) then
+    if spacefor(temp,fluid,capacity,tankstostore) then
       break
     end
     local pass = true
-    for i = 1 , 4 do
+    for i = 1 , tankstostore do
       if fluid.fluid[i] ~=  nil then
         if fluid.fluid[i].label == temp.label then
           pass = false
           local maxsize = capacity - fluid.fluid[i].size
           if temp.amount < maxsize then
-            if fluid.fluid[i].tank ~= 4 then
+            if fluid.fluid[i].tank < 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],temp.amount)
-            else
+            elseif fluid.fluid[i].tank == 4 then
               address.transferFluid(0,position[5],temp.amount)
               addres2.transferFluid(position[3],1,temp.amount)
+            else
+              address.transferFluid(0,position[5],temp.amount)
+              addres3.transferFluid(0,localpos[fluid.fluid[i].tank-4],temp.amount)
             end
             break
           else
-            if fluid.fluid[i].tank ~= 4 then
+            if fluid.fluid[i].tank < 4 then
               address.transferFluid(0,position[fluid.fluid[i].tank],maxsize)
-            else
+            elseif fluid.fluid[i].tank == 4 then
               address.transferFluid(0,position[5],maxsize)
               addres2.transferFluid(position[3],1,maxsize)
+            else
+              address.transferFluid(0,position[5],maxsize)
+              addres3.transferFluid(0,localpos[fluid.fluid[i].tank-4],maxsize)
             end
             break
           end
@@ -156,21 +179,30 @@ function ReadChest.loadFluids(address,addres2)
     end
     if pass then
       local breakf = false
-      for j = 1 , 4 do
+      for j = 1 , tankstostore do --go trough all the tanks wher efluid can be stored
         if fluid.length == 0 then
           address.transferFluid(0,position[j],temp.amount)
           break
         end
-        for k = 1 , fluid.length do
-          if fluid.fluid[k].tank == j then
+        for k = 1 , fluid.length do  -- go trough all fluids that are stored 
+          if fluid.fluid[k].tank == j then -- check if there is a fluid in the tank
             break
           end
-          if k == fluid.length then
-            if j ~= 4 then
+          if k == fluid.length then -- if it has found a free tank store it transfer the fluid there
+            if j < 4 then
               address.transferFluid(0,position[j],temp.amount)
-            else
+            elseif j == 4 then
               address.transferFluid(0,position[5],temp.amount)
               addres2.transferFluid(position[3],1,temp.amount)
+            else
+              address.transferFluid(0,position[5],temp.amount)
+              local p = addres3.transferFluid(0,localpos[j-4],temp.amount)
+              if not p then
+                print("failer to transfer fluid to tank ",j)
+                print("direction to where the fluid should have transfered",localpos[j-4])
+                local crash
+                print(crash..crash)
+              end
             end
            breakf = true
            break
@@ -181,8 +213,8 @@ function ReadChest.loadFluids(address,addres2)
         end
       end
     end
-    os.sleep(0.2)
-    fluid = readFluid(4,address,addres2,position)
+    os.sleep(0.05)
+    fluid = ReadChest.readFluid(tankstostore,address,addres2,addres3,position,localpos) -- re read all the fluid that are stored
   end
   return fluid
 end
@@ -245,11 +277,3 @@ function getInbetween(subs,addresTop,side,size,inventory)
 end
 
 return ReadChest
---local test = getInventory()
---local inv = test.simpleinventory
---for i =1,test.simpleinventory.length do
-  --print(inv[i].size..inv[i].label) 
-  --for j =1,inv[i].location.length do
-    --print("amount= "..inv[i].location[j].size.." slot=  "..inv[i].location[j].slot)
-  --end
---end 

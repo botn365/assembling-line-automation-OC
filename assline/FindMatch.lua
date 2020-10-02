@@ -1,5 +1,5 @@
-package.loaded.CircuitOreDict=nil
 package.loaded.config=nil
+package.loaded.CircuitOreDict=nil
 oredict = require("CircuitOreDict")
 local config = require("config")
 local FindMatch = {}
@@ -47,63 +47,84 @@ function FindMatch.makeLoadMap(recipy,n,amount,chest,fluidin) -- make sthe load 
       end
     end
   end
+  for i = 1 , 5 - LS do
+    loadmap[loadmap.length+1] = false
+    loadmap.length = loadmap.length + 1
+  end
   loadmap[loadmap.length + 1] = false -- fluids
   loadmap.length = loadmap.length + 1
   for i = 1 , fluidin.length do
     for j = 1 , recipy.n[n].fluid.length do
       if fluidin.fluid[i].label  == recipy.n[n].fluid.recipy[j][2] then
-          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,0,fluidin.fluid[i].label}
+          loadmap[loadmap.length + 1]={j,recipy.n[n].fluid.recipy[j][1]*amount,fluidin.fluid[i].tank,0,fluidin.fluid[i].label}
           loadmap.length = loadmap.length + 1
         break
       end
     end
   end
+  local name = recipy.n[n].output
+  print("making",name)
   return loadmap
 end
 
-function checkFluid(recipy,fluid,n) -- check if the right fluid is availeble
+function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
   for j = 1 , recipy.n[n].fluid.length do 
     if fluid.length == 0 then
       break
     end
     for i = 1 , fluid.length do
+	  --print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+	  if config.debug and n == config.recipynumber then
+		print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+	  end
       if recipy.n[n].fluid.recipy[j][2] == fluid.fluid[i].label then
         break
       end
       if i == fluid.length then
+		if config.debug and n == config.recipynumber then
+			print(recipy.n[n].fluid.recipy[j][2],fluid.fluid[i].label)
+		end
         return false
       end
     end
     if recipy.n[n].fluid.length == j then
-      return true
+		if config.debug and n == config.recipynumber then
+			print("true")
+		end
+		return true
     end
   end
 end
 
-function FindMatch.findMatch(recipy,input,fluid) -- looks if it can make a item
+function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can make a item
+  if input == nil then
+    return false
+  end
   local istreu = false
-  for i = 1 ,recipy.count do
+  for i = startIndex , recipy.count do --recipy.count
     --print(i)
     --print("Bfluid")
     if checkFluid(recipy,fluid,i) then 
       for j = 1 ,recipy.n[i].simplerecipy.length do
+	  --print(i)
         local isfalse = false
         if recipy.n[i].simplerecipy[j].C == 1 then
-          
           if oredict.get(recipy.n[i].simplerecipy[j].label,input) then
             break
           end
         else
           for k = 1 , input.length do
-            if i == 9 then
-            --print(i)
-            -- print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
-            end
             if recipy.n[i].simplerecipy[j].label == input[k].label then 
-              --print("found")
-              --print(recipy.n[i].simplerecipy[j].label.."   "..input[k].label)
+              if config.debug and i == config.recipynumber then
+              print("match found")
+              print(recipy.n[i].simplerecipy[j].label,input[k].label)
+              end
               break
-            end 
+            else
+              if config.debug and i == config.recipynumber then
+                print(recipy.n[i].simplerecipy[j].label,input[k].label)
+              end
+            end
             if k == input.length then 
               isfalse = true
             end
@@ -162,4 +183,24 @@ function FindMatch.getMax(recipy,n,input,fluidin) -- checks how much items it ca
   end
    return lowest
 end
+
+function FindMatch.getAvailble(addrredstoneassline,directioredstoneassline,Pavailble)
+  local avialble = {}
+  avialble.count = 0
+  for k , v in pairs(addrredstoneassline) do
+      if v.getBundledInput(directioredstoneassline[k],1) < 200 then
+          avialble[avialble.count+1] = k
+          avialble.count = avialble.count + 1
+      end
+  end
+  if avialble.count > 0 then
+	--print(avialble[1])
+    Pavailble.A = avialble
+    return true
+  else
+    return false
+  end
+end
+
+
 return FindMatch

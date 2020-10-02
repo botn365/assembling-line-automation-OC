@@ -1,3 +1,4 @@
+local component = require("component")
 local process = {}
 
 function process.setSide(direction)
@@ -33,6 +34,26 @@ function process.setSide(direction)
         dir.directionredstoneassline = 0
     end
     return dir
+end
+
+function process.setProxyA(addr)
+    local proxys = {}
+    for k , v in pairs(addr) do
+        proxys[k] = component.proxy(addr[k])
+    end
+    return proxys
+end
+
+function process.setProxy(addr)
+    return component.proxy(addr)
+end
+
+function process.setSideA(dir)
+local directiotable = {}
+    for k , v in pairs(dir) do
+        directiotable[k] = process.setSide(dir[k]).directionredstoneassline
+    end
+    return directiotable
 end
 
 return process
