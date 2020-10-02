@@ -1,24 +1,48 @@
 # assembling-line-automation-OC
 automating assembling line with open computers
 
-how to dowload  
-run these commands  
+
+
+program exists out of multiple servers each do their own thing  
+
+##head servers  
+
+#main server  
+evry other server conncets tho this this also controls al the other  
+only put 1 of them in the network  
+
+#item-server  
+this server puts th items and runs the assline  
+and controlls it  
+
+#fluid-server  
+puts th fluids in the assline  
+
+##misc servers  
+servers that do other stuff not and are not super importent to the program
+
+#command server  
+this server alows you to send command to it  
+you need this to setup servers
+
+#graphical command server  
+coming soon if i ever get to it
+
+#listenr  
+records and writes down all importen msgs sent trough the modem  
+mostly used to know if somthing went wrong   
+
+##downloading programs
+
+run the download.lua program with as argument the fits 3 leters of the drive address
+example
 ```
-cd /
-mkdir assline
-cd assline
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/CircuitOreDict.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/FindMatch.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/LoadAssline.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/Loadrecipy.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/ReadChest.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/Recipy.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/addrecipy.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/addummy.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/conficprocess.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/config.txt config.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/dummyfile.txt dummyfile.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/load.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/logger.lua
-wget https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/parrallel_processing/assline/main.lua
+#home download 13a
 ```
+commands to download the programs
+does not matter where they are downloaded
+```
+
+
+```
+
