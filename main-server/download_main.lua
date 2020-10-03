@@ -24,7 +24,7 @@ else
     print("downloading")
     for k,v in pairs(download_list) do
         print("print",v)
-        local command = "wget "..v
+        local command = "wget "..v.." -f"
         shell.execute(command)
     end
 end
