@@ -18,7 +18,7 @@ function server.newServer(name,address,port,index,func,eventHandler)
     function t.sendMSG(modem,msg)
         --modem.broadcast(t.port,table.unpack(msg))
         modem.send(t.address,t.port,t.address,table.unpack(msg))
-        modem.send(399,table.unpack(msg))
+        modem.broadcast(399,table.unpack(msg))
     end
     function t.checkWorking(modem,success)
         local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
