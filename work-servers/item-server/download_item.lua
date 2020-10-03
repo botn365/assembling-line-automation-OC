@@ -9,7 +9,7 @@ else
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/work-servers/item-server/autorun.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/work-servers/item-server/comps.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/work-servers/item-server/listner.lua",
-        "https://github.com/botn365/assembling-line-automation-OC/blob/ae-intergeted/work-servers/item-server/setings.lua"
+        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/work-servers/item-server/setings.lua"
     }
 
     shell.setWorkingDirectory(path)
