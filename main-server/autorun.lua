@@ -146,8 +146,8 @@ end
 
 function getItems()
     local interfcace = component.me_interface
-    if interface == nil then
-    return nil    
+    if interfcace == nil then
+        return nil
     end
     local items = interfcace.getItemsInNetwork()
     if items == nil then
