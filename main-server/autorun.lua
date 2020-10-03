@@ -137,7 +137,7 @@ function getFluids()
     -- make it compataple with old find match code
     local fluids = {}
     fluids.fluid = fluidServer.getFluids(modem)
-    if fluid.fluid == nil then
+    if fluids.fluid == nil then
     return nil    
     end
     fluids.length = #fluids.fluid 
