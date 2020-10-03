@@ -47,7 +47,7 @@ function sendMSGS(address,port,msg)
     --modem.send(address,port,...)
     --print("sendMSG",table.unpack(msg))
     modem.send(address,port,address,table.unpack(msg))
-    modem.send(LISTNER_ADDRESS,399,address,table.unpack(msg))
+    modem.broadcast(399,address,table.unpack(msg))
 end
 
 --functions

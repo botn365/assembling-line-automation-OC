@@ -33,7 +33,7 @@ function run()
     function sendMsg(mesage)
         --modem.broadcast(SET.host_port,table.unpack(mesage))
         modem.send(SET.host_address,SET.host_port,SET.host_address,table.unpack(mesage))
-        modem.send(LISTNER_ADDRESS,399,table.unpack(mesage))
+        modem.broadcast(399,table.unpack(mesage))
     end
 
     function getEvents()
