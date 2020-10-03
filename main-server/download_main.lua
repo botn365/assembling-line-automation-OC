@@ -10,7 +10,7 @@ else
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/side.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/setings.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/recipe.lua",
-        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/itemserver.lua",
+        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/itemServer.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/fluidServer.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/eventhandler.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/assline.lua",
