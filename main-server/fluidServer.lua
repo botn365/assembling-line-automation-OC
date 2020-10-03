@@ -153,6 +153,9 @@ function server.newServer(name,address,port,index,func,eventHandler)
         if Event[6] ~= "fluid_table" then
             return nil
         end
+        if Event[8] == nil then
+            return nil
+        end
         local tab = Event[8]
         print(tab:len())
         local fluidTable = serialization.unserialize(Event[8])
