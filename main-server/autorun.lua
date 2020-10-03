@@ -137,13 +137,22 @@ function getFluids()
     -- make it compataple with old find match code
     local fluids = {}
     fluids.fluid = fluidServer.getFluids(modem)
+    if fluid.fluid == nil then
+    return nil    
+    end
     fluids.length = #fluids.fluid 
     return fluids
 end
 
 function getItems()
     local interfcace = component.me_interface
+    if interface == nil then
+    return nil    
+    end
     local items = interfcace.getItemsInNetwork()
+    if items == nil then
+        return nil    
+    end
     items.length = items.n
     return items
 end
@@ -166,6 +175,9 @@ function runAsslines()
     local used = 0
     local items = getItems()
     local fluids = getFluids()
+    if items == nil or fluids == nil then
+        return    
+    end
     while (#asslines-used)>0 do
         local oldUsed = used
         local recipeNumber = findMatch.findMatch(recipymap,items,fluids, 1)
