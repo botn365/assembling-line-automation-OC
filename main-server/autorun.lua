@@ -162,7 +162,6 @@ function loadSafe(...)
     if not ran then
         print(err)
     end
-    print("pcall done")
 end
 
 function runAsslines()
@@ -183,7 +182,7 @@ function runAsslines()
         local recipeNumber = findMatch.findMatch(recipymap,items,fluids, 1)
         if recipeNumber then
             local recipe = recipymap.n[recipeNumber]
-            print(recipe)
+            print("recipe" , recipe.output)
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
                 local fullAmount = math.floor(amount/16) + used
@@ -485,12 +484,12 @@ function initialiseFluidServer(commandAddress,eventID,server)
 end
 
 function getFluidServer(commandAddress,eventID)
-    local shortServer = {}
-    for k,v in pairs(FLUID_SERVERS) do
-        shortServer[#shortServer+1] = {index=k,address=v.address,name=v.name}
-    end
     sendMSGS(commandAddress,COMAND_PORT,{"print","select fluid server to fill fluids in assline"})
     while true do
+        local shortServer = {}
+        for k,v in pairs(FLUID_SERVERS) do
+            shortServer[#shortServer+1] = {index=k,address=v.address,name=v.name}
+        end
         sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(shortServer)})
         sendMSGS(commandAddress, COMAND_PORT, {"set_static","server index:"})
         local selcted = {event.pull(eventID)}
@@ -619,6 +618,64 @@ function addNewAssline(Event,arg)
     save()
 end
 
+-- function resetServer(Event)
+--     local function msger(Event)
+--         local eventID,_ = string.gsub(Event[3],"-","_")
+--         table.remove(Event,1)
+--         event.push(eventID,table.unpack(Event))
+--     end
+--     COMMAND_FUNCIONS[Event[3]] = msger
+--     local inactiveServers = {}
+--     local eventID,_ = string.gsub(Event[3],"-","_")
+--     local server = nil
+--     while true do
+--         for k,v in pairs(ITEM_SERVERS) do
+--             if not v.initialised then
+--                 inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="item"}
+--             end
+--         end
+--         for k,v in pairs(FLUID_SERVERS) do
+--             if not v.initialised then
+--                 inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="fluid"}
+--             end
+--         end
+--         sendMSGS(Event[3], COMAND_PORT, {"print","select server to reset"})
+--         sendMSGS(Event[3], COMAND_PORT, {"print_table",inactiveServers})
+--         local number = 0
+        
+--         while true do
+--             sendMSGS(Event[3], COMAND_PORT, {"set_static","index number:"})
+--             number = {event.pull(eventID)}
+--             number = number[8]
+--             sendMSGS(Event[3], COMAND_PORT, {"print","index number:"..number})
+--             number = tonumber(number)
+--             if number == nil  then
+--                 sendMSGS(Event[3], COMAND_PORT, {"print","given number is a not a number"})
+--                 break
+--             end
+--             for k,v in pairs(inactiveServers) do
+--                 if v.index == number then
+--                     server = v
+--                 end
+--             end
+--             sendMSGS(Event[3], COMAND_PORT, {"print",number.." is a not a valid number"})
+--             break
+--         end
+--         if server ~= nil then
+--             break
+--         end
+--     end
+--     if server.type == "item" then
+--         server = ITEM_SERVERS[server.k]
+--     elseif server.type == "fluid" then
+--         server = FLUID_SERVERS[server.k]
+--     end
+
+
+
+--     COMMAND_FUNCIONS[Event[3]] = nil
+-- end
+
 function checkAssline()
 
 end
@@ -741,6 +798,8 @@ function comandLine(event)
         ass.load(recipe,1,modem,success)
         print("loading done")
         sendMSGS(event[3], COMAND_PORT, {"print","success"..tostring(success.s)})
+    elseif command == "reset_server" then
+        --resetServer(event)
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
