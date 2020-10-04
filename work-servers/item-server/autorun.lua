@@ -270,9 +270,23 @@ function run()
         return true
     end
 
+    function getValidInterace()
+        for k,v in pairs(component.list("me_interface")) do
+            local prox = component.proxy(k)
+            if prox.store ~= nil then
+                return prox
+            end
+        end
+        return nil
+    end
+
     function setDataBase(msgId,positions,database)
         STATUS = "working"
-        local store = component.me_interface.store
+        local store = getValidInterace()
+        if store == nil then
+            sndMSG({"print",msgId,"no valid interface"})
+            return false
+        end
         for k,v in pairs(positions) do
             database.clear(v[2])
             local filter = {label = v[1]}
