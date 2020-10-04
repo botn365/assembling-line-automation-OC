@@ -164,6 +164,29 @@ function loadSafe(...)
     end
 end
 
+function convertRecipe(recipe,circuitConverList)
+    recipeCopy = {ingredient={},fluid={recipy={}}}
+    for k ,v in pairs(recipe.ingredient) do -- copy the items and conver circuit oredict
+        if v[3] == nil then
+            recipeCopy.ingredient[k] = {v[1],v[2]}
+            print("normal item",recipeCopy.ingredient[k][2])
+        else
+            for L,N in pairs(circuitConverList) do
+                print("compare",N[1],v[2])
+                if N[1] == v[2] then
+                    recipeCopy.ingredient[k] = {v[1],N[2]}
+                    print("circuit",recipeCopy.ingredient[k][2])
+                    break
+                end
+            end
+        end
+    end
+    for k,v in pairs(recipe.fluid.recipy) do -- copy fluids
+        recipeCopy.fluid.recipy[k] = {v[1],v[2]}
+    end
+    return recipeCopy
+end
+
 function runAsslines()
     local asslines = getWorkingAssline()
     if asslines == {} then
@@ -185,21 +208,12 @@ function runAsslines()
             print("recipe" , recipe.output)
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
-                itemList = {ingredient={}}
-                for k ,v in pairs(recipe.ingredient) do
-                    if v[3] == nil then
-                        itemList.ingredient[k] = {v[1],v[2]}
-                        print("normal item",itemList.ingredient[k][2])
-                    else
-                        for L,N in pairs(circuitConverList) do
-                            print("compare",N[1],v[2])
-                            if N[1] == v[2] then
-                                itemList.ingredient[k] = {v[1],N[2]}
-                                print("circuit",itemList.ingredient[k][2])
-                                break
-                            end
-                        end
-                    end
+                -- copy the recipe if there is circuit converion
+                local recipeCopy
+                if #circuitConverList > 0 then
+                    recipeCopy = convertRecipe()
+                else
+                    recipeCopy = recipe
                 end
                 print(nil..nil)
                 local fullAmount = math.floor(amount/16) + used
@@ -210,7 +224,7 @@ function runAsslines()
                 for i = 1 + used,fullAmount do
                     successList[#successList+1] = {s=false}
                     print("made assline thread")
-                    loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipe,16,modem,successList[#successList])
+                    loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipeCopy,16,modem,successList[#successList])
                     asslines[i] = nil
                     used = used+1
                     amount =  amount - 16
@@ -219,7 +233,7 @@ function runAsslines()
                     successList[#successList+1] = {s=false}
                     print("made assline thread")
                     print(asslines[used+1],used)
-                    loadThreads[#loadThreads+1] = thread.create(loadSafe,asslines[used+1].load,recipe,amount,modem,successList[#successList])
+                    loadThreads[#loadThreads+1] = thread.create(loadSafe,asslines[used+1].load,recipeCopy,amount,modem,successList[#successList])
                     asslines[used+1] = nil
                     used = used+1
                 end
