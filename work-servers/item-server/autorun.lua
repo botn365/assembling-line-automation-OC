@@ -282,9 +282,9 @@ function run()
 
     function setDataBase(msgId,positions,database)
         STATUS = "working"
-        local store = getValidInterace()
+        local store = getValidInterace().store
         if store == nil then
-            sndMSG({"print",msgId,"no valid interface"})
+            sendMsg({"print",msgId,"no valid interface"})
             return false
         end
         for k,v in pairs(positions) do
