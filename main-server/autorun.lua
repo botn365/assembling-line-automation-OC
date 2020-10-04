@@ -145,13 +145,13 @@ function getFluids()
 end
 
 function getItems()
-    local interfcace = component.me_interface
-    if interfcace == nil then
+    local interface = component.me_interface
+    if interface == nil then
         return nil
     end
-    local items = interfcace.getItemsInNetwork()
+    local items = interface.getItemsInNetwork()
     if items == nil then
-        return nil    
+        return nil
     end
     items.length = items.n
     return items
