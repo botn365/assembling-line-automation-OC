@@ -192,6 +192,7 @@ function runAsslines()
                         print("normal item",itemList.ingredient[k][2])
                     else
                         for L,N in pairs(circuitConverList) do
+                            print("compare",N[1][2],v[2])
                             if N[1][2] == v[2] then
                                 itemList.ingredient[k] = {v[1],N[2]}
                                 print("circuit",itemList.ingredient[k][2])
