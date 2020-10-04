@@ -211,7 +211,7 @@ function runAsslines()
                 -- copy the recipe if there is circuit converion
                 local recipeCopy
                 if #circuitConverList > 0 then
-                    recipeCopy = convertRecipe()
+                    recipeCopy = convertRecipe(recipe,circuitConverList)
                 else
                     recipeCopy = recipe
                 end
