@@ -196,6 +196,7 @@ function runAsslines()
                     loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipe,16,modem,successList[#successList])
                     asslines[i] = nil
                     used = used+1
+                    amount =  amount - 16
                 end
                 if (amount/16)%1 > 0  and (#asslines-used)>0  then
                     successList[#successList+1] = {s=false}
