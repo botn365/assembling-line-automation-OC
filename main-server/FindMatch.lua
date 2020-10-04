@@ -101,12 +101,12 @@ function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can m
         local isfalse = false
         if recipy.n[i].simplerecipy[j].C == 1 then
           local pass,circuit = oredict.get(recipy.n[i].simplerecipy[j].label,input)
-          if pass then
-            if circuit~= nil then
-              print("adding circuit")
-              circuitConvert[#circuitConvert+1] = {recipy.n[i].simplerecipy[j].label,circuit}
-            end
+          if not pass then
             break
+          end
+          if circuit~= nil then
+            print("adding circuit")
+            circuitConvert[#circuitConvert+1] = {recipy.n[i].simplerecipy[j].label,circuit}
           end
         else
           for k = 1 , input.length do

@@ -30,17 +30,19 @@ function OreDict.get(tier,list)
     for i = 1 , dictlist[tier + 1 - minT].length do
         for j = 1 , list.length do
             if dictlist[tier + 1- minT][i] == list[j].label then
-                return false
+                return true,list[j].label
             end
         end
     end
-    return true
+    return false
 end
 
 function OreDict.check(R_list,C_list)
     if R_list[3] == 1 then
+        print("circuit found")
         for i = 1 , dictlist[R_list[2]+1-minT].length do
             if dictlist[R_list[2]+1-minT][i] == C_list then
+                print("returning circuit",dictlist[R_list[2]+1-minT][i])
                 return true,dictlist[R_list[2]+1-minT][i]
             end
         end
