@@ -193,11 +193,11 @@ function runAsslines()
                 for i = 1 + used,fullAmount do
                     successList[#successList+1] = {s=false}
                     print("made assline thread")
-                    loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipe,amount,modem,successList[#successList])
+                    loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipe,16,modem,successList[#successList])
                     asslines[i] = nil
                     used = used+1
                 end
-                if (amount/16)%1 > 0 then
+                if (amount/16)%1 > 0  and (#asslines-used)>0  then
                     successList[#successList+1] = {s=false}
                     print("made assline thread")
                     print(asslines[used+1],used)
@@ -211,14 +211,16 @@ function runAsslines()
             break
         end
     end
-    print("waiting for assline")
-    if #loadThreads > 0 then
-        thread.waitForAll(loadThreads)
-    end
-    print("done waiting")
-    for k,v in pairs(successList) do
-        if not v.s then
-            print(v.error,"asslien broke")
+    if #loadThreads >1 then
+        print("waiting for assline")
+        if #loadThreads > 0 then
+            thread.waitForAll(loadThreads)
+        end
+        print("done waiting")
+        for k,v in pairs(successList) do
+            if not v.s then
+                print(v.error,"asslien broke")
+            end
         end
     end
 end
