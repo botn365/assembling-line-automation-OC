@@ -215,7 +215,6 @@ function runAsslines()
                 else
                     recipeCopy = recipe
                 end
-                print(nil..nil)
                 local fullAmount = math.floor(amount/16) + used
                 if fullAmount > #asslines then
                     fullAmount = #asslines
