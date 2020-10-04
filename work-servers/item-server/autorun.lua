@@ -394,14 +394,24 @@ function run()
             sendMsg({"already_on",msgId})
             suc = true
         else
-            gt.setWorkAllowed(true)
-            os.sleep(0.05)
-            if gt.isMachineActive() then
-                sendMsg({"assline_on",msgId})
-                suc = true
-            else
-                sendMsg({"load_failure",msgId})
+            local atempts = 0
+            while atempts < 5 do
+                gt.setWorkAllowed(true)
+                os.sleep(0.05)
+                if gt.isMachineActive() then
+                    sendMsg({"assline_on",msgId})
+                    break
+                    suc = true
+                else
+                    atempts = atempts+1
+                    gt.setWorkAllowed(false)
+                    os.sleep(0.05)
+                    --sendMsg({"load_failure",msgId})
+                end
             end
+        end
+        if not suc then
+            sendMsg({"load_failure",msgId})
         end
         while gt.isMachineActive() do
             os.sleep(0.05)
