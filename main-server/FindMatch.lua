@@ -103,6 +103,7 @@ function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can m
           local pass,circuit = oredict.get(recipy.n[i].simplerecipy[j].label,input)
           if pass then
             if circuit~= nil then
+              print("adding circuit")
               circuitConvert[#circuitConvert+1] = {recipy.n[i].simplerecipy[j].label,circuit}
             end
             break
