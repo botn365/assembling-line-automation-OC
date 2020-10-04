@@ -28,7 +28,7 @@ local colors = require("colors")
 local modem = component.modem
 
 
-SAVE_LOCATION = "/HOME/save.txt"
+SAVE_LOCATION = "/save.txt"
 LOCAL_PORT = 201
 REMOTE_PORT = 210
 COMAND_PORT = 404
