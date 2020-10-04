@@ -41,12 +41,12 @@ function OreDict.check(R_list,C_list)
     if R_list[3] == 1 then
         for i = 1 , dictlist[R_list[2]+1-minT].length do
             if dictlist[R_list[2]+1-minT][i] == C_list then
-                return true
+                return true,dictlist[R_list[2]+1-minT][i]
             end
         end
         return false
     else
-        return R_list[2] == C_list
+        return R_list[2] == C_list,nil
     end
 end
 

@@ -91,6 +91,7 @@ function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can m
     return false
   end
   local istreu = false
+  local circuitConvert = {}
   for i = startIndex , recipy.count do --recipy.count
     -- print(i)
     -- print("Bfluid")
@@ -99,7 +100,11 @@ function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can m
 	  -- print(i)
         local isfalse = false
         if recipy.n[i].simplerecipy[j].C == 1 then
-          if oredict.get(recipy.n[i].simplerecipy[j].label,input) then
+          local pass,circuit = oredict.get(recipy.n[i].simplerecipy[j].label,input)
+          if pass then
+            if circuit~= nil then
+              circuitConvert[#circuitConvert+1] = {recipy.n[i].simplerecipy[j].label,circuit}
+            end
             break
           end
         else
@@ -117,7 +122,7 @@ function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can m
             break
           end
           if j == recipy.n[i].simplerecipy.length then
-            return i
+            return i,circuitConvert
           end
         end
       end

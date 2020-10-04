@@ -179,12 +179,28 @@ function runAsslines()
     end
     while (#asslines-used)>0 do
         local oldUsed = used
-        local recipeNumber = findMatch.findMatch(recipymap,items,fluids, 1)
+        local recipeNumber,circuitConverList = findMatch.findMatch(recipymap,items,fluids, 1)
         if recipeNumber then
             local recipe = recipymap.n[recipeNumber]
             print("recipe" , recipe.output)
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
+                itemList = {ingredient={}}
+                for k ,v in pairs(recipe.ingredient) do
+                    if v[3] == nil then
+                        itemList.ingredient[k] = {v[1],v[2]}
+                        print("normal item",itemList.ingredient[k][2])
+                    else
+                        for L,N in pairs(circuitConverList) do
+                            if N[1][2] == v[2] then
+                                itemList.ingredient[k] = {v[1],N[2]}
+                                print("circuit",itemList.ingredient[k][2])
+                                break
+                            end
+                        end
+                    end
+                end
+                print(nil..nil)
                 local fullAmount = math.floor(amount/16) + used
                 if fullAmount > #asslines then
                     fullAmount = #asslines
