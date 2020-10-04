@@ -87,7 +87,7 @@ function checkFluid(recipy,fluid,n) -- check if the right fluid is avialble
 end
 
 function FindMatch.findMatch(recipy,input,fluid,startIndex) -- looks if it can make a item
-  if input == nil then
+  if input == nil or input.n <1 then
     return false
   end
   local istreu = false
