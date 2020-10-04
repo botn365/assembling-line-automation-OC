@@ -149,7 +149,7 @@ function server.newServer(name,address,port,index,func,eventHandler)
         local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
         t.sendMSG(modem, {"get_fluids",msgId})
         local eventId = t.getEventID()
-        local Event = {event.pull(eventId)}
+        local Event = {event.pull(10,eventId)}
         if Event[6] ~= "fluid_table" then
             return nil
         end
