@@ -836,7 +836,7 @@ load()
 print(#ASSLINES)
 
 
-os.sleep(20)
+os.sleep(8)
 while true do
     runAsslines()
     os.sleep(5)
