@@ -414,6 +414,7 @@ function run()
             sendMsg({"load_failure",msgId})
         end
         while gt.isMachineActive() do
+            gt.setWorkAllowed(true)
             os.sleep(0.05)
         end
         sendMsg({"crafting_done",msgId})
