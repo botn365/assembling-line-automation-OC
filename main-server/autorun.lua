@@ -285,6 +285,7 @@ function runAsslines()
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
+                local amountPre = amount
                 local recipeCopy,reductionCopy = convertRecipe(recipe,circuitConverList)
                 local fullAmount = math.floor(amount/16) + used
                 if fullAmount > #asslines then
@@ -306,8 +307,9 @@ function runAsslines()
                     loadThreads[#loadThreads+1] = thread.create(loadSafe,asslines[used+1].load,recipeCopy,amount,modem,successList[#successList])
                     asslines[used+1] = nil
                     used = used+1
+                    amount = 0
                 end
-                removeUsed(reductionCopy,items,fluids,amount)
+                removeUsed(reductionCopy,items,fluids,amountPre-amount)
             end
         end
         if oldUsed == used then
