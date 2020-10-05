@@ -228,6 +228,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
                         items[indexI]=nil
                     end
                     recipeCopy.ingredient[indexR] = nil
+                    break
                 end
             end
         end
@@ -244,6 +245,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
                         fluids.fluid[indexI] = nil
                     end
                     recipeCopy.fluid.recipy[indexR] = nil
+                    break
                 end
             end
         end
