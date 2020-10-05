@@ -17,7 +17,8 @@ else
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/Recipy.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/Loadrecipy.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/FindMatch.lua",
-        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/autorun.lua"
+        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/autorun.lua",
+        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/LoadrecipePriorety.lua"
     }
 
     shell.setWorkingDirectory(path)
