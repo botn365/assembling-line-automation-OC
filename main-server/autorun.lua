@@ -202,12 +202,12 @@ function removeUsed(recipeCopy,items,fluids,amount)
     end
     print("items/fluids stored")
     for k,v in pairs(items) do
-        if v ~= nil then
+        if type(v) == "table" then
             print(v.size,v.label)
         end
     end
     for k,v in pairs(recipeCopy.fluid.recipy) do
-        if v ~= nil then
+        if type(v) == "table" then
             print(v.amount,v.label)
         end
     end
@@ -246,12 +246,12 @@ function removeUsed(recipeCopy,items,fluids,amount)
     end
     print("removed fluids /items re printing")
     for k,v in pairs(items) do
-        if v ~= nil then
+        if type(v) == "table" then
             print(v.size,v.label)
         end
     end
     for k,v in pairs(recipeCopy.fluid.recipy) do
-        if v ~= nil then
+        if type(v) == "table" then
             print(v.amount,v.label)
         end
     end
