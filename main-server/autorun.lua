@@ -189,17 +189,17 @@ end
 
 function copySimpleRecipe(recipe,circuitConverList)
     local simplerecipe = recipe.simplerecipy
-    local copySimpleRecipe = {length=simplerecipe.length}
+    local copySimpleRecipe = {simplerecipe={length=simplerecipe.length},fluid={recipy={}}}
     for i = 1 , simplerecipe.length do
         if simplerecipe[i].C == 1 then
             for L,N in pairs(circuitConverList) do
                 if N[1] == simplerecipe[i].label then
-                    copySimpleRecipe[i] = {size=simplerecipe[i].size,label=N[2]}
+                    copySimpleRecipe.simplerecipe[i] = {size=simplerecipe[i].size,label=N[2]}
                     break
                 end
             end
         else
-            copySimpleRecipe[i] = {size=simplerecipe[i].size,label=simplerecipe[i].label}
+            copySimpleRecipe.simplerecipe[i] = {size=simplerecipe[i].size,label=simplerecipe[i].label}
         end
     end
     for k,v in pairs(recipe.fluid.recipy) do -- copy fluids
@@ -210,15 +210,15 @@ end
 
 
 function removeUsed(recipeCopy,items,fluids,amount)
-
+    
     print("items recipe  amount = ",amount)
-    for k,v in pairs(recipeCopy.ingredient) do
-        if v ~= nil then
+    for k,v in pairs(recipeCopy.simplerecipe) do
+        if type(v) == "table" then
             print(v[1],v[2])
         end
     end
     for k,v in pairs(recipeCopy.fluid.recipy) do
-        if v ~= nil then
+        if type(v) == "table" then
             print(v[1],v[2])
         end 
     end
@@ -236,7 +236,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
 
     for indexI,itemI in pairs(items) do
         if type(itemI) == "table" then
-            for indexR,itemR in pairs(recipeCopy.ingredient) do
+            for indexR,itemR in pairs(recipeCopy.simplerecipe) do
                 if  type(itemR) == "table" and itemI.label == itemR[2] then
                     local amountR = itemR[1]*amount
                     local amountI = itemI.size
@@ -245,7 +245,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
                     else
                         items[indexI]=nil
                     end
-                    recipeCopy.ingredient[indexR] = nil
+                    recipeCopy.simplerecipe[indexR] = nil
                 end
             end
         end
