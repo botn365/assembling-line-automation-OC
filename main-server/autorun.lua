@@ -263,7 +263,7 @@ function runAsslines()
     while (#asslines-used)>0 do
         local oldUsed = used
         local circuitConverList
-        local prioretyMap, circuitConverList= recipePrioretyMap.findMatch(recipymap,items,fluids, 1)
+        local prioretyMap, circuitConverList= findMatch.findMatch(recipePrioretyMap,items,fluids, 1)
         if prioretyMap then
             recipeNumber = prioretyMap
         else
