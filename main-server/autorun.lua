@@ -217,9 +217,9 @@ function removeUsed(recipeCopy,items,fluids,amount)
     end
 
     for indexI,itemI in pairs(items) do
-        if itemI ~= nil then
+        if type(itemI) == "table" ~= nil then
             for indexR,itemR in pairs(recipeCopy.ingredient) do
-                if itemR ~= nil and itemI[2] == itemR.label then
+                if  type(itemR) == "table" and itemI.label == itemR[2] then
                     local amountR = itemR[1]*amount
                     local amountI = itemI.size
                     if amountR < amountI then
@@ -234,9 +234,9 @@ function removeUsed(recipeCopy,items,fluids,amount)
         end
     end
     for indexI,fluidI in pairs(fluids.fluid) do
-        if fluidI ~= nil then
+        if type(fluidI) == table then
             for indexR,fluidR in pairs(recipeCopy.fluid.recipy) do
-                if fluidR ~= nil and fluidI.label == fluidR[2] then
+                if type(fluidR) == "table" and fluidI.label == fluidR[2] then
                     local amountR = fluidR[1]*amount
                     local amountI =  fluidI.amount
                     if amountR < amountI then
