@@ -409,6 +409,7 @@ function run()
                 gt.setWorkAllowed(true)
                 os.sleep(0.05)
                 if gt.isMachineActive() then
+                    gt.setWorkAllowed(true)
                     sendMsg({"assline_on",msgId})
                     break
                     suc = true
@@ -423,6 +424,7 @@ function run()
         if not suc then
             sendMsg({"load_failure",msgId})
         end
+        gt.setWorkAllowed(true)
         while gt.isMachineActive() do
             gt.setWorkAllowed(true)
             os.sleep(0.05)
