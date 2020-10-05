@@ -187,6 +187,76 @@ function convertRecipe(recipe,circuitConverList)
     return recipeCopy
 end
 
+function removeUsed(recipeCopy,items,fluids,amount)
+
+    print("items recipe  amount = ",amount)
+    for k,v in pairs(recipeCopy.ingredient) do
+        if v ~= nil then
+            print(v[1],v[2])
+        end
+    end
+    for k,v in pairs(recipeCopy.fluid.recipy) do
+        if v ~= nil then
+            print(v[1],v[2])
+        end 
+    end
+    print("items/fluids stored")
+    for k,v in pairs(items) do
+        if v ~= nil then
+            print(v.size,v.label)
+        end
+    end
+    for k,v in pairs(recipeCopy.fluid.recipy) do
+        if v ~= nil then
+            print(v.amount,v.label)
+        end
+    end
+
+    for indexI,itemI in pairs(items) do
+        if itemI ~= nil then
+            for indexR,itemR in pairs(recipeCopy.ingredient) do
+                if itemR == nil and itemI[2] == itemR.label then
+                    local amountR = itemR[1]*amount
+                    local amountI = itemI[indexI].size
+                    if amountR < amountI then
+                        items[indexI].size = amountI - amountR
+                    else
+                        items[indexI]=nil
+                    end
+                    recipeCopy.ingredient[indexR] = nil
+                end
+            end
+        end
+    end
+    for indexI,fluidI in pairs(fluids.fluid) do
+        if fluidI ~= nil then
+            for indexR,fluidR in pairs(recipeCopy.fluid.recipy) do
+                if fluidR ~= nil and fluidI.label == fluidR[2] then
+                    local amountR = fluidR[1]*amount
+                    local amountI =  fluidI.amount
+                    if amountR < amountI then
+                        fluids.fluid[indexI].amount = amountI - amountR
+                    else
+                        fluids.fluid[indexI] = nil
+                    end
+                    recipeCopy.fluid.recipy[indexR] = nil
+                end
+            end
+        end
+    end
+    print("removed fluids /items re printing")
+    for k,v in pairs(items) do
+        if v ~= nil then
+            print(v.size,v.label)
+        end
+    end
+    for k,v in pairs(recipeCopy.fluid.recipy) do
+        if v ~= nil then
+            print(v.amount,v.label)
+        end
+    end
+end
+
 function runAsslines()
     local asslines = getWorkingAssline()
     if asslines == {} then
@@ -236,6 +306,7 @@ function runAsslines()
                     asslines[used+1] = nil
                     used = used+1
                 end
+                removeUsed(recipeCopy,items,fluids,amount)
             end
         end
         if oldUsed == used then
