@@ -21,6 +21,7 @@ local event = require("event")
 local serialization = require("serialization")
 local filesystem = require("filesystem")
 local recipymap = require("Loadrecipy")
+local recipePrioretyMap = require("LoadrecipePriorety")
 local findMatch = require("FindMatch")
 local computer = require("computer")
 local side = require("side")
@@ -255,12 +256,19 @@ function runAsslines()
     local used = 0
     local items = getItems()
     local fluids = getFluids()
+    local recipeNumber = 0
     if items == nil or fluids == nil then
         return    
     end
     while (#asslines-used)>0 do
         local oldUsed = used
-        local recipeNumber,circuitConverList = findMatch.findMatch(recipymap,items,fluids, 1)
+        local circuitConverList
+        local prioretyMap, circuitConverList= recipePrioretyMap.findMatch(recipymap,items,fluids, 1)
+        if prioretyMap then
+            recipeNumber = prioretyMap
+        else
+            recipeNumber,circuitConverList = findMatch.findMatch(recipymap,items,fluids, recipeNumber+1)
+        end
         if recipeNumber then
             local recipe = recipymap.n[recipeNumber]
             print("recipe" , recipe.output)
@@ -294,6 +302,8 @@ function runAsslines()
                 end
                 removeUsed(copySimple,items,fluids,amountPre-amount)
             end
+        else
+            break
         end
         if oldUsed == used then
             break
