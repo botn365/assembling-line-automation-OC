@@ -287,8 +287,6 @@ function loadFluids(msgId,fluidNames,fluidAmount,id,compTP,compRS)
         for I = 1,20 do
             local tr = transferFluids(fluidPos[i].label,fluidPos[i].amount-transferd,compTP)
             transferd = transferd + tr
-            if tr == 0 then
-            end
             if transferd == fluidPos[i].amount then
                 suc = true
                 break
