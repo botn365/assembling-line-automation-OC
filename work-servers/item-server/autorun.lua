@@ -238,7 +238,17 @@ function run()
                     end
                 end
             end
-            aeComp.component.setInterfaceConfiguration(1,database.address,v,transferSize)
+            local failCount = 0
+            while not aeComp.component.setInterfaceConfiguration(1,database.address,v,transferSize) do
+                os.sleep(0.05)
+                if failCount > 3 then
+                    sendMsg({"setInterface_Error",msgId,v})
+                    STATUS = "on"
+                    return false
+                else
+                    failCount = failCount + 1
+                end
+            end
             local index = 1
             local leftover = 0
             local loopcount = 0
@@ -259,7 +269,7 @@ function run()
                 loopcount =  loopcount + 1
                 if loopcount > 100 then
                     aeComp.component.setInterfaceConfiguration(1,database.address,81,0)
-                    sendMsg({"transfer_error",msgId})
+                    sendMsg({"transfer_error",msgId,v,index})
                     STATUS = "on"
                     return false
                 end
