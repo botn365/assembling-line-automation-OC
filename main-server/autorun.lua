@@ -262,15 +262,21 @@ function runAsslines()
     end
     while (#asslines-used)>0 do
         local oldUsed = used
-        local circuitConverList
+        local isPriorety = false
         local prioretyMap, circuitConverList= findMatch.findMatch(recipePrioretyMap,items,fluids, 1)
         if prioretyMap then
             recipeNumber = prioretyMap
+            isPriorety = true
         else
             recipeNumber,circuitConverList = findMatch.findMatch(recipymap,items,fluids, recipeNumber+1)
         end
         if recipeNumber then
-            local recipe = recipymap.n[recipeNumber]
+            local recipe
+            if isPriorety then
+                recipe = recipePrioretyMap.n[recipeNumber]
+            else
+                recipe = recipymap.n[recipeNumber]
+            end
             print("recipe" , recipe.output)
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
