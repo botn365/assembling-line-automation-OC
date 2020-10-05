@@ -164,20 +164,17 @@ function loadSafe(...)
     end
 end
 
-function convertRecipe(recipe,circuitConverList)
+function copyRecipe(recipe,circuitConverList)
     local recipeCopy = {ingredient={},fluid={recipy={}}}
-    local reductionCopy = {ingredient={},fluid={recipy={}}}
     for k ,v in pairs(recipe.ingredient) do -- copy the items and conver circuit oredict
         if v[3] == nil then
             recipeCopy.ingredient[k] = {v[1],v[2]}
-            reductionCopy.ingredient[k] = {v[1],v[2]}
             print("normal item",recipeCopy.ingredient[k][2])
         else
             for L,N in pairs(circuitConverList) do
                 print("compare",N[1],v[2])
                 if N[1] == v[2] then
                     recipeCopy.ingredient[k] = {v[1],N[2]}
-                    reductionCopy.ingredient[k] = {v[1],N[2]}
                     print("circuit",recipeCopy.ingredient[k][2])
                     break
                 end
@@ -186,10 +183,31 @@ function convertRecipe(recipe,circuitConverList)
     end
     for k,v in pairs(recipe.fluid.recipy) do -- copy fluids
         recipeCopy.fluid.recipy[k] = {v[1],v[2]}
-        reductionCopy.fluid.recipy[k] = {v[1],v[2]}
     end
-    return recipeCopy,reductionCopy
+    return recipeCopy
 end
+
+function copySimpleRecipe(recipe,circuitConverList)
+    local simplerecipe = recipe.simplerecipy
+    local copySimpleRecipe = {length=simplerecipe.length}
+    for i = 1 , simplerecipe.length do
+        if simplerecipe[i].C == 1 then
+            for L,N in pairs(circuitConverList) do
+                if N[1] == simplerecipe[i].label then
+                    copySimpleRecipe[i] = {size=simplerecipe[i].size,label=N[2]}
+                    break
+                end
+            end
+        else
+            copySimpleRecipe[i] = {size=simplerecipe[i].size,label=simplerecipe[i].label}
+        end
+    end
+    for k,v in pairs(recipe.fluid.recipy) do -- copy fluids
+        copySimpleRecipe.fluid.recipy[k] = {v[1],v[2]}
+    end
+    return copySimpleRecipe
+end
+
 
 function removeUsed(recipeCopy,items,fluids,amount)
 
@@ -228,7 +246,6 @@ function removeUsed(recipeCopy,items,fluids,amount)
                         items[indexI]=nil
                     end
                     recipeCopy.ingredient[indexR] = nil
-                    break
                 end
             end
         end
@@ -245,7 +262,6 @@ function removeUsed(recipeCopy,items,fluids,amount)
                         fluids.fluid[indexI] = nil
                     end
                     recipeCopy.fluid.recipy[indexR] = nil
-                    break
                 end
             end
         end
@@ -286,7 +302,8 @@ function runAsslines()
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
                 local amountPre = amount
-                local recipeCopy,reductionCopy = convertRecipe(recipe,circuitConverList)
+                local recipeCopy = copyRecipe(recipe,circuitConverList)
+                local copySimple = copySimpleRecipe(recipe,circuitConverList)
                 local fullAmount = math.floor(amount/16) + used
                 if fullAmount > #asslines then
                     fullAmount = #asslines
@@ -309,7 +326,7 @@ function runAsslines()
                     used = used+1
                     amount = 0
                 end
-                removeUsed(reductionCopy,items,fluids,amountPre-amount)
+                removeUsed(copySimple,items,fluids,amountPre-amount)
             end
         end
         if oldUsed == used then
