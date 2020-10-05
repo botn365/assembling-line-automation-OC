@@ -169,13 +169,10 @@ function copyRecipe(recipe,circuitConverList)
     for k ,v in pairs(recipe.ingredient) do -- copy the items and conver circuit oredict
         if v[3] == nil then
             recipeCopy.ingredient[k] = {v[1],v[2]}
-            print("normal item",recipeCopy.ingredient[k][2])
         else
             for L,N in pairs(circuitConverList) do
-                print("compare",N[1],v[2])
                 if N[1] == v[2] then
                     recipeCopy.ingredient[k] = {v[1],N[2]}
-                    print("circuit",recipeCopy.ingredient[k][2])
                     break
                 end
             end
@@ -210,30 +207,6 @@ end
 
 
 function removeUsed(recipeCopy,items,fluids,amount)
-    
-    print("items recipe  amount = ",amount)
-    for k,v in pairs(recipeCopy.simplerecipe) do
-        if type(v) == "table" then
-            print(v[1],v[2])
-        end
-    end
-    for k,v in pairs(recipeCopy.fluid.recipy) do
-        if type(v) == "table" then
-            print(v[1],v[2])
-        end 
-    end
-    print("items/fluids stored")
-    for k,v in pairs(items) do
-        if type(v) == "table" then
-            print(v.size,v.label)
-        end
-    end
-    for k,v in pairs(fluids.fluid) do
-        if type(v) == "table" then
-            print(v.amount,v.label)
-        end
-    end
-
     for indexI,itemI in pairs(items) do
         if type(itemI) == "table" then
             for indexR,itemR in pairs(recipeCopy.simplerecipe) do
@@ -268,17 +241,6 @@ function removeUsed(recipeCopy,items,fluids,amount)
                     recipeCopy.fluid.recipy[indexR] = nil
                 end
             end
-        end
-    end
-    print("removed fluids /items re printing")
-    for k,v in pairs(items) do
-        if type(v) == "table" then
-            print(v.size,v.label)
-        end
-    end
-    for k,v in pairs(fluids.fluid) do
-        if type(v) == "table" then
-            print(v.amount,v.label)
         end
     end
 end

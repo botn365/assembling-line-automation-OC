@@ -137,39 +137,28 @@ function assline.new(index,name,length,eventHandler,fluidId)
         end
     end
     function t.load(recipe,amount,modem,success)
-        success.s = true
-        if true then
-            return
-        end--for debuging
-        print("check for access")
         if t.access == false then
             success.s = false
             success.error = "already accessed"
-            print("ileagel access")
             return
         end
         t.access = false
         -- genrate msgID
-        print("generate msgId")
         local msgId = t.eventHandler.addChanelRandome(t.event)
 
         --get sevrers
-        print("get servers")
         local itemServers,fluidServers = t.seperateServers()
         fluidServers = fluidServers[1]
 
-        --check if servers are availble
-        print("checkign for conection")
+        --check if servers are availble)
         local checkThreads = {}
         local checkSuccess = {}
         local order = {}
         for k,v in pairs(itemServers) do
-            print("checking item server")
             checkSuccess[#checkSuccess+1] = {s=false}
             checkThreads[#checkThreads+1] = thread.create(t.createSafe,v.checkWorking,modem,checkSuccess[#checkSuccess])
             order[#order+1] = v.address
         end
-        print("waiting for threads access")
         -- not checking for the fluid one sisne multiple asslines use it
         thread.waitForAll(checkThreads)
         for k,v in pairs(checkSuccess) do
@@ -182,7 +171,6 @@ function assline.new(index,name,length,eventHandler,fluidId)
             end
         end
         -- genrate item and fluid maps
-        print("generate maps")
         --{{1.0,"Magnetic Samarium Rod"},{2.0,"Long HSS-S Rod"},{64.0,"Fine Ruridit Wire"},{64.0,"Fine Ruridit Wire"},{2.0,"1x Yttrium Barium Cuprate Cable"}}
         local mapItem = {}
         for k,v in pairs(recipe.ingredient) do
@@ -196,9 +184,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
         end
 
         --set the database to correct items
-        print("set database")
         local setDataServer = itemServers[1]
-        print("setDataServer",setDataServer)
 
         mapItem = serialization.serialize(mapItem)
         local successData = {s=false}
@@ -210,15 +196,12 @@ function assline.new(index,name,length,eventHandler,fluidId)
             return
         end
 
-        print("do loading threads")
         local threadsLoading = {}
         local successLoading = {}
-        print("create flluid loading thread")
         successLoading[#successLoading+1] = {s=false}
         -- create fluid loading thread
         threadsLoading[#threadsLoading+1] = thread.create(t.createSafe,t.loadFluids,modem,fluidServers,mapFluidName,mapFluidAmmount,successLoading[#successLoading])
 
-        print("do item loading threads")
         for i = 0,(math.ceil(#recipe.ingredient/4)-1) do
             local recipePos = {}
             local recipeAmount = {}
@@ -234,22 +217,17 @@ function assline.new(index,name,length,eventHandler,fluidId)
                 print(recipe.ingredient[absPos][1])
                 recipeAmount[j] = recipe.ingredient[absPos][1] * amount
             end
-            print("look for right server")
             for k,v in pairs(itemServers) do
                 local serverSelect = i+1
                 if v.func == "item_server" and v.index == serverSelect then
-                    print("right server found and creating thread",v.index,serverSelect)
                     successLoading[#successLoading+1] = {s=false}
                     threadsLoading[#threadsLoading+1] = thread.create(t.createSafe,v.load,modem,recipePos,recipeAmount,successLoading[#successLoading])
                 end
             end
         end
-        print("waiting for threads")
         thread.waitForAll(threadsLoading)
-        print("done waiting and checking success")
         for k,v in pairs(successLoading) do
             if not v.s then
-                print("somthing failed",k,v.s)
                 success.s = false
                 success.error = "loading_falure : "..t.stringNil(v.error)
                 t.eventHandler.removeChannel(msgId)
