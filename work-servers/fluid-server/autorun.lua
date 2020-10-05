@@ -296,7 +296,7 @@ function loadFluids(msgId,fluidNames,fluidAmount,id,compTP,compRS)
             redstone[fluidPos[i].bus-1] = 0
             redstone[cable] = 0
             compRS.component.setBundledOutput(compRS.index,redstone)
-            sendMsg("transfer_failed",msgId)
+            sendMsg({"transfer_failed",msgId})
             return false
         end
         redstone[fluidPos[i].bus-1] = 0
