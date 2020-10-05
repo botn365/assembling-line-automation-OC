@@ -272,13 +272,16 @@ function runAsslines()
         end
         if recipeNumber then
             local recipe
+            local amount
             if isPriorety then
                 recipe = recipePrioretyMap.n[recipeNumber]
+                amount = findMatch.getMax(recipePrioretyMap,recipeNumber,items,fluids,296000)
             else
                 recipe = recipymap.n[recipeNumber]
+                amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             end
             print("recipe" , recipe.output)
-            local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
+             
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
                 local amountPre = amount
