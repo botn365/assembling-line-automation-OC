@@ -137,6 +137,10 @@ function assline.new(index,name,length,eventHandler,fluidId)
         end
     end
     function t.load(recipe,amount,modem,success)
+        success.s = true
+        if true then
+            return
+        end--for debuging
         print("check for access")
         if t.access == false then
             success.s = false

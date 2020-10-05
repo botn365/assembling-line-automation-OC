@@ -165,16 +165,19 @@ function loadSafe(...)
 end
 
 function convertRecipe(recipe,circuitConverList)
-    recipeCopy = {ingredient={},fluid={recipy={}}}
+    local recipeCopy = {ingredient={},fluid={recipy={}}}
+    local reductionCopy = {ingredient={},fluid={recipy={}}}
     for k ,v in pairs(recipe.ingredient) do -- copy the items and conver circuit oredict
         if v[3] == nil then
             recipeCopy.ingredient[k] = {v[1],v[2]}
+            reductionCopy.ingredient[k] = {v[1],v[2]}
             print("normal item",recipeCopy.ingredient[k][2])
         else
             for L,N in pairs(circuitConverList) do
                 print("compare",N[1],v[2])
                 if N[1] == v[2] then
                     recipeCopy.ingredient[k] = {v[1],N[2]}
+                    reductionCopy.ingredient[k] = {v[1],N[2]}
                     print("circuit",recipeCopy.ingredient[k][2])
                     break
                 end
@@ -183,8 +186,9 @@ function convertRecipe(recipe,circuitConverList)
     end
     for k,v in pairs(recipe.fluid.recipy) do -- copy fluids
         recipeCopy.fluid.recipy[k] = {v[1],v[2]}
+        reductionCopy.fluid.recipy[k] = {v[1],v[2]}
     end
-    return recipeCopy
+    return recipeCopy,reductionCopy
 end
 
 function removeUsed(recipeCopy,items,fluids,amount)
@@ -206,7 +210,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
             print(v.size,v.label)
         end
     end
-    for k,v in pairs(recipeCopy.fluid.recipy) do
+    for k,v in pairs(fluids) do
         if type(v) == "table" then
             print(v.amount,v.label)
         end
@@ -215,7 +219,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
     for indexI,itemI in pairs(items) do
         if itemI ~= nil then
             for indexR,itemR in pairs(recipeCopy.ingredient) do
-                if itemR == nil and itemI[2] == itemR.label then
+                if itemR ~= nil and itemI[2] == itemR.label then
                     local amountR = itemR[1]*amount
                     local amountI = itemI[indexI].size
                     if amountR < amountI then
@@ -250,7 +254,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
             print(v.size,v.label)
         end
     end
-    for k,v in pairs(recipeCopy.fluid.recipy) do
+    for k,v in pairs(fluids) do
         if type(v) == "table" then
             print(v.amount,v.label)
         end
@@ -279,12 +283,7 @@ function runAsslines()
             local amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
-                local recipeCopy
-                if #circuitConverList > 0 then
-                    recipeCopy = convertRecipe(recipe,circuitConverList)
-                else
-                    recipeCopy = recipe
-                end
+                local recipeCopy,reductionCopy = convertRecipe(recipe,circuitConverList)
                 local fullAmount = math.floor(amount/16) + used
                 if fullAmount > #asslines then
                     fullAmount = #asslines
@@ -306,7 +305,7 @@ function runAsslines()
                     asslines[used+1] = nil
                     used = used+1
                 end
-                removeUsed(recipeCopy,items,fluids,amount)
+                removeUsed(reductionCopy,items,fluids,amount)
             end
         end
         if oldUsed == used then
