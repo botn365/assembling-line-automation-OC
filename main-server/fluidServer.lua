@@ -130,16 +130,20 @@ function server.newServer(name,address,port,index,func,eventHandler)
         t.sendMSG(modem, {"test",msgId,name,amount,fluidId})
         while true do
             local Event = {event.pull(5,eventId)}
-            if Event[6] == "success" then
-                t.access = Event[8]
-                break
-            elseif Event[6] == "bad_id" then
-                break
-            elseif Event[6] == "bad_color"  then
-                break
-            elseif Event[6] == "fluids_missing"  then
-                break
-            elseif Event[6] == "transfer_failed"  then
+            if Event[7] == msgId then
+                if Event[6] == "success" then
+                    t.access = Event[8]
+                    break
+                elseif Event[6] == "bad_id" then
+                    t.access = true
+                    break
+                elseif Event[6] == "bad_color"  then
+                    t.access = true
+                    break
+                elseif Event[6] == "fluids_missing"  then
+                    break
+                elseif Event[6] == "transfer_failed"  then
+                end
             end
         end
         success.s = true
