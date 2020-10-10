@@ -318,7 +318,7 @@ function runAsslines()
             break
         end
     end
-    if #loadThreads >1 then
+    if #loadThreads >0 then
         print("waiting for assline")
         if #loadThreads > 0 then
             thread.waitForAll(loadThreads)
