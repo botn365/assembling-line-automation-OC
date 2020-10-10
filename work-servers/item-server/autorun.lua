@@ -400,37 +400,28 @@ function run()
         local suc = false
         local gt = getGTMachine()
         gt.setWorkAllowed(false)
-        if gt.isMachineActive() then
-            sendMsg({"already_on",msgId})
-            suc = true
-        else
-            local atempts = 0
-            while atempts < 5 do
-                gt.setWorkAllowed(true)
-                os.sleep(0.05)
-                if gt.isMachineActive() then
-                    gt.setWorkAllowed(true)
-                    sendMsg({"assline_on",msgId})
-                    break
-                    suc = true
-                else
-                    atempts = atempts+1
-                    gt.setWorkAllowed(false)
-                    os.sleep(0.05)
-                    --sendMsg({"load_failure",msgId})
-                end
+        os.sleep(0.05)
+        gt.setWorkAllowed(true)
+        sendMsg({"assline_on",msgId,computer.uptime()})
+        local atempts = 0
+        while not gt.isMachineActive() do
+            gt.setWorkAllowed(true)
+            atempts = atempts + 1
+            os.sleep(0.05)
+            if atempts > 120 then
+                sendMsg({"startup_failure",msgId,computer.uptime()})
+                STATUS = "on"
+                gt.setWorkAllowed(false)
+                return
             end
         end
-        if not suc then
-            sendMsg({"load_failure",msgId})
-        end
-        gt.setWorkAllowed(true)
         while gt.isMachineActive() do
             gt.setWorkAllowed(true)
             os.sleep(0.05)
         end
         sendMsg({"crafting_done",msgId})
         STATUS = "on"
+        gt.setWorkAllowed(false)
     end
 
     local listnerThread = thread.create(listner.run,sendBack)
