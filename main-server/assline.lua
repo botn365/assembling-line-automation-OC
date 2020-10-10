@@ -1,4 +1,5 @@
 package.loaded.itemServer=nil
+package.loaded.fluidServer=nil
 local itemServer = require("itemServer")
 local fluidServer = require("fluidServer")
 local serialization = require("serialization")
