@@ -68,6 +68,35 @@ function save()
     file:close()
 end
 
+function removeDupes()
+    local tempList = {}
+    for indexFluid,server in pairs(FLUID_SERVERS) do
+        local found = false
+        for indexTemp,temp in pairs(tempList) do
+            if temp.address == server.address then
+                FLUID_SERVERS[indexFluid] = nil
+                found = true
+                break
+            end
+        end
+        if not found then
+            tempList[#tempList+1] = server
+        end
+    end
+    FLUID_SERVERS = tempList
+    for assIn,assline in pairs(ASSLINES) do
+        for serIn,server in pairs(assline.serverList) do
+            if server.func == "fluid_server" then
+                for FlIn,serverFluid in pairs(FLUID_SERVERS) do
+                    if server.address == serverFluid.address then
+                        assline.serverList[serIn] = serverFluid
+                    end
+                end
+            end
+        end
+    end
+end
+
 function load()
     if not filesystem.exists(SAVE_LOCATION) then
     else
@@ -118,6 +147,7 @@ function load()
             end
         end
     end
+    removeDupes()
 end
 
 function getWorkingAssline()
@@ -785,9 +815,6 @@ end
 --     COMMAND_FUNCIONS[Event[3]] = nil
 -- end
 
-function checkAssline()
-
-end
 
 function stringNil(In)
     if In == nil then
