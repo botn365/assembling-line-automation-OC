@@ -207,6 +207,7 @@ function run()
             sendMsg({"bad_request",msgId})
             --return false
         end
+        local itemCount = {}
         for k,v in pairs(items) do
             local amount = amounts[k]
             local transferSize = amount
@@ -275,9 +276,14 @@ function run()
                 end
             end
             aeComp.component.setInterfaceConfiguration(1,database.address,81,0)
+            local afterCount = 0
+            for i = 1,index do
+                afterCount = afterCount + tpComp.component.getStackInSlot(1,i).size
+            end
+            itemCount[k] = afterCount
         end
         STATUS = "on"
-        return true
+        return true,itemCount
     end
 
     function getValidInterace()
@@ -332,12 +338,15 @@ function run()
                             local database = component.database
                             local items = serialization.unserialize(v[8])
                             local amounts = serialization.unserialize(v[9])
-                            local sucsses = loadItems(msgId,items,amounts,compTP,compAEI,database)
+                            local sucsses,amounts = loadItems(msgId,items,amounts,compTP,compAEI,database)
+                            if amounts ~= nil then
+                                amounts = serialization.serialize(amounts)
+                            end
                             if sucsses then
-                                sendMsg({"load_items_sucsses",msgId})
+                                sendMsg({"load_items_sucsses",msgId,amounts})
                                 loop = false
                             else
-                                sendMsg({"load_failure",msgId})
+                                sendMsg({"load_failure",msgId,amounts})
                                 loop = false
                             end
                         end
