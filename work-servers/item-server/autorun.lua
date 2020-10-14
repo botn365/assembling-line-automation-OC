@@ -277,15 +277,12 @@ function run()
             end
             aeComp.component.setInterfaceConfiguration(1,database.address,81,0)
             local afterCount = 0
-            for i = 1,index -1 do
-                local stacks = tpComp.component.getAllStacks(1).getAll()
-                for k,v in pairs(stacks) do
-                    local size = v.size
-                    if size ~= nil then
-                        afterCount = afterCount + size
-                    end
+            local stacks = tpComp.component.getAllStacks(1).getAll()
+            for k,v in pairs(stacks) do
+                local size = v.size
+                if size ~= nil then
+                    afterCount = afterCount + size
                 end
-                afterCount = afterCount + tpComp.component.getStackInSlot(1,i).size
             end
             itemCount[k] = afterCount
         end
