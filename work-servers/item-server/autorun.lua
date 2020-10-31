@@ -231,11 +231,20 @@ function run()
             for L,W in pairs(compTP) do
                 if W.index == k then
                     tpComp = compTP[L]
-                    stack = tpComp.component.getStackInSlot(1,1)
+                    local transposer = tpComp.component
+                    stack = transposer.getStackInSlot(1,1)
                     if stack ~= nil then
-                        sendMsg({"non_empty",msgId})
-                        STATUS = "on"
-                        return false
+                        local stacks = transposer.getAllStacks(1).getAll()
+                        for i=15,0,-1 do
+                            if stacks[i].label ~= nil then
+                                local transferd = transposer.transferItem(1,0,64,i,(i%6+1))
+                                if transferd == 0 then
+                                    sendMsg({"non_empty",msgId})
+                                    STATUS = "on"
+                                    return false
+                                end
+                            end
+                        end
                     end
                 end
             end
