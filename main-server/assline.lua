@@ -15,6 +15,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
     t.access = true 
     t.accessEvent = true
     t.initialized = false
+    t.error = ""
     t.fluidId = fluidId or 0
     t.eventHandler = eventHandler or nil
     function t.checkWorking(modem)
@@ -141,6 +142,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
         if t.access == false then
             success.s = false
             success.error = "already accessed"
+            t.error = success.error
             return
         end
         t.access = false
@@ -167,6 +169,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
                 print(order[k])
                 success.s = false
                 success.error = "bad_server : "..t.stringNil(v.error)
+                t.error = success.error
                 t.eventHandler.removeChannel(msgId)
                 return
             end
@@ -193,6 +196,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
         if successData.s == false then
             success.s = false
             success.error = t.stringNil(successData.error)
+            t.error = success.error
             t.eventHandler.removeChannel(msgId)
             return
         end
@@ -231,6 +235,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
             if not v.s then
                 success.s = false
                 success.error = "loading_falure : "..t.stringNil(v.error)
+                t.error = success.error
                 t.eventHandler.removeChannel(msgId)
                 return
             end
@@ -247,6 +252,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
             t.eventHandler.removeChannel(msgIdPointer.msgId)
             success.s = false
             success.error = "turnOn_failure"
+            t.error = "turnOn_failure"
         end
         print("end load")
         t.eventHandler.removeChannel(msgId)
