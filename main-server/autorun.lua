@@ -280,7 +280,7 @@ end
 function runAsslines()
     local asslines = getWorkingAssline()
     if asslines == {} then
-        return
+        return false
     end
     local successList = {}
     local loadThreads = {}
@@ -289,8 +289,9 @@ function runAsslines()
     local fluids = getFluids()
     local recipesOuts = {}
     local recipeNumber = 0
+    local ran = false
     if items == nil or fluids == nil then
-        return    
+        return false
     end
     while (#asslines-used)>0 do
         local oldUsed = used
@@ -329,6 +330,7 @@ function runAsslines()
                     recipesOuts[#recipesOuts+1] = {name=recipe.output,amount=amount}
                     used = used+1
                     amount =  amount - 16
+                    ran = true
                 end
                 if (amount/16)%1 > 0  and (#asslines-used)>0  then
                     successList[#successList+1] = {s=false}
@@ -337,6 +339,7 @@ function runAsslines()
                     asslines[used+1] = nil
                     used = used+1
                     amount = 0
+                    ran = true
                 end
                 removeUsed(copySimple,items,fluids,amountPre-amount)
             end
@@ -362,6 +365,7 @@ function runAsslines()
             end
         end
     end
+    return ran
 end
 
 function count(table,eventID)
@@ -440,7 +444,7 @@ function registerLoadServer(Event)
 end
 
 function covertString(string)
-    local number = tostring(string)
+    local number = tonumber(string)
     if number ~= nil then
         return number
     end
@@ -469,6 +473,7 @@ function processCommand(msg)
                 endPos = arg:len()+1
             end
             args[argIndex] = covertString(string.sub(arg,startPos,endPos-1))
+            print(type(args[argIndex]),args[argIndex])
         until endPos >= arg:len()
         return command,args
     end
@@ -975,7 +980,7 @@ function comandLine(event)
     elseif command == "get_status" then
         getStatus(event[3])
     elseif command == "set_status" then
-        if type(arg[1]) ~= "number" or type(arg[2]) == "boolean" then
+        if type(arg[1]) ~= "number" or type(arg[2]) ~= "boolean" then
             sendMSGS(event[3],COMAND_PORT,{"print","needs  [index {number}, access state {boolean}, [remove errors{boolean : false}] ]"})
         else
             setStatus(event[3],arg[1],arg[2],arg[3])
@@ -998,8 +1003,9 @@ print(#ASSLINES)
 
 os.sleep(8)
 while true do
-    runAsslines()
-    os.sleep(5)
+    if not runAsslines() then
+        os.sleep(5)
+    end
 end
 
 listnerThread:kill()
