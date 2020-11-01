@@ -247,7 +247,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
                     if amountR < amountI then
                         items[indexI].size = amountI - amountR
                     else
-                        items[indexI]=nil  
+                        table.remove(items,indexI)
                         items.length = items.length - 1
                     end
                     recipeCopy.simplerecipe[indexR] = nil
@@ -439,6 +439,19 @@ function registerLoadServer(Event)
     SERVER_TEMP_LIST[indexServer] = nil
 end
 
+function covertString(string)
+    local number = tostring(string)
+    if number ~= nil then
+        return number
+    end
+    if string == "false" then
+        return false
+    elseif string == "true" then
+        return true
+    end
+    return string
+end
+
 function processCommand(msg)
     local endPos = string.find(msg," ")
     if endPos == nil then
@@ -455,7 +468,7 @@ function processCommand(msg)
             if endPos == nil then
                 endPos = arg:len()+1
             end
-            args[argIndex] = string.sub(arg,startPos,endPos-1)
+            args[argIndex] = covertString(string.sub(arg,startPos,endPos-1))
         until endPos >= arg:len()
         return command,args
     end
@@ -831,6 +844,14 @@ function getStatus(commandAddress)
     sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(printTable)})
 end
 
+function setStatus(address,index,access,error)
+    local assline = ASSLINES[index]
+    assline.access = access
+    if error == true then
+        assline.error = ""
+    end
+end
+
 function stringNil(In)
     if In == nil then
         return "nil"
@@ -953,6 +974,12 @@ function comandLine(event)
         --resetServer(event)
     elseif command == "get_status" then
         getStatus(event[3])
+    elseif command == "set_status" then
+        if type(arg[1]) ~= "number" or type(arg[2]) == "boolean" then
+            sendMSGS(event[3],COMAND_PORT,{"print","needs  [index {number}, access state {boolean}, [remove errors{boolean : false}] ]"})
+        else
+            setStatus(event[3],arg[1],arg[2],arg[3])
+        end
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
