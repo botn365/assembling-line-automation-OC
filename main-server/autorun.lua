@@ -311,7 +311,6 @@ function runAsslines()
                 recipe = recipymap.n[recipeNumber]
                 amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             end
-            recipesOuts[#recipesOuts+1] = {name=recipe.output}
              
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
@@ -322,11 +321,11 @@ function runAsslines()
                 if fullAmount > #asslines then
                     fullAmount = #asslines
                 end
-                recipesOuts[#recipesOuts].amount = amount
                 for i = 1 + used,fullAmount do
                     successList[#successList+1] = {s=false}
                     loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipeCopy,16,modem,successList[#successList])
                     asslines[i] = nil
+                    recipesOuts[#recipesOuts+1] = {name=recipe.output,amount=amount}
                     used = used+1
                     amount =  amount - 16
                 end
