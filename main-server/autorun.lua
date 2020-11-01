@@ -247,7 +247,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
                     if amountR < amountI then
                         items[indexI].size = amountI - amountR
                     else
-                        items[indexI]=nil
+                        items[indexI]=nil  
                         items.length = items.length - 1
                     end
                     recipeCopy.simplerecipe[indexR] = nil
