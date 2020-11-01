@@ -337,6 +337,7 @@ function runAsslines()
                     print(asslines[used+1],used)
                     loadThreads[#loadThreads+1] = thread.create(loadSafe,asslines[used+1].load,recipeCopy,amount,modem,successList[#successList])
                     asslines[used+1] = nil
+                    recipesOuts[#recipesOuts+1] = {name=recipe.output,amount=amount}
                     used = used+1
                     amount = 0
                     ran = true

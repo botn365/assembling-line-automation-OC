@@ -165,7 +165,6 @@ function assline.new(index,name,length,eventHandler,fluidId)
         thread.waitForAll(checkThreads)
         for k,v in pairs(checkSuccess) do
             if not v.s then
-                print(order[k])
                 success.s = false
                 success.error = "bad_server : "..t.stringNil(v.error)
                 t.error = success.error
@@ -218,7 +217,6 @@ function assline.new(index,name,length,eventHandler,fluidId)
                 --j = ((i*4)+1),(len +1)
                 local absPos = (i*4) + j
                 recipePos[j] = absPos
-                print(recipe.ingredient[absPos][1])
                 recipeAmount[j] = recipe.ingredient[absPos][1] * amount
             end
             for k,v in pairs(itemServers) do
