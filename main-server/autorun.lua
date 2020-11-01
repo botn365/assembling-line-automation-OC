@@ -268,7 +268,8 @@ function removeUsed(recipeCopy,items,fluids,amount)
                     if amountR < amountI then
                         fluids.fluid[indexI].amount = amountI - amountR
                     else
-                        fluids.fluid[indexI] = nil
+                        table.remove(fluids.fluid,indexI)
+                        fluids.length = fluids.length - 1
                     end
                     recipeCopy.fluid.recipy[indexR] = nil
                 end
