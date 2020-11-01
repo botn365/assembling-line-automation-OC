@@ -357,6 +357,7 @@ function runAsslines()
         for k,v in pairs(successList) do
             if not v.s then
                 print(v.error,"asslien broke")
+
             end
         end
     end
@@ -757,7 +758,9 @@ function addNewAssline(Event,arg)
     save()
 end
 
--- function resetServer(Event)
+
+
+function resetServer(Event)
 --     local function msger(Event)
 --         local eventID,_ = string.gsub(Event[3],"-","_")
 --         table.remove(Event,1)
@@ -813,8 +816,19 @@ end
 
 
 --     COMMAND_FUNCIONS[Event[3]] = nil
--- end
+end
 
+function getStatus(commandAddress)
+    printTable = {}
+    --{index=k,address=v.address,name=v.name}
+    for k,v in pairs(ASSLINES) do
+        printTable[#printTable+1] = {index = k,name=v.name,length=v.length,fluidId=v.fluidId,access=v.access}
+        if v.error ~= "" then
+            printTable[#printTable].error = v.error
+        end
+    end
+    sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(printTable)})
+end
 
 function stringNil(In)
     if In == nil then
@@ -936,6 +950,8 @@ function comandLine(event)
         sendMSGS(event[3], COMAND_PORT, {"print","success"..tostring(success.s)})
     elseif command == "reset_server" then
         --resetServer(event)
+    elseif command == "get_status" then
+        getStatus(event[3])
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
