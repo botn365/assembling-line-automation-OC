@@ -110,10 +110,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
         local fluidServers = {}
         for k,v in pairs(t.serverList) do
             if v.func == "fluid_server" then
-                print("found fluid server")
                 fluidServers[#fluidServers+1] = v
             elseif v.func == "item_server" then
-                print("found item server")
                 itemServers[#itemServers+1] = v
             end
         end
@@ -139,6 +137,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
         end
     end
     function t.load(recipe,amount,modem,success)
+        os.sleep(0.5)
         if t.access == false then
             success.s = false
             success.error = "already accessed"
@@ -240,7 +239,6 @@ function assline.new(index,name,length,eventHandler,fluidId)
                 return
             end
         end
-        print("turn on assline")
         local onSuc = {s=false}
         local msgIdPointer = {}
         setDataServer.runAssline(modem,onSuc,msgIdPointer)
@@ -254,7 +252,6 @@ function assline.new(index,name,length,eventHandler,fluidId)
             success.error = "turnOn_failure"
             t.error = "turnOn_failure"
         end
-        print("end load")
         t.eventHandler.removeChannel(msgId)
     end
     function t.waitForDone(msgId,server)

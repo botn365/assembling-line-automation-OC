@@ -286,6 +286,7 @@ function runAsslines()
     local used = 0
     local items = getItems()
     local fluids = getFluids()
+    local recipesOuts = {}
     local recipeNumber = 0
     if items == nil or fluids == nil then
         return    
@@ -310,7 +311,7 @@ function runAsslines()
                 recipe = recipymap.n[recipeNumber]
                 amount = findMatch.getMax(recipymap,recipeNumber,items,fluids,296000)
             end
-            print("recipe" , recipe.output)
+            recipesOuts[#recipesOuts+1] = {name=recipe.output}
              
             if amount > 0 then
                 -- copy the recipe if there is circuit converion
@@ -321,10 +322,9 @@ function runAsslines()
                 if fullAmount > #asslines then
                     fullAmount = #asslines
                 end
-                print("amount",amount)
+                recipesOuts[#recipesOuts].amount = amount
                 for i = 1 + used,fullAmount do
                     successList[#successList+1] = {s=false}
-                    print("made assline thread")
                     loadThreads[#loadThreads+1] = thread.create(asslines[i].load,recipeCopy,16,modem,successList[#successList])
                     asslines[i] = nil
                     used = used+1
@@ -332,7 +332,6 @@ function runAsslines()
                 end
                 if (amount/16)%1 > 0  and (#asslines-used)>0  then
                     successList[#successList+1] = {s=false}
-                    print("made assline thread")
                     print(asslines[used+1],used)
                     loadThreads[#loadThreads+1] = thread.create(loadSafe,asslines[used+1].load,recipeCopy,amount,modem,successList[#successList])
                     asslines[used+1] = nil
@@ -350,6 +349,9 @@ function runAsslines()
     end
     if #loadThreads >0 then
         print("waiting for assline")
+        for k,v in pairs(recipesOuts) do
+            print(v.name,v.amount)
+        end
         if #loadThreads > 0 then
             thread.waitForAll(loadThreads)
         end
@@ -357,7 +359,6 @@ function runAsslines()
         for k,v in pairs(successList) do
             if not v.s then
                 print(v.error,"asslien broke")
-
             end
         end
     end

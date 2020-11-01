@@ -64,7 +64,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
         end
     end
     function t.events(event)
-        print("get Event",event[6])
         t.access = false
         if t.event ~= nil then
             t.event[#t.event] = event
@@ -77,19 +76,16 @@ function server.newServer(name,address,port,index,func,eventHandler)
         local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
         local eventId = t.getEventID()
         t.sendMSG(modem,{"set_data",msgId,mapItem})
-        print("waiting for response")
         local attemptsLoadData = 0
         while true do
             local Event = {event.pull(10,eventId)}
             if Event[6] == "load_data_failure" then
                 if attemptsLoadData > 10 then
-                    print("set data failed")
                     success.s = false
                     success.error = "load_data_failure"
                     t.eventHandler.removeChannel(msgId)
                     return
                 else
-                    print("re atempt setdata")
                     attemptsLoadData= attemptsLoadData + 1
                     os.sleep(0.5)
                     t.sendMSG(modem,{"set_data",msgId,mapItem})
@@ -109,7 +105,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
             if t.event ~= nil then
                 for k,v in pairs(t.event) do
                     for L,E in pairs(msgName) do
-                        print("compare events",v[6],E,v[6]==E)
                         if v[6] == E then
                             local msg = t.event[k]
                             t.event[k] = nil
@@ -122,7 +117,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
         end
     end
     function t.load(modem,itemsPos,itemAmount,success)
-        print("loading items")
         local msgId = t.eventHandler.addChanelRandome(t.events)
         t.sendMSG(modem, {"load_assline",msgId})
         local msg = t.waitForeMsg({"start_loading","not_configured"})
@@ -144,7 +138,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
             return
         else
             success.s = true
-            print("loading successfull")
             t.eventHandler.removeChannel(msgId)
             return
         end
@@ -165,7 +158,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
         msgIdPointer.msgId = msgId
     end
     function t.waitForDone(modem,msgId,success)
-        print("start waiting on done")
         local eventId = t.getEventID()
         while true do
             local Event = {event.pull(100,eventId)}
@@ -175,7 +167,6 @@ function server.newServer(name,address,port,index,func,eventHandler)
         end
         t.eventHandler.removeChannel(msgId)
         success.s = true
-        print("done with waiting")
     end
     return t
 end
