@@ -41,7 +41,7 @@ function recive()
                     else
                         addSep = true
                     end
-                    toPrint = toPrint..field ..": "..value
+                    toPrint = toPrint..field ..": "..tostring(value)
                 end
                 local printLen = printLine:len()
                 if (printLen + toPrint:len() + 5)> w then
@@ -83,8 +83,15 @@ function processCommand(msg)
     sndMSG({"command",4,msg})
 end
 
+function callSafe(recive)
+    local a, b = pcall(recive)
+    if not a then
+        print(b)
+    end
+end
 
-local msgThread = thread.create(recive)
+
+local msgThread = thread.create(callSafe,recive)
 
 gpu.fill(1, 1, w, h, " ")
 os.sleep(0.1)
