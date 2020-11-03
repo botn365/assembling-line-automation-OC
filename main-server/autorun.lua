@@ -462,7 +462,7 @@ end
 function processCommand(msg)
     local endPos = string.find(msg," ")
     if endPos == nil then
-        return msg
+        return msg,{}
     else
         local command = string.sub(msg,1,endPos-1)
         local arg = msg
