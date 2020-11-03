@@ -14,6 +14,7 @@ local setings = require("setings")
 local eventhandler = require("eventhandler")
 local thread = require("thread")
 local assline = require("assline")
+local oredict = require("CircuitOreDict")
 local itemServer = require("itemServer")
 local fluidServer = require("fluidServer")
 local recipe = require("recipe")
@@ -859,6 +860,125 @@ function setStatus(address,index,access,error)
     end
 end
 
+function ifavailbel(file,tobyte,Pdata)
+    file:seek("cur",tobyte)
+    local read = file:read(-tobyte)
+    local data =  string.find(read,"r.addRecipy")
+    if data then
+        Pdata.A = tobyte + data
+        return true
+    else 
+        return nil
+    end
+end
+
+function writeToFile(stick,name,circuitOreDict,fileName)
+    local itemstack = {}
+    local fluidstack = {}
+    local circuitlist = oredict.getlist()
+    local goback = -800
+    local pos = 0
+    local location
+    local file = filesystem.open(fileName)
+    local data = {}
+
+    file:seek("end",0)
+    
+    while ifavailbel(file,goback,data) do
+        pos = data.A - 1
+        goback = pos + 10
+    end
+    file:seek("end",pos)
+    local lastadd = file:read(-pos)
+
+    location = string.find(lastadd,")\n")
+    if location == nil then
+        location = string.find(lastadd,")\r\n")
+    end
+    location = location + 1 + pos
+    file:close()
+    itemstack.count = 0
+    for  pos,item in pairs(stick.inputItems)do
+        if pos == "n" then
+            break
+        end
+        if circuitOreDict then
+            local tier = oredict.isCircuit(item[1])
+            if tier > 0 then
+                itemstack.count = itemstack.count + 1
+                itemstack[pos] = "{"..item[2]..","..tier..",1}"
+            else
+                itemstack.count = itemstack.count + 1
+                itemstack[pos] = "{"..item[2]..",\""..item[1].."\"}"
+            end
+        else
+            itemstack.count = itemstack.count + 1
+            itemstack[pos] = "{"..item[2]..",\""..item[1].."\"}"
+        end
+    end
+    local tempfluidstack = stick.inputFluids
+    fluidstack.count = 0
+    for i = 1 , #tempfluidstack do
+        fluidstack.count = fluidstack.count + 1
+        fluidstack[i] = {tempfluidstack[i][2],tempfluidstack[i][1]}
+    end
+    if name == "" then
+        name = stick.output
+    end
+
+    local recipy = "r.addRecipy(\""..name.."\",{"
+    for i = 1 , itemstack.count do
+        if i > 1 then
+            recipy = recipy..","..itemstack[i]
+        else
+            recipy = recipy..itemstack[i]
+        end
+    end
+    recipy =  recipy.."}\n,{"
+    for i = 1 , fluidstack.count do
+        if i > 1 then
+            recipy = recipy..",{"..fluidstack[i][1]..",\""..fluidstack[i][2].."\"}"
+        else
+            recipy = recipy.."{"..fluidstack[i][1]..",\""..fluidstack[i][2].."\"}"
+        end
+    end
+    recipy =  recipy.."}\n)"
+    file = io.open("/assline/Loadrecipy.lua","a")
+    file:seek("end",location)
+    file:write(recipy.."\n\n\nreturn r")
+    file:close()
+    return recipe
+end
+
+function addRecipe(address,name,circuitOreDict,priorety)
+    priorety = false or priorety
+    circuitOreDict = false or circuitOreDict
+    if type(priorety) ~= "boolean" then
+        sendMSGS(address,COMAND_PORT,{"print","error: priorety needs to be empty or boolean value"})
+        return
+    end
+    if type(circuitOreDict) ~= "boolean" then
+        sendMSGS(address,COMAND_PORT,{"print","error: circuit oredict needs to be empty or boolean"})
+    end
+    local filter = {name="gregtech:gt.metaitem.01",damage=32708}
+    local item = component.me_interface.getItemsInNetwork(filter)[1]
+    if item == nil then
+        sendMSGS(address,COMAND_PORT,{"print","error: no stick found"})
+        return
+    end
+    if item.inputItems == nil then
+        sendMSGS(address,COMAND_PORT,{"print","error: not a valid stick"})
+        return
+    end
+    local fileName
+    if priorety then
+        fileName = "/LoadrecipePriorety.lua"
+    else
+        fileName = "/Loadrecipy.lua"
+    end
+    print(writeToFile(item,name,circuitOreDict,fileName))
+end
+
 function stringNil(In)
     if In == nil then
         return "nil"
@@ -987,6 +1107,11 @@ function comandLine(event)
         else
             setStatus(event[3],arg[1],arg[2],arg[3])
         end
+    elseif command == "add_recipe" then
+        if type(arg[1]) ~= "string" then
+            sendMSGS(event[3],COMAND_PORT,{"print","needs  [name {string}, [circuit Oredict {boolean : false}, priorety {boolean : false}] ]"})
+        end
+        addRecipe(event[3],arg[1],arg[2],arg[3])
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
