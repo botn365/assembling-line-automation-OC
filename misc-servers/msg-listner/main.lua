@@ -1,11 +1,14 @@
 component = require("component")
 event = require("event")
 thread = require("thread")
+filesystem =  require("filesystem")
+
 modem = component.modem
 
-local driveLoc = "/mnt/672/log.txt"
-local linesMax = 2000
-local lines = 0
+local driveLoc1 = "/mnt/672/log1.txt"
+local driveLoc2 = "/mnt/672/log2.txt"
+local drive = {driveLoc1,driveLoc2}
+local used = 1
 local events = {}
 --modem.open(210)
 --modem.open(200)
@@ -47,11 +50,20 @@ function storeEvents()
     print("store")
     local ev = events
     events = {}
-    local file 
-    if lines > linesMax then
-        file = io.open(driveLoc,"w")
+    local fileName = drive[used]
+    local size = filesystem.size(file)
+    local reset = false
+    if size > 2000000 then
+        size = (used%2)+1
+        file = drive[used]
+        reset = true
+    end
+
+    if reset then
+        filesystem.remove(fileName)
+        file = io.open(fileName,"w")
     else
-        file = io.open(driveLoc,"a")
+        file = io.open(fileName,"a")
     end
     for k,v in pairs(ev) do
         local toWrite = toNilString(v)
