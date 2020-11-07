@@ -875,7 +875,6 @@ end
 function writeToFile(stick,name,circuitOreDict,fileName)
     local itemstack = {}
     local fluidstack = {}
-    local circuitlist = oredict.getlist()
     local goback = -800
     local pos = 0
     local location
@@ -943,7 +942,7 @@ function writeToFile(stick,name,circuitOreDict,fileName)
         end
     end
     recipy =  recipy.."}\n)"
-    file = io.open("/assline/Loadrecipy.lua","a")
+    file = io.open(fileName,"a")
     file:seek("end",location)
     file:write(recipy.."\n\n\nreturn r")
     file:close()
@@ -951,8 +950,8 @@ function writeToFile(stick,name,circuitOreDict,fileName)
 end
 
 function addRecipe(address,name,circuitOreDict,priorety)
-    priorety = false or priorety
-    circuitOreDict = false or circuitOreDict
+    priorety = priorety or false
+    circuitOreDict = circuitOreDict or false
     if type(priorety) ~= "boolean" then
         sendMSGS(address,COMAND_PORT,{"print","error: priorety needs to be empty or boolean value"})
         return

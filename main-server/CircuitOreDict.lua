@@ -53,7 +53,7 @@ function OreDict.check(R_list,C_list)
 end
 
 function OreDict.isCircuit(itemLabel)
-    for tier,circuitList in pairs(circuitlist) do
+    for tier,circuitList in pairs(dictlist) do
         for g,circuitName in pairs(circuitList) do
             if itemLabel == circuitName then
                 return tier + minT-1
