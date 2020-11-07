@@ -44,6 +44,7 @@ ASSLINES = {}
 RUNTIME_VALUES = {}
 SET = {}
 COMMAND_FUNCIONS = {}
+RUN = true
 
 function sendMSGS(address,port,msg)
     --modem.send(address,port,...)
@@ -1111,6 +1112,8 @@ function comandLine(event)
             sendMSGS(event[3],COMAND_PORT,{"print","needs  [name {string}, [circuit Oredict {boolean : false}, priorety {boolean : false}] ]"})
         end
         addRecipe(event[3],arg[1],arg[2],arg[3])
+    elseif command == "stop" then
+        RUN = false
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
@@ -1131,6 +1134,9 @@ os.sleep(8)
 while true do
     if not runAsslines() then
         os.sleep(5)
+    end
+    if not RUN then
+        break
     end
 end
 
