@@ -633,6 +633,7 @@ function initialiseFluidServer(commandAddress,eventID,server)
                     sendMSGS(commandAddress,COMAND_PORT,{"print",serverMsg[8]})
                 elseif serverMsg[6] == "configuration_finished" then
                     sendMSGS(commandAddress,COMAND_PORT,{"print","initialisatione finished"})
+                    server.initialised = true
                     break
                 elseif serverMsg[6] == "command" then
                     if serverMsg[8] == "reset" then
