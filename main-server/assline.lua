@@ -136,6 +136,31 @@ function assline.new(index,name,length,eventHandler,fluidId)
             return tostring(In)
         end
     end
+    function t.loadItems(modem,recipe,itemServers,threadsLoading,successLoading,amount)
+        for i = 0,(math.ceil(#recipe.ingredient/4)-1) do
+            local recipePos = {}
+            local recipeAmount = {}
+            local len = 4
+            --(i*4) + 3
+            if len > #recipe.ingredient-(i*4) then
+                len = #recipe.ingredient-(i*4)
+            end
+            for j = 1,len do
+                --j = ((i*4)+1),(len +1)
+                local absPos = (i*4) + j
+                recipePos[j] = absPos
+                recipeAmount[j] = recipe.ingredient[absPos][1] * amount
+            end
+            for k,v in pairs(itemServers) do
+                local serverSelect = i+1
+                if v.func == "item_server" and v.index == serverSelect then
+                    successLoading[#successLoading+1] = {s=false}
+                    threadsLoading[#threadsLoading+1] = thread.create(t.createSafe,v.load,modem,recipePos,recipeAmount,successLoading[#successLoading])
+                    break
+                end
+            end
+        end
+    end
     function t.load(recipe,amount,modem,success)
         os.sleep(0.5)
         if t.access == false then
@@ -199,44 +224,39 @@ function assline.new(index,name,length,eventHandler,fluidId)
             return
         end
 
-        local threadsLoading = {}
-        local successLoading = {}
-        successLoading[#successLoading+1] = {s=false}
-        -- create fluid loading thread
-        threadsLoading[#threadsLoading+1] = thread.create(t.createSafe,t.loadFluids,modem,fluidServers,mapFluidName,mapFluidAmmount,successLoading[#successLoading])
 
-        for i = 0,(math.ceil(#recipe.ingredient/4)-1) do
-            local recipePos = {}
-            local recipeAmount = {}
-            local len = 4
-            --(i*4) + 3
-            if len > #recipe.ingredient-(i*4) then
-                len = #recipe.ingredient-(i*4)
-            end
-            for j = 1,len do
-                --j = ((i*4)+1),(len +1)
-                local absPos = (i*4) + j
-                recipePos[j] = absPos
-                recipeAmount[j] = recipe.ingredient[absPos][1] * amount
-            end
-            for k,v in pairs(itemServers) do
-                local serverSelect = i+1
-                if v.func == "item_server" and v.index == serverSelect then
-                    successLoading[#successLoading+1] = {s=false}
-                    threadsLoading[#threadsLoading+1] = thread.create(t.createSafe,v.load,modem,recipePos,recipeAmount,successLoading[#successLoading])
+        local fluidLoadThread
+        local fluidSuccessThread
+        fluidSuccessThread = {s=false}
+        -- create fluid loading thread
+        fluidLoadThread = thread.create(t.createSafe,t.loadFluids,modem,fluidServers,mapFluidName,mapFluidAmmount,fluidSuccessThread)
+
+        local failTimes = 0
+
+        repeat
+            local threadsLoading = {}
+            local successLoading = {}
+            local failed = false
+            t.loadItems(modem,recipe,itemServers,threadsLoading,successLoading,amount)
+            thread.waitForAll(threadsLoading)
+            if failTimes == 0 or failTimes > 10 then
+                thread.waitForAll({fluidLoadThread},200)
+                if fluidSuccessThread.s == false or failTimes > 10 then
+                    success.s = false
+                    success.error = "fluid loading failure : "..t.stringNil(fluidSuccessThread.error)
+                    t.error = success.error
+                    t.eventHandler.removeChannel(msgId)
+                    return
                 end
             end
-        end
-        thread.waitForAll(threadsLoading)
-        for k,v in pairs(successLoading) do
-            if not v.s then
-                success.s = false
-                success.error = "loading_falure : "..t.stringNil(v.error)
-                t.error = success.error
-                t.eventHandler.removeChannel(msgId)
-                return
+            for k,v in pairs(successLoading) do
+                if not v.s then
+                    failed = true
+                    failTimes = failTimes + 1
+                end
             end
-        end
+        until not failed
+
         local onSuc = {s=false}
         local msgIdPointer = {}
         setDataServer.runAssline(modem,onSuc,msgIdPointer)
