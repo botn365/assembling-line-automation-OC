@@ -353,6 +353,9 @@ function runAsslines()
         if oldUsed == used then
             break
         end
+        if isPriorety then
+            recipeNumber = 0
+        end
     end
     if #loadThreads >0 then
         print("waiting for assline")
