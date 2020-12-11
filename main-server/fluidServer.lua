@@ -79,6 +79,16 @@ function server.newServer(name,address,port,index,func,eventHandler)
         end
 
     end
+    function t.removeId(modem,id)
+        local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
+        local eventId = t.getEventID()
+        t.sendMSG(modem, {"remove_id",id})
+        local Event = {5,event.pull(eventId)}
+        if Event[6] == nil or Event[6] ~= "id_removed" then
+            return false
+        end
+        return true
+    end
     function t.getIds(modem)
         local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
         local eventId = t.getEventID()
