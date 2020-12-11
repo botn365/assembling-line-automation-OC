@@ -44,7 +44,7 @@ function server.newServer(name,address,port,index,func,eventHandler)
     function t.resetServer(modem)
         local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
         local eventId = t.getEventID()
-        t.sendMSG(modem,{"reset_configuration"})
+        t.sendMSG(modem,{"reset_configuration",msgId})
         local Event = {event.pull(5,eventId)}
         if Event == nil or Event[6] ~= "configuration_reseted" then
             t.eventHandler.removeChannel(msgId)
