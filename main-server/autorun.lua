@@ -45,6 +45,7 @@ RUNTIME_VALUES = {}
 SET = {}
 COMMAND_FUNCIONS = {}
 RUN = true
+PROCESS = true
 
 function sendMSGS(address,port,msg)
     --modem.send(address,port,...)
@@ -155,7 +156,7 @@ end
 function getWorkingAssline()
     local asslines = {}
     for k,asslineList in pairs(ASSLINES) do
-        if asslineList.access then
+        if asslineList.access and asslineList.inactive then
             asslines[#asslines+1] = asslineList
         end
     end
@@ -281,6 +282,7 @@ function removeUsed(recipeCopy,items,fluids,amount)
 end
 
 function runAsslines()
+    local time = computer.uptime()
     local asslines = getWorkingAssline()
     if asslines == {} then
         return false
@@ -365,6 +367,8 @@ function runAsslines()
         if #loadThreads > 0 then
             thread.waitForAll(loadThreads)
         end
+        local newTime = computer.uptime()
+        print("tiem to load = ",newTime-time)
         print("done waiting")
         for k,v in pairs(successList) do
             if not v.s then
@@ -785,64 +789,117 @@ function addNewAssline(Event,arg)
     save()
 end
 
+function resetAssline(Event)
+    local function msger(Event)
+        local eventID,_ = string.gsub(Event[3],"-","_")
+        table.remove(Event,1)
+        event.push(eventID,table.unpack(Event))
+    end
+    local commandAddress = Event[3]
+    COMMAND_FUNCIONS[commandAddress] = msger
+    local eventID,_ = string.gsub(Event[3],"-","_")
+    local asslienTable = {}
+    for k,v in pairs(ASSLINES) do
+        asslienTable[#asslienTable+1] = {index=k,name=v.name}
+    end
+    sendMSGS(commandAddress,COMAND_PORT,{"print_table",serialization.serialize(asslienTable)})
+    sendMSGS(commandAddress,COMAND_PORT,{"print","select assline to load from index"})
+    local number = nil
+    local assline
+    while number ==  nil do
+        sendMSGS(commandAddress, COMAND_PORT, {"set_static","index number:"})
+        number = {event.pull(eventID)}
+        number = number[8]
+        sendMSGS(commandAddress, COMAND_PORT, {"print","index number:"..stringNil(number)})
+        number = tonumber(number)
+        if number ~= nil then
+            assline = ASSLINES[number]
+            if assline == nil then
+                number = nil
+                sendMSGS(commandAddress,COMAND_PORT,{"print","not a valid index"})
+            end
+        else
+            sendMSGS(commandAddress,COMAND_PORT,{"print","not a number"})
+        end
+    end
+    sendMSGS(commandAddress,COMAND_PORT,{"print","reseting assline servers"})
+    for k,server in pairs(assline.serverList) do
+        if server.func == "fluid_server" then
+            if not server.removeId(modem,assline.fluidId) then
+                sendMSGS(commandAddress,COMAND_PORT,{"print","fluid reset failed stoping process"})
+                COMMAND_FUNCIONS[commandAddress] = nil
+            end
+        elseif server.func == "item_server" then
+            if not server.resetServer(modem) then
+                sendMSGS(commandAddress,COMAND_PORT,{"print","item reset failed stoping process"})
+                COMMAND_FUNCIONS[commandAddress] = nil
+                return
+            end
+        end
+    end
+    table.remove(ASSLINES, number)
+    sendMSGS(commandAddress,COMAND_PORT,{"print","assline removed and servers reset"})
+    save()
+    COMMAND_FUNCIONS[commandAddress] = nil
+end
 
 
 function resetServer(Event)
---     local function msger(Event)
---         local eventID,_ = string.gsub(Event[3],"-","_")
---         table.remove(Event,1)
---         event.push(eventID,table.unpack(Event))
---     end
---     COMMAND_FUNCIONS[Event[3]] = msger
---     local inactiveServers = {}
---     local eventID,_ = string.gsub(Event[3],"-","_")
---     local server = nil
---     while true do
---         for k,v in pairs(ITEM_SERVERS) do
---             if not v.initialised then
---                 inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="item"}
---             end
---         end
---         for k,v in pairs(FLUID_SERVERS) do
---             if not v.initialised then
---                 inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="fluid"}
---             end
---         end
---         sendMSGS(Event[3], COMAND_PORT, {"print","select server to reset"})
---         sendMSGS(Event[3], COMAND_PORT, {"print_table",inactiveServers})
---         local number = 0
+    local function msger(Event)
+        local eventID,_ = string.gsub(Event[3],"-","_")
+        table.remove(Event,1)
+        event.push(eventID,table.unpack(Event))
+    end
+    COMMAND_FUNCIONS[Event[3]] = msger
+    local inactiveServers = {}
+    local eventID,_ = string.gsub(Event[3],"-","_")
+    local server = nil
+    while true do
+        for k,v in pairs(ITEM_SERVERS) do
+            if not v.initialised then
+                inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="item"}
+            end
+        end
+        for k,v in pairs(FLUID_SERVERS) do
+            if not v.initialised then
+                inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="fluid"}
+            end
+        end
+        sendMSGS(Event[3], COMAND_PORT, {"print","select server to reset"})
+        sendMSGS(Event[3], COMAND_PORT, {"print_table",inactiveServers})
+        local number = 0
         
---         while true do
---             sendMSGS(Event[3], COMAND_PORT, {"set_static","index number:"})
---             number = {event.pull(eventID)}
---             number = number[8]
---             sendMSGS(Event[3], COMAND_PORT, {"print","index number:"..number})
---             number = tonumber(number)
---             if number == nil  then
---                 sendMSGS(Event[3], COMAND_PORT, {"print","given number is a not a number"})
---                 break
---             end
---             for k,v in pairs(inactiveServers) do
---                 if v.index == number then
---                     server = v
---                 end
---             end
---             sendMSGS(Event[3], COMAND_PORT, {"print",number.." is a not a valid number"})
---             break
---         end
---         if server ~= nil then
---             break
---         end
---     end
---     if server.type == "item" then
---         server = ITEM_SERVERS[server.k]
---     elseif server.type == "fluid" then
---         server = FLUID_SERVERS[server.k]
---     end
+        while true do
+            sendMSGS(Event[3], COMAND_PORT, {"set_static","index number:"})
+            number = {event.pull(eventID)}
+            number = number[8]
+            sendMSGS(Event[3], COMAND_PORT, {"print","index number:"..number})
+            number = tonumber(number)
+            if number == nil  then
+                sendMSGS(Event[3], COMAND_PORT, {"print","given number is a not a number"})
+                break
+            end
+            for k,v in pairs(inactiveServers) do
+                if v.index == number then
+                    server = v
+                end
+            end
+            sendMSGS(Event[3], COMAND_PORT, {"print",number.." is a not a valid number"})
+            break
+        end
+        if server ~= nil then
+            break
+        end
+    end
+    if server.type == "item" then
+        server = ITEM_SERVERS[server.k]
+    elseif server.type == "fluid" then
+        server = FLUID_SERVERS[server.k]
+    end
 
 
 
---     COMMAND_FUNCIONS[Event[3]] = nil
+    COMMAND_FUNCIONS[Event[3]] = nil
 end
 
 function getStatus(commandAddress)
@@ -1038,69 +1095,6 @@ function comandLine(event)
         else
             local fluids = server.getFluids(modem)
         end
-    elseif command == "set_id" then
-        if arg == nil then
-            sendMSGS(event[3], COMAND_PORT, {"print","args are nil"})
-            return
-        end
-        arg[1] = tonumber(arg[1])
-        arg[2] =  tonumber(arg[2])
-        if type(arg[1]) ~= "number" or type(arg[2]) ~= "number" then
-            sendMSGS(event[3],COMAND_PORT,{"print","set_id "..stringNil(arg[1]).." "..stringNil(arg[2]).." are not numbers"})
-            return
-        end
-        local server = FLUID_SERVERS[1]
-        if server == nil then
-            sendMSGS(event[3],COMAND_PORT,{"print","no fluid servers found"})
-        else
-            print(arg[1],arg[2],print("args"))
-            local success = server.addId(modem,arg[1],arg[2])
-            sendMSGS(event[3],COMAND_PORT,{"print","id got added = "..tostring(success),})
-        end
-    elseif command == "get_ids" then
-        local server = FLUID_SERVERS[1]
-        if server == nil then
-            sendMSGS(event[3],COMAND_PORT,{"print","no fluid servers found"})
-            return
-        end
-        local IDs = server.getIds(modem)
-        print(IDs)
-    elseif command == "test_fluid" then
-        local server = FLUID_SERVERS[1]
-        if server ~= nil then
-            local fluidName = {"Molten Soldering Alloy","Oxygen Plasma","Nitrogen Plasma"}
-            local fluidAmount = {150,99,404}
-            local fluidId = 7
-            print("load")
-            print(server.load)
-            server.load(modem,fluidName,fluidAmount,fluidId,{s=false})
-        else
-            print("server nil")
-        end
-    elseif command == "tl" then
-        local recipe = {}
-        print("make recipe")
-        -- r.addRecipy("Lapotronic Energy Orb Cluster",{{1,"Multilayer Fiber-Reinforced Circuit Board"},{32,"Europium Foil"},{4,6,1}
-        -- ,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{32,"SMD Diode"},{32,"SMD Capacitor"},{32,"SMD Resistor"}
-        -- ,{32,"SMD Transistor"},{64,"Fine Platinum Wire"}}
-        -- ,{{720,"Molten Soldering Alloy"}}
-        -- )
-        recipe.ingredient = {{1,"Multilayer Fiber-Reinforced Circuit Board"},{64,"Naquadah Alloy Foil"},{4,"Nanoprocessor Mainframe"}
-        ,{36,"Engraved Lapotron Chip"},{36,"Engraved Lapotron Chip"},{64,"High Power IC"},{8,"Advanced SMD Diode"},{8,"Advanced SMD Capacitor"},{8,"Advanced SMD Resistor"}
-        ,{8,"Advanced SMD Transistor"},{64,"Fine Platinum Wire"}}
-        recipe.fluid = {}
-        recipe.fluid.recipy = {{720,"Molten Soldering Alloy"}}
-        local ass = ASSLINES[1]
-        print("check nill")
-        if ass == nil then
-            sendMSGS(event[3], COMAND_PORT, {"print","assline is nil"})
-            return
-        end
-        local success = {s=false}
-        print("loading starts")
-        ass.load(recipe,1,modem,success)
-        print("loading done")
-        sendMSGS(event[3], COMAND_PORT, {"print","success"..tostring(success.s)})
     elseif command == "reset_server" then
         --resetServer(event)
     elseif command == "get_status" then
@@ -1117,11 +1111,29 @@ function comandLine(event)
         end
         addRecipe(event[3],arg[1],arg[2],arg[3])
     elseif command == "stop" then
-        RUN = false
+        if arg[1] == "F" then
+            RUN = false
+        else
+            process = false
+            local hasActive = true
+            while hasActive do
+                hasActive = false
+                for k,assline in pairs(ASSLINES) do
+                    if not assline.inactive then
+                        hasActive = true
+                        os.sleep(1)
+                        break
+                    end
+                end
+            end
+            save()
+            RUN = false
+        end
+    elseif command == "reset_assline" then
+        resetAssline(event)
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
-
 end
 
 
