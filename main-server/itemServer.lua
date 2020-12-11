@@ -41,6 +41,20 @@ function server.newServer(name,address,port,index,func,eventHandler)
     function t.getEventID()
         return string.gsub(t.address,"-","_")
     end
+    function t.resetServer(modem)
+        local msgId = t.eventHandler.addChanelRandome(t.pullEvent)
+        local eventId = t.getEventID()
+        t.sendMSG(modem,{"reset_configuration"})
+        local Event = {event.pull(5,eventId)}
+        if Event == nil or Event[6] ~= "configuration_reseted" then
+            t.eventHandler.removeChannel(msgId)
+            return false
+        end
+        t.initialised = false
+        t.access = false
+        t.eventHandler.removeChannel(msgId)
+        return true
+    end
     function t.toString()
         local valueTable = {name=t.name,address=t.address,port=t.port,index=t.index,func=t.func,initialised=t.initialised}
         return serialization.serialize(valueTable)
