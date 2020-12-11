@@ -24,11 +24,6 @@ function run()
 
     local compTP,compAEI
 
-
-
-
-
-
     ---@param mesage table
     function sendMsg(mesage)
         --modem.broadcast(SET.host_port,table.unpack(mesage))
