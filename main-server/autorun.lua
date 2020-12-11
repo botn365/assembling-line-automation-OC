@@ -1148,12 +1148,9 @@ print(#ASSLINES)
 
 
 os.sleep(8)
-while true do
+while RUN do
     if process and not runAsslines() then
         os.sleep(5)
-    end
-    if not RUN then
-        break
     end
 end
 
