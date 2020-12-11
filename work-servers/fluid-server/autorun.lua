@@ -325,6 +325,15 @@ function setID(msgId,id,color)
     return true
 end
 
+function removeID(msgId,id)
+    if type(id) ~= "number" then
+        return false
+    end
+    SET.IDs[id] = nil
+    setings.save()
+    return true
+end
+
 
 
 local listnerThread = thread.create(listner.run,sendBack)
@@ -386,6 +395,9 @@ function main()
                     elseif v[6] == "get_IDs" then
                         local IDS = serialization.serialize(SET.IDs)
                         sendMsg({"id_send",v[7],IDS})
+                    elseif v[6] == "remove_id" then
+                        removeID(v[7],v[8])
+                        sendMsg({"id_removed"})
                     elseif v[6] == "test" then
                         local fluidName = serialization.unserialize(v[8])
                         local fluidAmount = serialization.unserialize(v[9])
