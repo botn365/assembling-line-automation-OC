@@ -843,7 +843,6 @@ function resetAssline(Event)
     COMMAND_FUNCIONS[commandAddress] = nil
 end
 
-
 function resetServer(Event)
     local function msger(Event)
         local eventID,_ = string.gsub(Event[3],"-","_")
@@ -1131,6 +1130,8 @@ function comandLine(event)
         end
     elseif command == "reset_assline" then
         resetAssline(event)
+    elseif command == "save" then
+        save()
     else
         sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
     end
@@ -1148,7 +1149,7 @@ print(#ASSLINES)
 
 os.sleep(8)
 while true do
-    if not runAsslines() then
+    if process and not runAsslines() then
         os.sleep(5)
     end
     if not RUN then
