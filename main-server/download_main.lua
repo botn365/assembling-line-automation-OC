@@ -4,6 +4,7 @@ if args[1] == nil then
 else
     local path = "/mnt/"..args[1]
     local shell = require("shell")
+    local filesystem = require("filesystem")
     local download_list = 
     {
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/CircuitOreDict.lua",
@@ -15,12 +16,13 @@ else
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/eventhandler.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/assline.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/Recipy.lua",
-        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/Loadrecipy.lua",
         "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/FindMatch.lua",
-        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/autorun.lua",
-        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/LoadrecipePriorety.lua"
+        "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/autorun.lua"
     }
-
+    if not filesystem.exists(path.."/LoadrecipePriorety.lua") then
+       table.insert(download_list, 1, "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/LoadrecipePriorety.lua")
+       table.insert(download_list, 1, "https://raw.githubusercontent.com/botn365/assembling-line-automation-OC/ae-intergeted/main-server/Loadrecipy.lua")
+    end
     shell.setWorkingDirectory(path)
     print("downloading")
     for k,v in pairs(download_list) do
