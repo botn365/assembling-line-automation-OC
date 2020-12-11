@@ -12,7 +12,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
     t.index = index or 0
     t.name = name or ""
     t.length = length or 0
-    t.access = true 
+    t.access = true
+    t.inactive = false
     t.accessEvent = true
     t.initialized = false
     t.error = ""
@@ -48,7 +49,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
             serverStringList[k] = server.toString()
         end
         print(table.unpack(serverStringList))
-        local valueTable = {index=t.index,name=t.name,length=t.length,access=t.access,initialized=t.initialized,serverList=serverStringList,fluidId=t.fluidId}
+        local valueTable = {index=t.index,name=t.name,length=t.length,access=t.access,initialized=t.initialized,serverList=serverStringList,fluidId=t.fluidId,inactive=t.inactive}
         return serialization.serialize(valueTable)
     end
     function t.fromString(input,eventHandler)
@@ -60,6 +61,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
         t.initialized = valueTable.initialized
         t.eventHandler = eventHandler
         t.fluidId = valueTable.fluidId
+        t.inactive = valueTable.inactive or true
         for k,serverString in pairs(valueTable.serverList) do
             local func = serialization.unserialize(serverString).func
             local newServer
@@ -163,13 +165,13 @@ function assline.new(index,name,length,eventHandler,fluidId)
     end
     function t.load(recipe,amount,modem,success)
         os.sleep(0.5)
-        if t.access == false then
+        if t.inactive == false or t.access == false then
             success.s = false
             success.error = "already accessed"
             t.error = success.error
             return
         end
-        t.access = false
+        t.inactive = false
         -- genrate msgID
         local msgId = t.eventHandler.addChanelRandome(t.event)
 
@@ -194,6 +196,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
                 success.error = "bad_server : "..t.stringNil(v.error)
                 t.error = success.error
                 t.eventHandler.removeChannel(msgId)
+                t.access = false
+                t.inactive = true
                 return
             end
         end
@@ -221,6 +225,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
             success.error = t.stringNil(successData.error)
             t.error = success.error
             t.eventHandler.removeChannel(msgId)
+            t.access = false
+            t.inactive = true
             return
         end
 
@@ -246,6 +252,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
                     success.error = "fluid loading failure : "..t.stringNil(fluidSuccessThread.error)
                     t.error = success.error
                     t.eventHandler.removeChannel(msgId)
+                    t.access = false
+                    t.inactive = true
                     return
                 end
             end
@@ -269,13 +277,15 @@ function assline.new(index,name,length,eventHandler,fluidId)
             success.s = false
             success.error = "turnOn_failure"
             t.error = "turnOn_failure"
+            t.access = false
+            t.inactive = true
         end
         t.eventHandler.removeChannel(msgId)
     end
     function t.waitForDone(msgId,server)
         local suc = {}
         server.waitForDone(modem,msgId,suc)
-        t.access = true
+        t.inactive = true
     end
     return t
 end
