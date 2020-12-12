@@ -260,8 +260,17 @@ function loadFluids(msgId,fluidNames,fluidAmount,id,compTP,compRS)
     elseif cable < 4 then
         sendMsg({"bad_color",msgId})
     end
-    local fluids = getFluids(compTP)
+    local fluids
     local fluidPos = {}
+    local atempts = 0
+    while fluids == nil do
+        if atempts > 10 then
+            sendMsg({"fluids_missing",msgId})
+            return false
+        end
+        fluids = getFluids(compTP)
+        atempts = atempts + 1
+    end
     for k,v in pairs(fluids) do
         for l,w in pairs(fluidNames) do
             if type(v) == "table" and v.label == w then
