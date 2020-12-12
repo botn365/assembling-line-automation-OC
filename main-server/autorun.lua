@@ -238,7 +238,6 @@ function copySimpleRecipe(recipe,circuitConverList)
     return copySimpleRecipe
 end
 
-
 function removeUsed(recipeCopy,items,fluids,amount)
     for indexI,itemI in pairs(items) do
         if type(itemI) == "table" then
@@ -665,7 +664,7 @@ function getFluidServer(commandAddress,eventID)
         local selcted = {event.pull(eventID)}
         selcted = tonumber(selcted[8])
         if selcted ~= nil then
-            for k,v in pairs(shortServer) do
+            for k,v in pairs(FLUID_SERVERS) do
                 if v.index == selcted then
                     if not v.initialised then
                         sendMSGS(commandAddress, COMAND_PORT, {"print","server not initialised type y to initialise else press anything to select other server"})
