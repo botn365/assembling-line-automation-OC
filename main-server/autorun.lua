@@ -1111,7 +1111,7 @@ function comandLine(event)
         if arg[1] == "F" then
             RUN = false
         else
-            process = false
+            PROCESS = false
             local hasActive = true
             while hasActive do
                 hasActive = false
@@ -1147,7 +1147,7 @@ print(#ASSLINES)
 
 os.sleep(8)
 while RUN do
-    if process and not runAsslines() then
+    if PROCESS and not runAsslines() then
         os.sleep(5)
     end
 end
