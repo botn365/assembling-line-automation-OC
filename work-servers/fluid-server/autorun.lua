@@ -282,7 +282,8 @@ function loadFluids(msgId,fluidNames,fluidAmount,id,compTP,compRS)
         sendMsg({"fluids_missing",msgId})
         return false
     end
-    local redstone = {}
+    local redstone = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+    redstone[0] = 0
     redstone[cable] = 255
     for k,v in pairs(compRS) do
         print(k,v)
