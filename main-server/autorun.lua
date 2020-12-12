@@ -363,7 +363,7 @@ function runAsslines()
             print(v.name,v.amount)
         end
         if #loadThreads > 0 then
-            thread.waitForAll(loadThreads)
+            thread.waitForAll(loadThreads,500)-- time out after 500 seconds in case a thread breaks and does not yeald
         end
         local newTime = computer.uptime()
         print("tiem to load = ",newTime-time)
