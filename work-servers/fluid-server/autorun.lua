@@ -220,6 +220,10 @@ end
 function transferFluids(label,amount,compTP)
     local fluids = getFluids(compTP)
     local pos = -1
+    if fluids == nil then
+        os.sleep(0.5)
+        return 0
+    end
     for k,v in pairs(fluids) do
         if type(v) == "table" and v.label == label then
             print(v.label ,label,k)
