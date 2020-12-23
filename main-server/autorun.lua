@@ -293,6 +293,7 @@ function runAsslines()
     local recipesOuts = {}
     local recipeNumber = 0
     local ran = false
+    local faildFinds = 0
     if items == nil or fluids == nil then
         return false
     end
@@ -346,11 +347,13 @@ function runAsslines()
                     ran = true
                 end
                 removeUsed(copySimple,items,fluids,amountPre-amount)
+            else
+                faildFinds = faildFinds + 1
             end
         else
             break
         end
-        if oldUsed == used then
+        if oldUsed == used or faildFinds > 32 then
             break
         end
         if isPriorety then
