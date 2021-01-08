@@ -188,7 +188,7 @@ function assline.new(index,name,length,eventHandler,fluidId)
             checkThreads[#checkThreads+1] = thread.create(t.createSafe,v.checkWorking,modem,checkSuccess[#checkSuccess])
             order[#order+1] = v.address
         end
-        -- not checking for the fluid one sisne multiple asslines use it
+        -- not checking for the fluid one sinse multiple asslines use it
         thread.waitForAll(checkThreads)
         for k,v in pairs(checkSuccess) do
             if not v.s then
@@ -245,9 +245,9 @@ function assline.new(index,name,length,eventHandler,fluidId)
             local failed = false
             t.loadItems(modem,recipe,itemServers,threadsLoading,successLoading,amount)
             thread.waitForAll(threadsLoading)
-            if failTimes == 0 or failTimes > 10 then
+            if failTimes == 0 then
                 thread.waitForAll({fluidLoadThread},200)
-                if fluidSuccessThread.s == false or failTimes > 10 then
+                if fluidSuccessThread.s == false then
                     success.s = false
                     success.error = "fluid loading failure : "..t.stringNil(fluidSuccessThread.error)
                     t.error = success.error
@@ -259,6 +259,13 @@ function assline.new(index,name,length,eventHandler,fluidId)
             end
             for k,v in pairs(successLoading) do
                 if not v.s then
+                    if failTimes > 10 then
+                        success.s = false
+                        success.error = "item server load failure : "..t.stringNil(v.error)
+                        t.eventHandler.removeChannel(msgId)
+                        t.access = false
+                        t.inactive = true
+                    end
                     failed = true
                     failTimes = failTimes + 1
                 end

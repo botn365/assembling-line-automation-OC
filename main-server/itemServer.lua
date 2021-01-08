@@ -143,17 +143,18 @@ function server.newServer(name,address,port,index,func,eventHandler)
         local itemPosSer = serialization.serialize(itemsPos)
         local itemAmountSer = serialization.serialize(itemAmount)
         t.sendMSG(modem, {"load_items",msgId,itemPosSer,itemAmountSer})
-        msg = t.waitForeMsg({"load_items_sucsses","load_failure"})
+        msg = t.waitForeMsg({"load_items_sucsses","load_failure","bad_request","bad_database","non_empty","setInterface_Error","transfer_error"})
         -- TODO add more details to load failure like which input bus
         if msg[6] == "load_failure" then
             success.s = false
-            success.error = "load_failure"
             t.eventHandler.removeChannel(msgId)
             return
-        else
+        elseif msg[6] == "load_items_sucsses" then
             success.s = true
             t.eventHandler.removeChannel(msgId)
             return
+        else
+            success.error = msg
         end
     end
     function t.runAssline(modem,success,msgIdPointer)
