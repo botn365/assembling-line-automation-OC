@@ -227,18 +227,26 @@ function run()
                 if W.index == k then
                     tpComp = compTP[L]
                     local transposer = tpComp.component
-                    stack = transposer.getStackInSlot(1,1)
+                    local stack = transposer.getStackInSlot(1,1)
                     if stack ~= nil then
                         local stacks = transposer.getAllStacks(1).getAll()
                         for i=15,0,-1 do
                             if stacks[i].label ~= nil then
-                                local transferd = transposer.transferItem(1,0,64,i+1,(i%6+1))
-                                if transferd == 0 then
-                                    sendMsg({"non_empty",msgId})
-                                    STATUS = "on"
-                                    return false
+                                local totalTransferd = 0
+                                for j = 1,6 do
+                                    local transferd = transposer.transferItem(1,0,64,i+1,j)
+                                    totalTransferd = totalTransferd + transferd
+                                    if totalTransferd == stacks[i].amount then
+                                        break
+                                    end
                                 end
                             end
+                        end
+                        stack = transposer.getStackInSlot(1,1)
+                        if stack ~= nil then
+                            sendMsg({"non_empty",msgId})
+                            STATUS = "on"
+                            return false
                         end
                     end
                 end
