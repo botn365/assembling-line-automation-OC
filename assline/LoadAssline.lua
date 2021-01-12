@@ -188,15 +188,18 @@ function transferFluid(addressFluid1,addressFluid2,addressFluid3,loadmap,j)
         temp1 = addressFluid2.transferFluid(position[loadmap[j][3]],position[5],loadmap[j][2])
         temp2 = addressFluid1.transferFluid(position[3],position[5],loadmap[j][2])
         --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,position[loadmap[j][3]],position[5],loadmap[j][2]})
+	os.sleep(0.1)
         return temp2
     elseif loadmap[j][3] == 4 then
         temp1 = addressFluid1.transferFluid(1,position[5],loadmap[j][2])
         --logger.log("fluidtransfer",{loadmap[j][3],temp1,nil,nil,position[5],loadmap[j][2]})
+	os.sleep(0.1)
         return temp1
     else
         temp1 = addressFluid3.transferFluid(localpos[loadmap[j][3]-4],0,loadmap[j][2])
         temp2 =  addressFluid1.transferFluid(position[3],position[5],loadmap[j][2])
         --logger.log("fluidtransfer",{loadmap[j][3],temp1,temp2,localpos[loadmap[j][3]-4],position[5],loadmap[j][2]})
+	os.sleep(0.1)
         return temp2
     end
 end
