@@ -353,7 +353,7 @@ function runAsslines()
         else
             break
         end
-        if oldUsed == used or faildFinds > 32 then
+        if faildFinds > 8 then
             break
         end
         if isPriorety then
@@ -1115,19 +1115,6 @@ function comandLine(event)
             RUN = false
         else
             PROCESS = false
-            local hasActive = true
-            while hasActive do
-                hasActive = false
-                for k,assline in pairs(ASSLINES) do
-                    if not assline.inactive then
-                        hasActive = true
-                        os.sleep(1)
-                        break
-                    end
-                end
-            end
-            save()
-            RUN = false
         end
     elseif command == "reset_assline" then
         resetAssline(event)
