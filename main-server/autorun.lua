@@ -492,27 +492,27 @@ function processCommand(msg)
 end
 
 function getAsslineName(Event,eventID)
-    sendMSGS(Event[3],COMAND_PORT,{"set_static","name:"})
+    sendMSGS(Event[3],COMAND_PORT,{"set_static",4,"name:"})
     local name = {event.pull(eventID)}
     name = name[8]
-    sendMSGS(Event[3],COMAND_PORT,{"print","name:"..name})
+    sendMSGS(Event[3],COMAND_PORT,{"print",4,"name:"..name})
     local length = 0
     while true do
-        sendMSGS(Event[3],COMAND_PORT,{"set_static","length:"})
+        sendMSGS(Event[3],COMAND_PORT,{"set_static",4,"length:"})
         length = {event.pull(eventID)}
         length = length[8]
         length = tonumber(length)
         if length == nil then
-            sendMSGS(Event[3],COMAND_PORT,{"print","string recieved expected number"})
+            sendMSGS(Event[3],COMAND_PORT,{"print",4,"string recieved expected number"})
         else
             if length > 0 then
                 break
             else
-                sendMSGS(Event[3],COMAND_PORT,{"print","number needs to be grater then 0"})
+                sendMSGS(Event[3],COMAND_PORT,{"print",4,"number needs to be grater then 0"})
             end
         end
     end
-    sendMSGS(Event[3],COMAND_PORT,{"print","length:"..length})
+    sendMSGS(Event[3],COMAND_PORT,{"print",4,"length:"..length})
     local index = #ASSLINES + 1
     local newAss = assline.new(index, name, length,eventhandler)
     ASSLINES[index] = newAss
@@ -542,19 +542,19 @@ function initialiseItemServer(server,length,offset,terminalAddress,assline,serve
     end
 
     --start loop to report back print msges and look if congifure is done
-    sendMSGS(terminalAddress, COMAND_PORT, {"print","place "..length.." transposers and interfaces form posistion "..(offset+1).." to posision "..offset+length})
+    sendMSGS(terminalAddress, COMAND_PORT, {"print",4,"place "..length.." transposers and interfaces form posistion "..(offset+1).." to posision "..offset+length})
     while true do
         local returnEvent = {event.pullMultiple(eventIDS,comandID)}
         print("recived event multi pull",returnEvent[1],returnEvent[6])
         if returnEvent[1] == eventIDS then
             if returnEvent[6] == "print" then
-                sendMSGS(terminalAddress, COMAND_PORT, {"print",returnEvent[8]})
+                sendMSGS(terminalAddress, COMAND_PORT, {"print",4,returnEvent[8]})
             elseif returnEvent[6] == "configuration_finished" then
                 server.initialised = true
                 server.index = serverNumber
                 offset = offset + length
                 assline.serverList[#assline.serverList+1] = server
-                sendMSGS(terminalAddress, COMAND_PORT, {"print","configuration of server done"})
+                sendMSGS(terminalAddress, COMAND_PORT, {"print",4,"configuration of server done"})
                 break
             end
         else
@@ -578,20 +578,20 @@ function getUnitialisedItemServer(Event,eventID,serverList)
             end
         end
         if #inactiveServers == 0 then
-            sendMSGS(Event[3], COMAND_PORT, {"print","no empty load servers found enable them and press enter to re look for load servers"})
+            sendMSGS(Event[3], COMAND_PORT, {"print",4,"no empty load servers found enable them and press enter to re look for load servers"})
             event.pull(eventID)
         else
             local serverTable = serialization.serialize(inactiveServers)
-            sendMSGS(Event[3], COMAND_PORT, {"print_table",serverTable})
+            sendMSGS(Event[3], COMAND_PORT, {"print_table",4,serverTable})
             local number = 0
             while true do
-                sendMSGS(Event[3], COMAND_PORT, {"set_static","serverNumber:"})
+                sendMSGS(Event[3], COMAND_PORT, {"set_static",4,"serverNumber:"})
                 number = {event.pull(eventID)}
                 number = number[8]
-                sendMSGS(Event[3], COMAND_PORT, {"print","serverNumber:"..number})
+                sendMSGS(Event[3], COMAND_PORT, {"print",4,"serverNumber:"..number})
                 number = tonumber(number)
                 if number == nil  then
-                    sendMSGS(Event[3], COMAND_PORT, {"print","given number is a not a number"})
+                    sendMSGS(Event[3], COMAND_PORT, {"print",4,"given number is a not a number"})
                     break
                 end
                 for k,v in pairs(inactiveServers) do
@@ -599,7 +599,7 @@ function getUnitialisedItemServer(Event,eventID,serverList)
                         return number
                     end
                 end
-                sendMSGS(Event[3], COMAND_PORT, {"print",number.." is a not a valid number"})
+                sendMSGS(Event[3], COMAND_PORT, {"print",4,number.." is a not a valid number"})
                 break
             end
         end
@@ -607,23 +607,23 @@ function getUnitialisedItemServer(Event,eventID,serverList)
 end
 
 function initialiseFluidServer(commandAddress,eventID,server)
-    sendMSGS(commandAddress,COMAND_PORT,{"print","need fluid import direction, fluid export direction, redstone I/O conection direction"})
-    sendMSGS(commandAddress,COMAND_PORT,{"print","in format [fluid import,fluidexport,redstone] u=UP,d=DOWN,s=SOUTH,n=NORTH,e=EASTH,w=WEST"})
-    sendMSGS(commandAddress,COMAND_PORT,{"print","example: [udn]  ([] need to be exluded)"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"need fluid import direction, fluid export direction, redstone I/O conection direction"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"in format [fluid import,fluidexport,redstone] u=UP,d=DOWN,s=SOUTH,n=NORTH,e=EASTH,w=WEST"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"example: [udn]  ([] need to be exluded)"})
     while true do
-        sendMSGS(commandAddress, COMAND_PORT, {"set_static","input:"})
+        sendMSGS(commandAddress, COMAND_PORT, {"set_static",4,"input:"})
         local msg = {event.pull(eventID)}
         msg = string.lower(msg[8])
-        sendMSGS(commandAddress,COMAND_PORT,{"print","input:"..msg})
+        sendMSGS(commandAddress,COMAND_PORT,{"print",4,"input:"..msg})
         print(msg)
         local inF = side:get(string.sub(msg,1,1))       
         local outF = side:get(string.sub(msg,2,2))
         local red = side:get(string.sub(msg,3,3))
         print(stringNil(inF),stringNil(outF),stringNil(red))
         if inF == nil or outF == nil or red == nil then
-            sendMSGS(commandAddress,COMAND_PORT,{"print","a value was not correct re eneter values"})
+            sendMSGS(commandAddress,COMAND_PORT,{"print",4,"a value was not correct re eneter values"})
         else
-            sendMSGS(commandAddress,COMAND_PORT,{"print","initializing fluid server"})
+            sendMSGS(commandAddress,COMAND_PORT,{"print",4,"initializing fluid server"})
             local msgId = eventhandler.addChanelRandome(msger)
             local msgEventId,_ = string.gsub(server.address,"-","_")
             local dirSeri = serialization.serialize({inF,outF,red})
@@ -634,13 +634,13 @@ function initialiseFluidServer(commandAddress,eventID,server)
                     break
                 end
             end
-            sendMSGS(commandAddress,COMAND_PORT,{"print","add the transposer and redstone I/O"})
+            sendMSGS(commandAddress,COMAND_PORT,{"print",4,"add the transposer and redstone I/O"})
             while true do
                 local serverMsg = {event.pullMultiple(msgEventId,eventID)}
                 if serverMsg[6] == "print" then
-                    sendMSGS(commandAddress,COMAND_PORT,{"print",serverMsg[8]})
+                    sendMSGS(commandAddress,COMAND_PORT,{"print",4,serverMsg[8]})
                 elseif serverMsg[6] == "configuration_finished" then
-                    sendMSGS(commandAddress,COMAND_PORT,{"print","initialisatione finished"})
+                    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"initialisatione finished"})
                     server.initialised = true
                     break
                 elseif serverMsg[6] == "command" then
@@ -656,21 +656,21 @@ function initialiseFluidServer(commandAddress,eventID,server)
 end
 
 function getFluidServer(commandAddress,eventID)
-    sendMSGS(commandAddress,COMAND_PORT,{"print","select fluid server to fill fluids in assline"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"select fluid server to fill fluids in assline"})
     while true do
         local shortServer = {}
         for k,v in pairs(FLUID_SERVERS) do
             shortServer[#shortServer+1] = {index=k,address=v.address,name=v.name}
         end
-        sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(shortServer)})
-        sendMSGS(commandAddress, COMAND_PORT, {"set_static","server index:"})
+        sendMSGS(commandAddress, COMAND_PORT, {"print_table",4,serialization.serialize(shortServer)})
+        sendMSGS(commandAddress, COMAND_PORT, {"set_static",4,"server index:"})
         local selcted = {event.pull(eventID)}
         selcted = tonumber(selcted[8])
         if selcted ~= nil then
             for k,v in pairs(FLUID_SERVERS) do
                 if v.index == selcted then
                     if not v.initialised then
-                        sendMSGS(commandAddress, COMAND_PORT, {"print","server not initialised type y to initialise else press anything to select other server"})
+                        sendMSGS(commandAddress, COMAND_PORT, {"print",4,"server not initialised type y to initialise else press anything to select other server"})
                         local doInint = {event.pull(eventID)}
                         doInint = string.lower(doInint[8])
                         if string.find(doInint,"y") then
@@ -682,17 +682,17 @@ function getFluidServer(commandAddress,eventID)
                     return FLUID_SERVERS[selcted]
                 end
             end
-            sendMSGS(commandAddress, COMAND_PORT, {"print",selcted.." is a not a valid number"})
+            sendMSGS(commandAddress, COMAND_PORT, {"print",4,selcted.." is a not a valid number"})
         else
-            sendMSGS(commandAddress, COMAND_PORT, {"print","given number is a not a number"})
+            sendMSGS(commandAddress, COMAND_PORT, {"print",4,"given number is a not a number"})
         end
     end
 end
 
 function getColor(commandAddress,eventID,colrsId)
-    sendMSGS(commandAddress,COMAND_PORT,{"print","give color of cable that enables assline"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"give color of cable that enables assline"})
     while true do
-        sendMSGS(commandAddress, COMAND_PORT,{"set_static","color number:"})
+        sendMSGS(commandAddress, COMAND_PORT,{"set_static",4,"color number:"})
         local color = {event.pull(eventID)}
         if color[6] == "command" then
             color = tonumber(color[8])
@@ -703,14 +703,14 @@ function getColor(commandAddress,eventID,colrsId)
                 end
             end
             if color ~= nil and color < 16 and color > -1 then
-                sendMSGS(commandAddress,COMAND_PORT,{"print","sected color is "..colors[color].." enter y to confirm"})
+                sendMSGS(commandAddress,COMAND_PORT,{"print",4,"sected color is "..colors[color].." enter y to confirm"})
                 local doInint = {event.pull(eventID)}
                 doInint = string.lower(doInint[8])
                 if string.find(doInint,"y") then
                     return color
                 end
             else
-                sendMSGS(commandAddress,COMAND_PORT,{"print","not a valid number"})
+                sendMSGS(commandAddress,COMAND_PORT,{"print",4,"not a valid number"})
             end
         end
     end
@@ -757,7 +757,7 @@ function addNewAssline(Event,arg)
     COMMAND_FUNCIONS[Event[3]] = msger
     local eventID,_ = string.gsub(Event[3],"-","_")
     local newAss = getAsslineName(Event,eventID)
-    sendMSGS(Event[3],COMAND_PORT,{"print","select servers in order"})
+    sendMSGS(Event[3],COMAND_PORT,{"print",4,"select servers in order"})
     local length = newAss.length
     local index = 0
     local loop = true
@@ -776,7 +776,7 @@ function addNewAssline(Event,arg)
         index = initialiseItemServer(server,componentCount,index,Event[3],newAss,serverNumber)
         if index == length then
             
-            sendMSGS(Event[3],COMAND_PORT,{"print","assline configured if a interface is mined or broken assline needs to be reconfigured"})
+            sendMSGS(Event[3],COMAND_PORT,{"print",4,"assline configured if a interface is mined or broken assline needs to be reconfigured"})
             break
         end
     end
@@ -784,7 +784,7 @@ function addNewAssline(Event,arg)
     local loadingId = getFluidId(Event[3],eventID,fluidServer)
     newAss.fluidId = loadingId
     COMMAND_FUNCIONS[Event[3]] = nil
-    sendMSGS(Event[3],COMAND_PORT,{"print","assline configured"})
+    sendMSGS(Event[3],COMAND_PORT,{"print",4,"assline configured"})
     newAss.initialized = true
     newAss.serverList[#newAss.serverList+1] = fluidServer
     save()
@@ -803,43 +803,43 @@ function resetAssline(Event)
     for k,v in pairs(ASSLINES) do
         asslienTable[#asslienTable+1] = {index=k,name=v.name}
     end
-    sendMSGS(commandAddress,COMAND_PORT,{"print_table",serialization.serialize(asslienTable)})
-    sendMSGS(commandAddress,COMAND_PORT,{"print","select assline to load from index"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print_table",4,serialization.serialize(asslienTable)})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"select assline to load from index"})
     local number = nil
     local assline
     while number ==  nil do
-        sendMSGS(commandAddress, COMAND_PORT, {"set_static","index number:"})
+        sendMSGS(commandAddress, COMAND_PORT, {"set_static",4,"index number:"})
         number = {event.pull(eventID)}
         number = number[8]
-        sendMSGS(commandAddress, COMAND_PORT, {"print","index number:"..stringNil(number)})
+        sendMSGS(commandAddress, COMAND_PORT, {"print",4,"index number:"..stringNil(number)})
         number = tonumber(number)
         if number ~= nil then
             assline = ASSLINES[number]
             if assline == nil then
                 number = nil
-                sendMSGS(commandAddress,COMAND_PORT,{"print","not a valid index"})
+                sendMSGS(commandAddress,COMAND_PORT,{"print",4,"not a valid index"})
             end
         else
-            sendMSGS(commandAddress,COMAND_PORT,{"print","not a number"})
+            sendMSGS(commandAddress,COMAND_PORT,{"print",4,"not a number"})
         end
     end
-    sendMSGS(commandAddress,COMAND_PORT,{"print","reseting assline servers"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"reseting assline servers"})
     for k,server in pairs(assline.serverList) do
         if server.func == "fluid_server" then
             if not server.removeId(modem,assline.fluidId) then
-                sendMSGS(commandAddress,COMAND_PORT,{"print","fluid reset failed stoping process"})
+                sendMSGS(commandAddress,COMAND_PORT,{"print",4,"fluid reset failed stoping process"})
                 COMMAND_FUNCIONS[commandAddress] = nil
             end
         elseif server.func == "item_server" then
             if not server.resetServer(modem) then
-                sendMSGS(commandAddress,COMAND_PORT,{"print","item reset failed stoping process"})
+                sendMSGS(commandAddress,COMAND_PORT,{"print",4,"item reset failed stoping process"})
                 COMMAND_FUNCIONS[commandAddress] = nil
                 return
             end
         end
     end
     table.remove(ASSLINES, number)
-    sendMSGS(commandAddress,COMAND_PORT,{"print","assline removed and servers reset"})
+    sendMSGS(commandAddress,COMAND_PORT,{"print",4,"assline removed and servers reset"})
     save()
     COMMAND_FUNCIONS[commandAddress] = nil
 end
@@ -865,18 +865,18 @@ function resetServer(Event)
                 inactiveServers[#inactiveServers+1] = {index=k,address=v.address,name=v.name,type="fluid"}
             end
         end
-        sendMSGS(Event[3], COMAND_PORT, {"print","select server to reset"})
-        sendMSGS(Event[3], COMAND_PORT, {"print_table",inactiveServers})
+        sendMSGS(Event[3], COMAND_PORT, {"print",4,"select server to reset"})
+        sendMSGS(Event[3], COMAND_PORT, {"print_table",4,inactiveServers})
         local number = 0
         
         while true do
-            sendMSGS(Event[3], COMAND_PORT, {"set_static","index number:"})
+            sendMSGS(Event[3], COMAND_PORT, {"set_static",4,"index number:"})
             number = {event.pull(eventID)}
             number = number[8]
-            sendMSGS(Event[3], COMAND_PORT, {"print","index number:"..number})
+            sendMSGS(Event[3], COMAND_PORT, {"print",4,"index number:"..number})
             number = tonumber(number)
             if number == nil  then
-                sendMSGS(Event[3], COMAND_PORT, {"print","given number is a not a number"})
+                sendMSGS(Event[3], COMAND_PORT, {"print",4,"given number is a not a number"})
                 break
             end
             for k,v in pairs(inactiveServers) do
@@ -884,7 +884,7 @@ function resetServer(Event)
                     server = v
                 end
             end
-            sendMSGS(Event[3], COMAND_PORT, {"print",number.." is a not a valid number"})
+            sendMSGS(Event[3], COMAND_PORT, {"print",4,number.." is a not a valid number"})
             break
         end
         if server ~= nil then
@@ -914,7 +914,7 @@ function getStatus(commandAddress)
             printTable[#printTable].output = v.output
         end
     end
-    sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(printTable)})
+    sendMSGS(commandAddress, COMAND_PORT, {"print_table",4,serialization.serialize(printTable)})
 end
 
 function setStatus(address,index,access,error)
@@ -1018,20 +1018,20 @@ function addRecipe(address,name,circuitOreDict,priorety)
     priorety = priorety or false
     circuitOreDict = circuitOreDict or false
     if type(priorety) ~= "boolean" then
-        sendMSGS(address,COMAND_PORT,{"print","error: priorety needs to be empty or boolean value"})
+        sendMSGS(address,COMAND_PORT,{"print",4,"error: priorety needs to be empty or boolean value"})
         return
     end
     if type(circuitOreDict) ~= "boolean" then
-        sendMSGS(address,COMAND_PORT,{"print","error: circuit oredict needs to be empty or boolean"})
+        sendMSGS(address,COMAND_PORT,{"print",4,"error: circuit oredict needs to be empty or boolean"})
     end
     local filter = {name="gregtech:gt.metaitem.01",damage=32708}
     local item = component.me_interface.getItemsInNetwork(filter)[1]
     if item == nil then
-        sendMSGS(address,COMAND_PORT,{"print","error: no stick found"})
+        sendMSGS(address,COMAND_PORT,{"print",4,"error: no stick found"})
         return
     end
     if item.inputItems == nil then
-        sendMSGS(address,COMAND_PORT,{"print","error: not a valid stick"})
+        sendMSGS(address,COMAND_PORT,{"print",4,"error: not a valid stick"})
         return
     end
     local fileName
@@ -1082,7 +1082,7 @@ function comandLine(event)
         func(event)
         return
     end
-    sendMSGS(event[3],COMAND_PORT,{"print",event[8]})
+    sendMSGS(event[3],COMAND_PORT,{"print",4,event[8]})
     local command,arg = processCommand(event[8])
     if command == "add_assline" then
         addNewAssline(event,arg)
@@ -1124,7 +1124,7 @@ function comandLine(event)
     elseif command == "save" then
         save()
     else
-        sendMSGS(event[3],COMAND_PORT,{"print",command.." is not a valid command"})
+        sendMSGS(event[3],COMAND_PORT,{"print",4,command.." is not a valid command"})
     end
 end
 

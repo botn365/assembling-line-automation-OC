@@ -25,12 +25,12 @@ function recive()
         local event = {Event.pull("modem_message")}
         table.remove(event,6)
         if event[6] == "print" then
-            say(event[7])
+            say(event[8])
         elseif event[6] == "set_static" then
-            STATIC_MSG = event[7]
+            STATIC_MSG = event[8]
             Event.push("update")
         elseif event[6] == "print_table" then
-            local table = serialization.unserialize(event[7])
+            local table = serialization.unserialize(event[8])
             local printLine = ""
             for k,server in pairs(table) do
                 local toPrint = ""
