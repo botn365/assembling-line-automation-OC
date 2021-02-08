@@ -188,6 +188,8 @@ function assline.new(index,name,length,eventHandler,fluidId)
             checkThreads[#checkThreads+1] = thread.create(t.createSafe,v.checkWorking,modem,checkSuccess[#checkSuccess])
             order[#order+1] = v.address
         end
+        
+        t.itemCrafting = recipe.output
         -- not checking for the fluid one sinse multiple asslines use it
         thread.waitForAll(checkThreads)
         for k,v in pairs(checkSuccess) do

@@ -198,7 +198,7 @@ function loadSafe(...)
 end
 
 function copyRecipe(recipe,circuitConverList)
-    local recipeCopy = {ingredient={},fluid={recipy={}}}
+    local recipeCopy = {ingredient={},fluid={recipy={}},output=recipe.output}
     for k ,v in pairs(recipe.ingredient) do -- copy the items and conver circuit oredict
         if v[3] == nil then
             recipeCopy.ingredient[k] = {v[1],v[2]}
@@ -906,9 +906,12 @@ function getStatus(commandAddress)
     printTable = {}
     --{index=k,address=v.address,name=v.name}
     for k,v in pairs(ASSLINES) do
-        printTable[#printTable+1] = {index = k,name=v.name,length=v.length,fluidId=v.fluidId,access=v.access}
+        printTable[#printTable+1] = {index = k,name=v.name,length=v.length,fluidId=v.fluidId,access=v.access,working=~(v.inactive),out=v.output}
         if v.error ~= "" then
             printTable[#printTable].error = v.error
+        end
+        if v.output ~= nil then
+            printTable[#printTable].output = v.output
         end
     end
     sendMSGS(commandAddress, COMAND_PORT, {"print_table",serialization.serialize(printTable)})
